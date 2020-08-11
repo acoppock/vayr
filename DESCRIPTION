@@ -1,0 +1,31 @@
+Package: vayr
+Type: Package
+Title: Ridgeline Plots in 'ggplot2'
+Version: 0.0.9000
+Authors@R: 
+    person(
+      given = "Alexander",
+      family = "Coppock",
+      role = c("aut", "cre"),
+      email = "acoppock@gmail.com",
+      comment = c(ORCID = "0000-0002-5733-2386")
+    )
+Description: This is an example sentence.
+URL: https://alexandercoppock.com
+Depends:
+    R (>= 3.2)
+Imports:
+    ggplot2 (>= 3.0.0),
+    withr (>= 2.1.1)
+License: GPL-2 | file LICENSE
+LazyData: true
+Collate:
+    'vayr.R'
+    'position.R'
+    'utils.R'
+RoxygenNote: 7.1.1
+Roxygen: list(markdown = TRUE)
+Suggests: 
+    testthat
+Encoding: UTF-8
+    
