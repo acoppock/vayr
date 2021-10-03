@@ -106,6 +106,8 @@ PositionJitterEllipse <-
 
 position_sunflower <- function(width = NULL,
                                     height = NULL,
+                               nudge_x = 0,
+                               nudge_y = 0,
                                     seed = NA) {
   if (!is.null(seed) && is.na(seed)) {
     seed <- sample.int(.Machine$integer.max, 1L)
@@ -116,6 +118,8 @@ position_sunflower <- function(width = NULL,
     PositionSunflower,
     width = width,
     height = height,
+    nudge_x = nudge_x,
+    nudge_y = nudge_y,
     seed = seed
   )
 }
@@ -136,6 +140,8 @@ PositionSunflower <-
       list(
         width = self$width %||% (resolution(data$x, zero = FALSE) * 0.4),
         height = self$height %||% (resolution(data$y, zero = FALSE) * 0.4),
+        nudge_x = self$nudge_x %||% (resolution(data$x, zero = FALSE) * 0.4),
+        nudge_y = self$nudge_y %||% (resolution(data$y, zero = FALSE) * 0.4),
         seed = self$seed
       )
     },
@@ -161,7 +167,7 @@ PositionSunflower <-
           r <- radius(1:n, n, b)
 
           theta <- 1:n * (2 * pi / phi ^ 2)
-          x + r * params$width * cos(theta)
+          x + r * params$width * cos(theta) + params$nudge_x
         }
 
       trans_y <-
@@ -180,7 +186,7 @@ PositionSunflower <-
           r <- radius(1:n, n, b)
 
           theta <- 1:n * (2 * pi / phi ^ 2)
-          y + r * params$height * sin(theta)
+          y + r * params$height * sin(theta) + params$nudge_y
         }
 
       with_seed_null(params$seed, transform_position(data, trans_x, trans_y))
