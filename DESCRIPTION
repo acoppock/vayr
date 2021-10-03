@@ -23,6 +23,7 @@ Collate:
     'vayr.R'
     'position.R'
     'utils.R'
+    'sunflower.R'
 RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
 Suggests: 
