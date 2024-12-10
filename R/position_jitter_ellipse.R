@@ -24,30 +24,27 @@
 #' coord_cartesian(xlim = c(0, 2), ylim = c(0, 2))
 #'
 #'
-position_jitter_ellipse <- function(width = NULL,
-                                    height = NULL,
-                                    seed = NA) {
-  if (!is.null(seed) && is.na(seed)) {
-    seed <- sample.int(.Machine$integer.max, 1L)
+position_jitter_ellipse <-
+  function(width = NULL,
+           height = NULL,
+           seed = NA) {
+    if (!is.null(seed) && is.na(seed)) {
+      seed <- sample.int(.Machine$integer.max, 1L)
+    }
+    ggproto(
+      NULL,
+      PositionJitterEllipse,
+      width = width,
+      height = height,
+      seed = seed
+    )
   }
 
-  ggproto(
-    NULL,
-    PositionJitterEllipse,
-    width = width,
-    height = height,
-    seed = seed
-  )
-}
 
-#' @rdname position_jitter_ellipse
-#' @format NULL
-#' @usage NULL
-#' @export
 PositionJitterEllipse <-
-  ggproto(
+  ggplot2::ggproto(
     "PositionJitterEllipse",
-    Position,
+    ggplot2::Position,
     required_aes = c("x", "y"),
 
     setup_params = function(self, data) {

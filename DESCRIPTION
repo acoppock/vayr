@@ -1,6 +1,5 @@
 Package: vayr
-Type: Package
-Title: Ridgeline Plots in 'ggplot2'
+Title: extensions for ggplot2 to  visualise as you randomize
 Version: 0.0.9000
 Authors@R: 
     person(
@@ -10,7 +9,7 @@ Authors@R:
       email = "acoppock@gmail.com",
       comment = c(ORCID = "0000-0002-5733-2386")
     )
-Description: This is an example sentence.
+Description: This package provides position adjustments for ggplot2 that can be especially useful when plotting experimental data
 URL: https://alexandercoppock.com
 Depends:
     R (>= 3.2)
@@ -19,14 +18,8 @@ Imports:
     withr (>= 2.1.1)
 License: GPL-2 | file LICENSE
 LazyData: true
-Collate:
-    'vayr.R'
-    'position.R'
-    'utils.R'
-    'sunflower.R'
-RoxygenNote: 7.1.1
+RoxygenNote: 7.3.2
 Roxygen: list(markdown = TRUE)
 Suggests: 
     testthat
 Encoding: UTF-8
-    
