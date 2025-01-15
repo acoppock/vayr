@@ -75,6 +75,11 @@ PositionSunflower <-
         dplyr::group_by(x, y, group) |>
         dplyr::group_split()
 
+      # is this a oneline replacement?
+      # flowers <- split(data, interaction(data$x, data$y, data$group, drop = TRUE))
+
+
+
       data <- do.call(rbind, lapply(flowers, function(flower) {
         flower$x = sunflower(
           x = flower$x,

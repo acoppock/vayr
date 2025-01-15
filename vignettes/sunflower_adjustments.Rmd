@@ -1,0 +1,367 @@
+---
+title: "Sunflower adjustments to avoid overplotting"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{sunflower_adjustments}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(vayr)
+```
+
+
+<!-- Let's be sure to credit Maia Cook for the first draft! -->
+
+
+<!-- ## Introduction -->
+
+<!-- There are a handful of default position adjustments for ggplot's `geom_point()`, including `position_identity()`, `position_jitter()`, `position_dodge()`, `position_stack()`, `position_fill()`, `position_nudge()` and `position_jitterdodge()`. These position adjustments work well for interlaying different classes of data. However, when it comes to visualizing high-density continuous data against another continuous dataset, the `position_jitterdodge()` function tends to clump points together with no real way of distinguishing whether there are, say, 100 or 1,000 observations. I created two position adjustments called `sunflower_jitter()` and `sunflower_jitterdodge()`, which attempt to correct these misgivngs. These functions take inspiration from a sunflower's seed-packing algorithm to efficiently display continuous vs. continuous data. -->
+
+<!-- <div style="margin-bottom: 30px;"></div> -->
+
+<!-- #### **The issue with Categorical vs Categorical data plotting using `position_jitter()` and `position_jitterdodge()`** -->
+
+<!-- Even with adjustments to `jitter.width` and `jitter.height`, this visualization does a poor job of showing the number of observations in each intersection. For example, in the "Married" category, it is impossible to tell how many surveyees are included in this analysis. It could be 100 or 300 points, but we cannot tell because of the density of the packing algorithm. -->
+
+<!-- ```{r echo=TRUE, warning=FALSE} -->
+<!-- data("NHANES") -->
+<!-- NHANES <- NHANES %>% filter(MaritalStatus %in% c("Divorced", "Married", "NeverMarried")) %>% droplevels() -->
+<!-- NHANES <- NHANES %>% filter(Education %in% c("High School", "Some College", "College Grad")) %>% droplevels() -->
+
+<!-- ggplot(NHANES, aes(x=MaritalStatus, y=Education, group=Gender, color=Gender)) + -->
+<!--   geom_point(position = position_jitterdodge(jitter.width = 0.5, jitter.height = 0.3,dodge.width = 0.5), size = 1.5) + -->
+<!--   labs(title="Marital Status vs. Education, Grouped by Gender", x="Marital Status", y="Education Level",  color="Gender") +    -->
+<!--   theme(axis.text.x = element_text(angle = 45, hjust = 1), legend.position = "bottom") + -->
+<!--   theme_minimal() -->
+<!-- ``` -->
+<!-- <div style="margin-bottom: 30px;"></div> -->
+
+<!-- ### The solution: take inspiration from sunflowers! -->
+
+<!-- Nature placement algorithms show us different ways of approaching position adjustments in ggplot because of their multipoint symmetries. One of the most efficient circle-packing arrangements comes from a **sunflower's seed-packing algorithm**, which optimizes spatial efficiency thanks to its use of the **Fibonacci sequence**. -->
+
+<!-- ![](images/Screen%20Shot%202024-12-16%20at%204.31.15%20PM.png){width="556"} -->
+
+<!-- ## Sunflower Circle Packing Algorithm -->
+
+<!-- $$ -->
+<!-- \begin{pmatrix} x_k \\ y_k \end{pmatrix} = \begin{pmatrix} x_0 \\ y_0 \end{pmatrix} + r_k \begin{pmatrix} \cos(\theta_k) \\ \sin(\theta_k) \end{pmatrix} -->
+<!-- $$ -->
+
+<!-- where: -->
+
+<!-- $$ -->
+<!-- r_k =  -->
+<!-- \begin{cases} -->
+<!-- 1, & \text{if } k > n - b \\ -->
+<!-- \sqrt{\frac{k - \frac{1}{2}}{n - \frac{b + 1}{2}}}, & \text{otherwise} -->
+<!-- \end{cases} -->
+<!-- $$ -->
+
+<!-- and -->
+
+<!-- $$ -->
+<!-- \theta_k = k \cdot \left( \frac{2\pi}{\phi^2} \right) -->
+<!-- $$ -->
+
+<!-- -   $r_k$ is the radius of the point -->
+
+<!-- -   $\theta_k$ is the angle of the point -->
+
+<!-- -   $x_0$ and $y_0$ are the center coordinates of the circle -->
+
+<!-- -   $\phi = \frac{\sqrt{5} + 1}{2}$ is the golden ratio -->
+
+<!-- -   $n$ is the total number of points. -->
+
+<!-- This algorithm can then be translated into R. Find the code below. -->
+
+<!-- ```{r warning=FALSE} -->
+<!-- sunflower <- -->
+<!--   function(x = NULL, y = NULL, width, height) { -->
+<!--     if(!is.null(x)){ -->
+<!--       n <- length(x) -->
+<!--     } else if (!is.null(y)){ -->
+<!--       n <- length(y) -->
+<!--     } else { -->
+<!--       stop("have to provide either x or y") -->
+<!--     } -->
+
+<!--     alpha = 2 -->
+<!--     b <- round(alpha*sqrt(n))  # number of boundary points -->
+<!--     phi <- (sqrt(5)+1)/2  # golden ratio -->
+
+
+<!--     radius <- function(k, n, b) { -->
+<!--       ifelse(k > n - b, -->
+<!--              1, -->
+<!--              sqrt(k - 1 / 2) / sqrt(n - (b + 1) / 2)) -->
+<!--     } -->
+
+<!--     r <- radius(1:n,n,b) -->
+<!--     theta <- 1:n * (2*pi/phi^2) -->
+
+<!--     if(!is.null(x)){ -->
+<!--       return(x + width*r*cos(theta)) -->
+<!--     } else{ -->
+<!--       return(y + height*r*sin(theta)) -->
+<!--     } -->
+
+<!--   } -->
+<!-- ``` -->
+<!-- <div style="margin-bottom: 30px;"></div> -->
+
+<!-- ### (1) Code creating the `sunflower_jitter()` position function -->
+
+<!-- ```{r echo=TRUE, warning=FALSE, results='hide'} -->
+<!-- ### (1)  -->
+<!-- PositionSunflower <- ggproto("PositionSunflower", Position, -->
+<!--   compute_panel = function(self, data, params, scales) { -->
+
+<!--     # Group data by x, y, and group (if necessary) -->
+<!--     flowers <- data %>% -->
+<!--       group_by(x, y, group) %>% -->
+<!--       group_split() -->
+
+<!--     # Apply the sunflower function and adjust positions -->
+<!--     data <- do.call(rbind, lapply(flowers, function(flower) { -->
+<!--       flower$x <- sunflower(x = flower$x, width = self$flower_width, height = self$flower_height) -->
+<!--       flower$y <- sunflower(y = flower$y, width = self$flower_width, height = self$flower_height) -->
+<!--       return(flower) -->
+<!--     })) -->
+
+<!--     # Return the modified data -->
+<!--     return(data) -->
+<!--   } -->
+<!-- ) -->
+
+<!-- ### (2) -->
+<!-- sunflower_jitter <- function(flower_width = 1, flower_height = 1) { -->
+<!--   ggproto(NULL, PositionSunflower, flower_width = flower_width, flower_height = flower_height) -->
+<!-- } -->
+
+
+<!-- ``` -->
+<!-- <div style="margin-bottom: 30px;"></div> -->
+
+<!-- ### (2) Code creaitng the `sunflower_jitterdodge()` position function -->
+
+<!-- ```{r echo = TRUE, results = 'hide'} -->
+<!-- ### (1)  -->
+<!-- PositionSunflowerDodge <- ggplot2::ggproto("PositionSunflowerDodge", ggplot2::PositionDodge, -->
+<!--                                            setup_params = function(self, data) { -->
+<!--                                              params <- ggproto_parent(PositionDodge, self)$setup_params(data) -->
+<!--                                              return(params) -->
+<!--                                            }, -->
+<!--                                            compute_panel = function(self, data, params, scales) { -->
+
+<!--                                              data <- ggproto_parent(PositionDodge, self)$compute_panel(data, params, scales) -->
+
+<!--                                              # I could not find a good way to split into groups using base R, so here I use dplyr -->
+<!--                                              flowers <- data |> -->
+<!--                                                dplyr::group_by(x, y, group) |> -->
+<!--                                                dplyr::group_split() -->
+
+<!--                                              data <- do.call(rbind, lapply(flowers, function(flower) { -->
+<!--                                                flower$x = sunflower(x = flower$x, width = self$flower_width, height = self$flower_height) -->
+<!--                                                flower$y = sunflower(y = flower$y, width = self$flower_width, height = self$flower_height) -->
+<!--                                                return(flower) -->
+<!--                                              })) -->
+
+<!--                                              return(data) -->
+<!--                                            } -->
+<!-- ) -->
+
+<!-- sunflower_jitterdodge <- function(width = NULL, flower_width = 1, flower_height = 1) { -->
+<!--   ggplot2::ggproto(NULL, PositionSunflowerDodge, width = width, flower_width = flower_width, flower_height = flower_height) -->
+<!-- } -->
+
+<!-- ``` -->
+<!-- <div style="margin-bottom: 30px;"></div> -->
+
+<!-- #### Example of `sunflow_jitter()` and `sunflow_jitterdodge()` using a dataset examining public opinion on the Patriot Act (inspiration taken from Persuasion in Parallel Figure 5.4) -->
+
+<!-- To illustrate scenarios where `sunflow_jitter()` and `sunflow_jitterdodge()` are most useful, consider the following visualization from Dr. Alexander Coppock's book called "Persuasion in Parallel." This graph, labeled as "Figure 5.4" in the book, looks at data from a 2009 study that surveyed Americans about their support for the Patriot Act (PA). This study, which Coppock replicated in 2015, examines the effect of changing the wording of survey questions on support for the PA. -->
+
+<!-- The control group used neutral language to describe the PA. The treatment group was divided into two subgroups. One looks at the use of a negative description of the PA, emphasizing the PA's effect on reducing individual privacy and empowering the U.S. surveillance regime. The other uses a positive description of the PA, which emphasizes the PA's impact on increasing protection against terrorism after 9/11. On the visualization, Coppock placed the index for support for the PA on the y-axis, the control and treatment groups on the x-axis, and grouped individual observations by political party. The graph on the left looks at the original 2009 data, and the one on the right looks at 2015 data. See below for what appears in the book. -->
+
+<!-- ```{r echo=FALSE, warning=FALSE} -->
+<!-- # Show original visualization in Persuasion in Parallel (without showing code, just show output) -->
+
+<!-- patriot_act_stacked <- readRDS("/Users/maiacook/Documents/PLSC_349_2024/Final Project/patriot_act_stacked.rds") -->
+
+<!-- gg_df <- -->
+<!--   patriot_act_stacked |> -->
+<!--   filter(T1_content != "Both", pid_3 != "Independent") |> -->
+<!--   mutate( -->
+<!--     Y = PA_support, -->
+<!--     T1_content = fct_drop(T1_content), -->
+<!--     sample_label = factor( -->
+<!--       sample, -->
+<!--       levels = c("original", "mt"), -->
+<!--       labels = c("Original Study", "Mechanical Turk Replication") -->
+<!--     ) -->
+<!--   ) -->
+
+<!-- gg_df <- -->
+<!--   gg_df |> -->
+<!--   group_by(pid_3, T1_content, sample_label, Y) |> -->
+<!--   mutate( -->
+<!--     # sunflower -->
+<!--     y_s = sunflower(y = Y, width = 0.12, height = 0.18), -->
+<!--     x_s = sunflower(x = as.numeric(T1_content), width = 0.12, height = 0.18), -->
+<!--     # dodge -->
+<!--     x_s = if_else(pid_3 == "Democrat", x_s - (1 / 8), x_s + (1 / 8)), -->
+<!--     # plot letter -->
+<!--     plot_letter = case_when(pid_3 == "Democrat" ~ "D", -->
+<!--                             pid_3 == "Republican" ~ "R")) -->
+
+<!-- summary_df <- -->
+<!--   gg_df |> -->
+<!--   group_by(pid_3, T1_content, sample_label) |> -->
+<!--   do(tidy(lm_robust(Y ~ 1, weights = weights, data = .))) |> -->
+<!--   mutate(Y = estimate) -->
+
+<!-- label_df <- -->
+<!--   summary_df |> -->
+<!--   filter(T1_content == "Control", -->
+<!--          sample_label == "Original Study") |> -->
+<!--   ungroup() |> -->
+<!--   mutate(Y = c(3.25, 6), -->
+<!--          label = c("Democrats", "Republicans")) -->
+
+<!-- figure_5.4 <- -->
+<!--   ggplot(summary_df, aes(T1_content, Y, group = pid_3, -->
+<!--                          shape = pid_3)) + -->
+<!--   geom_point(size = 2, position = position_dodge(width = 0.5)) + -->
+<!--   geom_line(position = position_dodge(width = 0.5)) + -->
+<!--   geom_errorbar( -->
+<!--     aes(ymin = conf.low, ymax = conf.high), -->
+<!--     position = position_dodge(width = 0.5), -->
+<!--     width = 0 -->
+<!--   ) + -->
+<!--   geom_text( -->
+<!--     data = gg_df, -->
+<!--     aes(x = x_s, y = y_s, label = plot_letter, color = 3), -->
+<!--     alpha = 0.2, -->
+<!--     family = "Palatino", -->
+<!--     size = 1 -->
+<!--   ) + -->
+<!--   scale_y_continuous(breaks = 1:7) + -->
+<!--   geom_text( -->
+<!--     data = label_df, -->
+<!--     aes(label = label), -->
+<!--     position = position_dodge(width = 0.5), -->
+<!--     size = 2, -->
+<!--     family = "Palatino" -->
+<!--   ) + -->
+<!--   theme_bw() + -->
+<!--   theme( -->
+<!--     text = element_text(family = "Palatino"), -->
+<!--     legend.position = "none", -->
+<!--     legend.title = element_blank(), -->
+<!--     axis.title.x = element_blank(), -->
+<!--     axis.title.y = element_text(size = 8), -->
+<!--     panel.grid.minor = element_blank(), -->
+<!--     strip.background = element_blank() -->
+<!--   ) + -->
+<!--   ylab( -->
+<!--     "Do you oppose or support the Patriot Act? -->
+<!--     [1: Oppose very strongly to 7: Support very strongly]" -->
+<!--   ) + -->
+<!--   facet_wrap( ~ sample_label, scales = "free") -->
+
+<!-- figure_5.4 -->
+<!-- ``` -->
+
+<!-- The Patriot Act survey is an excellent example of a dataset with two categorical variables, more than two factor levels, and many observations. These characteristics make it a good candidate for the sunflower position adjustment! Dr. Coppock achieved this position adjustment manually for his figure in Persuasion in Parallel. -->
+
+<!-- However, the goal is to use the sunflower circle packing algorithm and ggproto to create a new position adjustment that will automatically visualize this data the way it is above. Note: the text, font, and color parameters will not be modified to look like the original visualization. -->
+
+<!-- <div style="margin-bottom: 30px;"></div> -->
+
+<!-- #### **Example of `sunflow_jitter()` using the Patriot Act dataset** -->
+
+<!-- ```{r warning=FALSE} -->
+<!-- df <- readRDS("/Users/maiacook/Documents/PLSC_349_2024/Final Project/patriot_act_stacked.rds") -->
+<!-- df <- df %>% filter(T1_content %in% c("Con", "Control", "Pro")) %>% droplevels() -->
+<!-- df <- df %>% filter(pid_3 != "Independent") %>% droplevels() -->
+
+<!-- ggplot(df, aes(x = T1_content, y = PA_support)) + -->
+<!--   geom_point(size = 1, position = sunflower_jitter(flower_width = 0.2, flower_height = 0.5)) + theme_minimal() + -->
+<!--   labs(title = "Support for the Patriot Act per Experimental Groups", -->
+<!--        x = "Experimental Group", -->
+<!--        y = "Support for Patriot Act [1 is low, 7 is high]") -->
+<!-- ``` -->
+<!-- <div style="margin-bottom: 30px;"></div> -->
+
+<!-- #### **Example of `sunflow_jitterdodge()` using the Patriot Act dataset** -->
+
+<!-- ```{r echo=TRUE, warning=FALSE} -->
+<!-- summary_data <- df %>% -->
+<!--   group_by(T1_content, pid_3) %>% -->
+<!--   summarise(avg_support = mean(PA_support, na.rm = TRUE), .groups = "drop") -->
+
+<!-- ggplot(df, aes(T1_content, PA_support, color = pid_3, shape = pid_3)) + -->
+<!--   geom_point(position = sunflower_jitterdodge(width = .5, flower_width = 0.1, flower_height = 0.3)) +  -->
+<!--   theme_minimal() + -->
+<!--   labs(title = "Support for the Patriot Act per Experimental Groups, grouped by Party", -->
+<!--        x = "Experimental Group", -->
+<!--        y = "Support for Patriot Act [1 is low, 7 is high]") + -->
+<!--   geom_text(data = summary_data, aes(x = T1_content, y = avg_support, label = round(avg_support, 2)), -->
+<!--             color = "black", vjust = -1, size = 3) + -->
+<!--   geom_line(data = summary_data, aes(x = T1_content, y = avg_support, group = pid_3, color = pid_3),  -->
+<!--             size = 1) +   -->
+<!--   geom_point(data = summary_data, aes(x = T1_content, y = avg_support, shape = pid_3),  -->
+<!--              color = "black", size = 4) +   -->
+<!--   scale_shape_manual(values = c(16, 17, 18))   -->
+<!-- ``` -->
+<!-- <div style="margin-bottom: 30px;"></div> -->
+
+<!-- ## When is the sunflower position adjustment not appropriate for a dataset? -->
+
+<!-- The sunflower position adjustment works best for categorical data plotted against categorical data. It is not possible to use this function on continuous vs continuous data. Moreover, it is discouraged from being used on categorical vs. continuous data because the uniform sunflower distribution conceals necessary data about the range and distribution of the continuous variable, removing an essential dimension of information from the visualization. -->
+
+<!-- Below are examples of where the sunflower position adjustment (jitter and jitter dodge) should not be used. These examples use data from a dataset from R's NHANES library. I made minor adjustments to the data to make these visualizations more compelling, which is included in the code below. -->
+
+<!-- #### **Continuous vs Continuous Data: height vs weight** -->
+
+<!-- Using the sunflower position adjustment would not be appropriate for the example below. It would not be the solution to making the points on the plot less dense. Instead, you can set alpha = 0.5 to make the points transparent, helping illustrate areas of high density. A sunflower position adjustment is appropriate when it does not matter how points are distributed. In this case, the location of each point conveys information about both continuous variables. -->
+
+<!-- ```{r echo=TRUE, warning=FALSE} -->
+<!-- data("NHANES") -->
+
+<!-- ggplot(NHANES, aes(x= Height, y= Weight, group = Gender, color = Gender)) +  -->
+<!--   geom_point(alpha = 0.5) + theme_minimal() -->
+<!-- ``` -->
+
+<!-- #### Continuous vs Categorical Data*: height vs age group* -->
+
+<!-- Although the sunflower position adjustment could technically be used for continuous vs categorical data, it would look disastrous. Plus, there are much better ways of visualizing this type of data. In the example below, we look at a height vs. age plot grouped by gender. The beeswarm geom helps us visualize this data in such a way that the distribution of the heights per age group is preserved in translation. Using a uniform circle packing algorithm to showcase a variable that is a continuous range or scale is antithetical to the point of there being a non-random distribution. -->
+
+<!-- ```{r echo=TRUE, warning=FALSE} -->
+<!-- library(ggbeeswarm) -->
+<!-- data("NHANES") -->
+<!-- NHANES <- NHANES %>% filter(!is.na(Height)) -->
+<!-- NHANES <- NHANES %>% filter(!is.na(AgeDecade)) -->
+
+<!-- ggplot(NHANES, aes(x = Height, y = AgeDecade, group = Gender, color = Gender)) +  -->
+<!--   geom_beeswarm(size = .4, height = 4) +   -->
+<!--   labs(title = "Height vs. Age, Grouped by Gender", x = "Height", y = "Age", color = "Gender") + -->
+<!--   theme(axis.text.x = element_text(angle = 45, hjust = 1),  -->
+<!--         legend.position = "bottom") + -->
+<!--   theme_minimal() -->
+<!-- ``` -->
+
+<!-- ## Further Directions -->
+
+<!-- The `sunflower_jitter()` and `sunflower_jitterdodge()` position adjustments could be improved by making the radius of each sunflower cluster self-adjusting. Sunflower clusters with less observations should have smaller radii to increase the density of the sunflower. In practice, this would look like the PA example above but with sunflowers of different sizes. I've made multiple attempts at creating this both on my own and with chatGPT, but have been unsuccessful. I hope to continue working on this position adjustment with Professor Coppock and look forward to using other nature-inspired circle packing algorithms on different classes of data. -->

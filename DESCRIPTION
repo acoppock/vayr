@@ -21,5 +21,8 @@ LazyData: true
 RoxygenNote: 7.3.2
 Roxygen: list(markdown = TRUE)
 Suggests: 
+    knitr,
+    rmarkdown,
     testthat
 Encoding: UTF-8
+VignetteBuilder: knitr
