@@ -1,6 +1,6 @@
-#' Sunflower Function
+#' Distributes points using a "sunflower seed" algorithm.
 #' 
-#' Distributes points in a ellipse via the sunflower seed algorithm, as a solution for over-plotting.
+#' This function distributes points in a ellipse via the sunflower seed algorithm, as a solution for over-plotting.
 #' To implement the algorithm, this function adapts the code from https://stackoverflow.com/questions/28567166/uniformly-distribute-x-points-inside-a-circle.
 #'
 #' @param x x position
@@ -64,9 +64,9 @@ sunflower2 <- function(x = NULL, y = NULL, density, aspect_ratio) {
     
   }
 
-#' Position Sunflower Function
+#' Arranges over-plotted points in a sunflower pattern.
 #' 
-#' Applies the sunflower algorithm, as executed by the sunflower function, as a position adjustment,
+#' This function applies the sunflower algorithm, as executed by the sunflower function, as a position adjustment,
 #' arranging overlapping points at any given x and y into a sunflower pattern.
 #'
 #' @param density seed density
@@ -118,9 +118,9 @@ PositionSunflower2 <-
     }
   )
 
-#' Position Sunflower Dodge Function
+#' Arranges over-plotted points in a sunflower pattern and dodges groups side-to-side.
 #' 
-#' Applies the sunflower position adjustment alongside the dodge position adjustment,
+#' This function applies the sunflower position adjustment alongside the dodge position adjustment,
 #' arranging overlapping points per x, y, AND group into a sunflower pattern.
 #'
 #' @param width dodging width
@@ -145,7 +145,7 @@ PositionSunflower2 <-
 #'   geom_point(position = position_sunflowerdodge2(width = 1, density = 1, aspect_ratio = 1)) +
 #'   coord_equal()
 #'
-position_sunflowerdodge2 <- function(width = NULL, density = 1, aspect_ratio = 1) {
+position_sunflowerdodge2 <- function(width = 1, density = 1, aspect_ratio = 1) {
   ggplot2::ggproto(NULL, PositionSunflowerDodge2, width = width, density = density, aspect_ratio = aspect_ratio)
 }
 
