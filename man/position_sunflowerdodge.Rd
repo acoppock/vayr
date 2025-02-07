@@ -18,6 +18,7 @@ Sunflower position adjustment (dodged)
 }
 \examples{
 
+library(tidyverse)
 N <- 300
 
 dat <- tibble(

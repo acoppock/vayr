@@ -1,6 +1,6 @@
 #' Jitter points (on an ellipse) to avoid overplotting
 #'
-#' Adding ellipical random noise to points that are perfectly overplotted gives a pleasing way to visualize many plotted points that represent the same position. In contrast to position_jitter which samples on a rectangle, position_jitter_ellipse samples on an ellipse.
+#' Adding elliptical random noise to points that are perfectly overplotted gives a pleasing way to visualize many plotted points that represent the same position. In contrast to position_jitter which samples on a rectangle, position_jitter_ellipse samples on an ellipse.
 #'
 #' See: https://stackoverflow.com/questions/5529148/algorithm-calculate-pseudo-random-point-inside-an-ellipse and https://stats.stackexchange.com/questions/120527/simulate-a-uniform-distribution-on-a-disc
 #'
@@ -97,7 +97,6 @@ PositionJitterEllipse <-
 #                                                      jitter.height =  0.5,
 #                                                      dodge.width = 1)) +
 #   coord_cartesian(xlim = c(0, 2), ylim = c(0, 2))
-
 position_jitterdodge_ellipse <-
   function(jitter.width = NULL,
            jitter.height = 0,

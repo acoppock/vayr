@@ -1,4 +1,5 @@
 
+library(ggplot2)
 
 test_that("jitter_ellipse works", {
   dat <- data.frame(x = rep(1, 500), y = rep(1, 500))

@@ -12,7 +12,9 @@
 #' @examples
 #'
 #' library(tidyverse)
+#' 
 #' N <- 300
+#' 
 #' dat <- tibble(
 #'   x = sample(1:2, size = N, replace = TRUE),
 #'   y = sample(1:7, size = N, replace = TRUE),
@@ -107,9 +109,10 @@ PositionSunflower <-
 #'
 #' @examples
 #'
+#' library(tidyverse)
 #' dat <- tibble(
-#' x = rep(1:4, times = 100),
-#' y = rep(1:4, times = 100)
+#'   x = rep(1:4, times = 100),
+#'   y = rep(1:4, times = 100)
 #' )
 #'
 #' ggplot(dat, aes(x = x, y = y)) +
@@ -173,6 +176,7 @@ PositionSunflowerDodge <-
 #'
 #' @examples
 #'
+#' library(tidyverse)
 #' N <- 300
 #'
 #' dat <- tibble(

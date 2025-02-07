@@ -21,7 +21,9 @@ This function adapts the code here # https://stackoverflow.com/questions/2856716
 \examples{
 
 library(tidyverse)
+
 N <- 300
+
 dat <- tibble(
   x = sample(1:2, size = N, replace = TRUE),
   y = sample(1:7, size = N, replace = TRUE),

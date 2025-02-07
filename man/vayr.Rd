@@ -6,7 +6,7 @@
 \alias{vayr}
 \title{Visualize as you randomize}
 \description{
-This package provides position adjustments for ggplot2 that can be especially useful when plotting experimental data
+This package provides position adjustments for ggplot2 that can be especially useful when plotting experimental data.
 }
 \details{
 The vayr package provides ggplot2 extensions to implment the "visualize as you randomize" principles for visualizing experimental data. Thus far, this includes position adjustments to avoid overplotting.

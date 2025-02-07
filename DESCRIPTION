@@ -9,7 +9,7 @@ Authors@R:
       email = "acoppock@gmail.com",
       comment = c(ORCID = "0000-0002-5733-2386")
     )
-Description: This package provides position adjustments for ggplot2 that can be especially useful when plotting experimental data
+Description: This package provides position adjustments for ggplot2 that can be especially useful when plotting experimental data.
 URL: https://alexandercoppock.com
 Depends:
     R (>= 3.2)
@@ -23,6 +23,7 @@ Roxygen: list(markdown = TRUE)
 Suggests: 
     knitr,
     rmarkdown,
-    testthat
+    testthat,
+    tidyverse
 Encoding: UTF-8
 VignetteBuilder: knitr
