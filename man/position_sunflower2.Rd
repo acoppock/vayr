@@ -2,7 +2,7 @@
 % Please edit documentation in R/position_sunflower2.R
 \name{position_sunflower2}
 \alias{position_sunflower2}
-\title{Position Sunflower Function}
+\title{Arrange over-plotted points in a sunflower pattern}
 \usage{
 position_sunflower2(density = 1, aspect_ratio = 1)
 }
@@ -12,7 +12,7 @@ position_sunflower2(density = 1, aspect_ratio = 1)
 \item{aspect_ratio}{aspect ratio adjustment}
 }
 \description{
-Applies the sunflower algorithm, as executed by the sunflower function, as a position adjustment,
+This function applies the sunflower algorithm, as executed by the sunflower function, as a position adjustment,
 arranging overlapping points at any given x and y into a sunflower pattern.
 }
 \examples{

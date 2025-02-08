@@ -2,12 +2,12 @@
 % Please edit documentation in R/position_jitter_ellipse.R
 \name{position_jitterdodge_ellipse}
 \alias{position_jitterdodge_ellipse}
-\title{Jitter and dodge points (on an ellipse) to avoid overplotting}
+\title{Jitter points on an ellipse and dodge groups simultaneously}
 \usage{
 position_jitterdodge_ellipse(
   jitter.width = NULL,
-  jitter.height = 0,
-  dodge.width = 0.75,
+  jitter.height = NULL,
+  dodge.width = 1,
   seed = NA
 )
 }
@@ -30,9 +30,19 @@ Use \code{NULL} to use the current random seed and also avoid resetting
 (the behaviour of \pkg{ggplot} 2.2.1 and earlier).}
 }
 \description{
-Jitter and dodge points (on an ellipse) to avoid overplotting
+As well as adding elliptical random noise to over-plotted points,
+this function also dodges groups of points side-to-side.
 }
 \examples{
 
 library(ggplot2)
+dat <- data.frame(x = rep(1, 500), y = rep(1, 500),
+                 group = sample(LETTERS[1:2], 500, replace = TRUE))
+
+ggplot(dat, aes(x, y, shape = group)) +
+  geom_point(position = position_jitterdodge_ellipse(jitter.width  = 0.5,
+                                                     jitter.height =  0.5,
+                                                     dodge.width = 1)) +
+  coord_cartesian(xlim = c(0, 2), ylim = c(0, 2))
+  
 }

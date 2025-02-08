@@ -2,9 +2,9 @@
 % Please edit documentation in R/position_sunflower2.R
 \name{position_sunflowerdodge2}
 \alias{position_sunflowerdodge2}
-\title{Position Sunflower Dodge Function}
+\title{Arrange over-plotted points in a sunflower pattern and dodges groups side-to-side}
 \usage{
-position_sunflowerdodge2(width = NULL, density = 1, aspect_ratio = 1)
+position_sunflowerdodge2(width = 1, density = 1, aspect_ratio = 1)
 }
 \arguments{
 \item{width}{dodging width}
@@ -14,7 +14,7 @@ position_sunflowerdodge2(width = NULL, density = 1, aspect_ratio = 1)
 \item{aspect_ratio}{aspect ratio adjustment}
 }
 \description{
-Applies the sunflower position adjustment alongside the dodge position adjustment,
+This function applies the sunflower position adjustment alongside the dodge position adjustment,
 arranging overlapping points per x, y, AND group into a sunflower pattern.
 }
 \examples{

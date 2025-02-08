@@ -2,7 +2,7 @@
 % Please edit documentation in R/position_sunflower2.R
 \name{sunflower2}
 \alias{sunflower2}
-\title{Sunflower Function}
+\title{Distribute points using a "sunflower seed" algorithm}
 \usage{
 sunflower2(x = NULL, y = NULL, density, aspect_ratio)
 }
@@ -16,7 +16,7 @@ sunflower2(x = NULL, y = NULL, density, aspect_ratio)
 \item{aspect_ratio}{aspect ratio adjustment}
 }
 \description{
-Distributes points in a ellipse via the sunflower seed algorithm, as a solution for over-plotting.
+This function distributes points in a ellipse via the sunflower seed algorithm, as a solution for over-plotting.
 To implement the algorithm, this function adapts the code from https://stackoverflow.com/questions/28567166/uniformly-distribute-x-points-inside-a-circle.
 }
 \examples{

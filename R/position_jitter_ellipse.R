@@ -1,4 +1,4 @@
-#' Jitters points on an ellipse to avoid over-plotting.
+#' Jitter points on an ellipse to avoid over-plotting
 #'  
 #' This function adds elliptical random noise to perfectly over-plotted points,
 #' offering a pleasing way to visualize many points that represent the same position. 
@@ -7,6 +7,8 @@
 #' and https://stats.stackexchange.com/questions/120527/simulate-a-uniform-distribution-on-a-disc.
 #'
 #' @inheritParams ggplot2::position_jitter
+#'
+#' @importFrom ggplot2 ggproto Position
 #'
 #' @export
 #'
@@ -65,12 +67,14 @@ PositionJitterEllipse <-
     }
   )
 
-#' Jitters points on an ellipse and dodges groups simultaneously.
+#' Jitter points on an ellipse and dodge groups simultaneously
 #'
 #' As well as adding elliptical random noise to over-plotted points, 
 #' this function also dodges groups of points side-to-side.
 #' 
 #' @inheritParams ggplot2::position_jitterdodge
+#'
+#' @importFrom ggplot2 ggproto ggproto_parent PositionDodge
 #'
 #' @export
 #'
@@ -106,12 +110,12 @@ PositionJitterdodgeEllipse <-
       )
       
       self$width = self$dodge.width
-      dodge_params <- ggproto_parent(PositionDodge, self)$setup_params(data)
+      dodge_params <- ggplot2::ggproto_parent(PositionDodge, self)$setup_params(data)
       
       return(modifyList(dodge_params, params))
     },
     compute_layer = function(self, data, params, layout) {
-      data <- ggproto_parent(PositionDodge, self)$compute_panel(data, params, scales)
+      data <- ggplot2::ggproto_parent(PositionDodge, self)$compute_panel(data, params, scales)
      
       groups <- split(data, data$group, drop = TRUE)
       

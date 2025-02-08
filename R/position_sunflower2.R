@@ -1,4 +1,4 @@
-#' Distributes points using a "sunflower seed" algorithm.
+#' Distribute points using a "sunflower seed" algorithm
 #' 
 #' This function distributes points in a ellipse via the sunflower seed algorithm, as a solution for over-plotting.
 #' To implement the algorithm, this function adapts the code from https://stackoverflow.com/questions/28567166/uniformly-distribute-x-points-inside-a-circle.
@@ -64,7 +64,7 @@ sunflower2 <- function(x = NULL, y = NULL, density, aspect_ratio) {
     
   }
 
-#' Arranges over-plotted points in a sunflower pattern.
+#' Arrange over-plotted points in a sunflower pattern
 #' 
 #' This function applies the sunflower algorithm, as executed by the sunflower function, as a position adjustment,
 #' arranging overlapping points at any given x and y into a sunflower pattern.
@@ -72,6 +72,8 @@ sunflower2 <- function(x = NULL, y = NULL, density, aspect_ratio) {
 #' @param density seed density
 #' @param aspect_ratio aspect ratio adjustment 
 #'
+#' @importFrom ggplot2 ggproto Position
+#' 
 #' @export
 #'
 #' @examples
@@ -118,7 +120,7 @@ PositionSunflower2 <-
     }
   )
 
-#' Arranges over-plotted points in a sunflower pattern and dodges groups side-to-side.
+#' Arrange over-plotted points in a sunflower pattern and dodges groups side-to-side
 #' 
 #' This function applies the sunflower position adjustment alongside the dodge position adjustment,
 #' arranging overlapping points per x, y, AND group into a sunflower pattern.
@@ -126,6 +128,8 @@ PositionSunflower2 <-
 #' @param width dodging width
 #' @param density seed density
 #' @param aspect_ratio aspect ratio adjustment 
+#'
+#' @importFrom ggplot2 ggproto ggproto_parent PositionDodge
 #'
 #' @export
 #'
@@ -154,11 +158,11 @@ PositionSunflowerDodge2 <-
     "PositionSunflowerDodge2",
     ggplot2::PositionDodge,
     setup_params = function(self, data) {
-      params <- ggproto_parent(PositionDodge, self)$setup_params(data)
+      params <- ggplot2::ggproto_parent(PositionDodge, self)$setup_params(data)
       return(params)
     },
     compute_panel = function(self, data, params, scales) {
-      data <- ggproto_parent(PositionDodge, self)$compute_panel(data, params, scales)
+      data <- ggplot2::ggproto_parent(PositionDodge, self)$compute_panel(data, params, scales)
       
       flowers <- split(data, interaction(data$x, data$y, data$group, drop = TRUE))
       
