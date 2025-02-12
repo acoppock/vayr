@@ -73,6 +73,12 @@ PositionCirclePack <-
 #'
 #' @examples
 #' 
+#' df2 <- data.frame(
+#'   X = c(rep(0, 200)),
+#'   Y = rep(0, 200),
+#'   size = runif(200, 0, 1),
+#'   id = (rep(c("A", "B"), 100))
+#' )
 #' 
 #' ggplot(df2, aes(x = X, y = Y, size = size, color = id)) +
 #'   geom_point(position = position_circlepackdodge(width = 1, density = 1, aspect_ratio = 1),
