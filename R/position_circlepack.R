@@ -72,8 +72,21 @@ PositionCirclePack <-
 #' @export
 #'
 #' @examples
-#' # ADD EXAMPLE HERE
-#'
+#' 
+#' df2 <- data.frame(
+#'   X = c(rep(0, 200)),
+#'   Y = rep(0, 200),
+#'   size = runif(200, 0, 1),
+#'   id = (rep(c("A", "B"), 100))
+#' )
+#' 
+#' ggplot(df2, aes(x = X, y = Y, size = size, color = id)) +
+#'   geom_point(position = position_circlepackdodge(width = 1, density = 1, aspect_ratio = 1),
+#'              alpha = 0.25) +
+#'   coord_equal(xlim = c(-2, 2), ylim = c(-2, 2), expand = TRUE) +
+#'  scale_size_continuous(range = c(1, 3)) + 
+#'  theme(legend.position = "none")
+#'  
 position_circlepackdodge <- function(width = NULL, density = 1, aspect_ratio = 1, arrange = "random") { # Width being null makes width required arg, could change though
     ggplot2::ggproto(NULL, PositionCirclePackDodge, width = width, density = density, aspect_ratio = aspect_ratio, arrange = arrange)
   }
