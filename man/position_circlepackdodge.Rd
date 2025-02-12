@@ -2,10 +2,7 @@
 % Please edit documentation in R/position_circlepack.R
 \name{position_circlepackdodge}
 \alias{position_circlepackdodge}
-\title{Arrange over-plotted points with a circle-packing algorithm and dodge groups side-to-side
-
-This function dodges groups and arranges the over-plotted points (of various sizes)
-using algorithms from the "packcirles" package. The algorithms are applied per group.}
+\title{Arrange over-plotted points with a circle-packing algorithm and dodge groups side-to-side}
 \usage{
 position_circlepackdodge(
   width = NULL,
@@ -24,12 +21,23 @@ position_circlepackdodge(
 \item{arrange}{order by which the circles are packed}
 }
 \description{
-Arrange over-plotted points with a circle-packing algorithm and dodge groups side-to-side
-
 This function dodges groups and arranges the over-plotted points (of various sizes)
 using algorithms from the "packcirles" package. The algorithms are applied per group.
 }
 \examples{
-# ADD EXAMPLE HERE
+
+df2 <- data.frame(
+  X = c(rep(0, 200)),
+  Y = rep(0, 200),
+  size = runif(200, 0, 1),
+  id = (rep(c("A", "B"), 100))
+)
+
+ggplot(df2, aes(x = X, y = Y, size = size, color = id)) +
+  geom_point(position = position_circlepackdodge(width = 1, density = 1, aspect_ratio = 1),
+             alpha = 0.25) +
+  coord_equal(xlim = c(-2, 2), ylim = c(-2, 2), expand = TRUE) +
+  scale_size_continuous(range = c(1, 3)) +
+  theme(legend.position = "none")
 
 }

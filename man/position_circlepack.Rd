@@ -2,14 +2,7 @@
 % Please edit documentation in R/position_circlepack.R
 \name{position_circlepack}
 \alias{position_circlepack}
-\title{Use circle packing to avoid over-plotting
-
-This function uses circle packing algorithms from the "packcircles" package
-to arrange perfectly over-plotted points of varying sizes into a elliptical area.
-The density and the aspect ratio can be adjusted, and the circle pack can be
-random or ordered by size (ascending or descending). Because the function is a
-position adjustment, the correct density will be a factor of both the image size
-and the limits of the x and y axes.}
+\title{Use circle packing to avoid over-plotting}
 \usage{
 position_circlepack(density = 1, aspect_ratio = 1, arrange = "random")
 }
@@ -21,8 +14,6 @@ position_circlepack(density = 1, aspect_ratio = 1, arrange = "random")
 \item{arrange}{order by which the circles are packed}
 }
 \description{
-Use circle packing to avoid over-plotting
-
 This function uses circle packing algorithms from the "packcircles" package
 to arrange perfectly over-plotted points of varying sizes into a elliptical area.
 The density and the aspect ratio can be adjusted, and the circle pack can be
@@ -31,6 +22,40 @@ position adjustment, the correct density will be a factor of both the image size
 and the limits of the x and y axes.
 }
 \examples{
-# ADD EXAMPLE HERE
+
+
+library(randomizr)
+library(tidyverse)
+
+dat <-
+  tibble(
+    age_group = rep(c("young", "middle", "old"), c(100, 200, 300)),
+    treatment = block_ra(age_group, block_m = c(50, 50, 50)),
+    latent_outcome =
+      case_when(age_group == "young" & treatment == 0 ~ 0.10,
+                age_group == "young" & treatment == 1 ~ 0.20,
+                age_group == "middle" & treatment == 0 ~ 0.40,
+                age_group == "middle" & treatment == 1 ~ 0.45,
+                age_group == "old" & treatment == 0 ~ 0.70,
+                age_group == "old" & treatment == 1 ~ 0.90),
+    outcome = rbinom(600, size = 1,
+                     prob = latent_outcome)
+  )
+
+dat <-
+  dat |>
+  mutate(
+    treatment_prob =
+      case_when(age_group == "young" ~ 50/100,
+                age_group == "middle" ~ 50/200,
+                age_group == "old" ~ 50/300),
+    weights = 1/case_when(treatment == 1 ~ treatment_prob,
+                          treatment == 0 ~ 1 - treatment_prob)
+  )
+
+ggplot(dat, aes(treatment, outcome, size = weights, color = age_group)) +
+  geom_point(alpha = 0.5, position = position_circlepack(density = 3))
+
+
 
 }
