@@ -1,20 +1,20 @@
-#' Distribute points in a ellipse by the sunflower seed algorithm
+#' Distribute points using a "sunflower seed" algorithm
 #'
-#' This function adapts the code here # https://stackoverflow.com/questions/28567166/uniformly-distribute-x-points-inside-a-circle for implementing the sunflower algorithm
+#' This function distributes points in a ellipse via the sunflower seed algorithm, as a solution for over-plotting.
+#' To implement the algorithm, this function adapts the code from https://stackoverflow.com/questions/28567166/uniformly-distribute-x-points-inside-a-circle.
 #'
-#' @param x xposition
-#' @param y yposition
-#' @param width radius 1
-#' @param height radius 2
+#' @param x x position
+#' @param y y position
+#' @param density seed density
+#' @param aspect_ratio aspect ratio adjustment
 #'
 #' @export
 #'
 #' @examples
 #'
 #' library(tidyverse)
-#' 
+#' # Adjust position manually, arranging points per the sunflower algorithm and then dodging groups
 #' N <- 300
-#' 
 #' dat <- tibble(
 #'   x = sample(1:2, size = N, replace = TRUE),
 #'   y = sample(1:7, size = N, replace = TRUE),
@@ -22,32 +22,31 @@
 #' ) %>%
 #'   group_by(x, y, type) %>%
 #'   mutate(
-#'     x_s = sunflower(x = x, width = 0.05, height = 0.3),
-#'     y_s = sunflower(y = y, width = 0.05, height = 0.3),
-#'     x_s = if_else(type == "A", x_s - (1 / 8), x_s + (1 / 8))
+#'     x = sunflower(x = x, density = 1, aspect_ratio = 1),
+#'     y = sunflower(y = y, density = 1, aspect_ratio = 1),
+#'     x = if_else(type == "A", x - (1 / 8), x + (1 / 8))
 #'   )
 #'
-#' ggplot(dat, aes(x_s, y_s, color = type, shape = type)) +
-#'   geom_point()
+#' ggplot(dat, aes(x, y, color = type, shape = type)) +
+#'   geom_point() + coord_equal()
 #'
-sunflower <-
-  function(x = NULL, y = NULL, width, height) {
-    # https://stackoverflow.com/questions/28567166/uniformly-distribute-x-points-inside-a-circle
+sunflower <- function(x = NULL, y = NULL, density, aspect_ratio) {
     if (!is.null(x)) {
       n <- length(x)
     } else if (!is.null(y)) {
       n <- length(y)
     } else {
-      stop("gotta provide either x or y")
+      stop("requires either x or y")
     }
+
+    radius = 0.5 # constant radius
 
     alpha = 2
     b <- round(alpha * sqrt(n))  # number of boundary points
     phi <- (sqrt(5) + 1) / 2  # golden ratio
 
-    # this adjusts to the implied density of 100 points within the given width/height dimensions
-    width <- width / sqrt(100 / n)
-    height <- height / sqrt(100 / n)
+    width <- radius / sqrt((100 * density) / n)
+    height <- (radius / sqrt((100 * density) / n)) / aspect_ratio
 
     radius <-
       function(k, n, b) {
@@ -65,33 +64,55 @@ sunflower <-
 
   }
 
-
+#' Arrange over-plotted points in a sunflower pattern
+#'
+#' This function applies the sunflower algorithm, as executed by the sunflower function, as a position adjustment,
+#' arranging overlapping points at any given x and y into a sunflower pattern.
+#'
+#' @param density seed density
+#' @param aspect_ratio aspect ratio adjustment
+#'
+#' @importFrom ggplot2 ggproto Position
+#'
+#' @export
+#'
+#' @examples
+#'
+#' library(tidyverse)
+#' # Use the sunflower position function to arrange points
+#' N <- 100
+#' dat <- tibble(
+#'   x = rep(1:4, times = N),
+#'   y = rep(1:4, times = N)
+#' )
+#'
+#' ggplot(dat, aes(x = x, y = y)) +
+#'   geom_point(size = 1, position = position_sunflower(density = 1, aspect_ratio = 1)) +
+#'   xlim(0, 5) +
+#'   ylim(0, 5) +
+#'   coord_equal()
+#'
+position_sunflower <- function(density = 1, aspect_ratio = 1) {
+  ggplot2::ggproto(NULL, PositionSunflower, density = density, aspect_ratio = aspect_ratio)
+}
 
 PositionSunflower <-
   ggplot2::ggproto(
     "PositionSunflower",
     ggplot2::Position,
     compute_panel = function(self, data, params, scales) {
-      # I could not find a good way to split into groups using base R, so here I use dplyr
-      flowers <- data |>
-        dplyr::group_by(x, y, group) |>
-        dplyr::group_split()
-
-      # is this a oneline replacement?
-      # flowers <- split(data, interaction(data$x, data$y, data$group, drop = TRUE))
-
-
+      flowers <- split(data, interaction(data$x, data$y, drop = TRUE))
 
       data <- do.call(rbind, lapply(flowers, function(flower) {
         flower$x = sunflower(
           x = flower$x,
-          width = self$flower_width,
-          height = self$flower_height
+          density = self$density,
+          aspect_ratio = self$aspect_ratio
         )
         flower$y = sunflower(
           y = flower$y,
-          width = self$flower_width,
-          height = self$flower_height
+          density = self$density,
+          aspect_ratio = self$aspect_ratio
         )
         return(flower)
       }))
@@ -99,104 +120,78 @@ PositionSunflower <-
     }
   )
 
-
-#' Sunflower position adjustment
+#' Arrange over-plotted points in a sunflower pattern and dodges groups side-to-side
 #'
-#' @param flower_width width of flower
-#' @param flower_height height of flower
+#' This function applies the sunflower position adjustment alongside the dodge position adjustment,
+#' arranging overlapping points per x, y, AND group into a sunflower pattern.
 #'
-#' @export
+#' @param width dodging width
+#' @param density seed density
+#' @param aspect_ratio aspect ratio adjustment
 #'
-#' @examples
-#'
-#' library(tidyverse)
-#' dat <- tibble(
-#'   x = rep(1:4, times = 100),
-#'   y = rep(1:4, times = 100)
-#' )
-#'
-#' ggplot(dat, aes(x = x, y = y)) +
-#'   geom_point(size = 1, position = position_sunflower(flower_width = 0.5, flower_height = 0.5)) +
-#'   xlim(0, 5) +
-#'   ylim(0, 5)
-#'
-#'
-#'
-position_sunflower <-
-  function(flower_width = 1,
-           flower_height = 1) {
-    ggplot2::ggproto(NULL,
-                     PositionSunflower,
-                     flower_width = flower_width,
-                     flower_height = flower_height)
-  }
-
-
-PositionSunflowerDodge <-
-  ggplot2::ggproto(
-    "PositionSunflowerDodge",
-    ggplot2::PositionDodge,
-    setup_params = function(self, data) {
-      params <- ggproto_parent(PositionDodge, self)$setup_params(data)
-      return(params)
-    },
-    compute_panel = function(self, data, params, scales) {
-      data <- ggproto_parent(PositionDodge, self)$compute_panel(data, params, scales)
-
-      # I could not find a good way to split into groups using base R, so here I use dplyr
-      flowers <- data |>
-        dplyr::group_by(x, y, group) |>
-        dplyr::group_split()
-
-      data <- do.call(rbind, lapply(flowers, function(flower) {
-        flower$x = sunflower(
-          x = flower$x,
-          width = self$flower_width,
-          height = self$flower_height
-        )
-        flower$y = sunflower(
-          y = flower$y,
-          width = self$flower_width,
-          height = self$flower_height
-        )
-        return(flower)
-      }))
-
-      return(data)
-    }
-  )
-
-#' Sunflower position adjustment (dodged)
-#'
-#' @param width width of dodge
-#' @param flower_width width of flower
-#' @param flower_height height of flower
+#' @importFrom ggplot2 ggproto ggproto_parent PositionDodge
 #'
 #' @export
 #'
 #' @examples
 #'
 #' library(tidyverse)
+#'
+#' # Use the sunflower dodge position function to arrange and dodge points.
 #' N <- 300
-#'
 #' dat <- tibble(
 #'   x = sample(1:2, size = N, replace = TRUE),
 #'   y = sample(1:7, size = N, replace = TRUE),
 #'   type = factor(sample(LETTERS[1:2], N, replace = TRUE))
 #' )
 #'
-#' ggplot(dat, aes(x, y, color = type, shape = type)) +
-#'   geom_point(position = position_sunflowerdodge(width = 1, flower_width = 0.1, flower_height = 0.3))
 #'
-position_sunflowerdodge <-
-  function(width = NULL,
-           flower_width = 1,
-           flower_height = 1) {
-    ggplot2::ggproto(
-      NULL,
-      PositionSunflowerDodge,
-      width = width,
-      flower_width = flower_width,
-      flower_height = flower_height
-    )
-  }
+#' # With coord_equal
+#' ggplot(dat, aes(x, y, color = type, shape = type)) +
+#'   geom_point(position = position_sunflowerdodge(width = 0.5, density = 2, aspect_ratio = 1)) +
+#'   coord_equal()
+#' # Without coord_equal, might want to play with density and aspect ratio to get a pleasing plot
+#' ggplot(dat, aes(x, y, color = type, shape = type)) +
+#'   geom_point(position = position_sunflowerdodge(width = 0.5, density = 10, aspect_ratio = 0.25))
+#'
+#' # As applied to the Patriot Act experiment
+#' ggplot(patriot_act, aes(T1_content, PA_support, color = pid_3, group = pid_3)) +
+#'   geom_point(size = 0.25, position = position_sunflowerdodge(width = 0.5, density = 10, aspect_ratio = 6/7)) +
+#'   scale_color_manual(values = c("blue", "red")) +
+#'   facet_wrap(~sample_label) +
+#'   stat_smooth(position = position_dodge(width = 0.5))
+#'
+position_sunflowerdodge <- function(width = 1, density = 1, aspect_ratio = 1) {
+  ggplot2::ggproto(NULL, PositionSunflowerDodge, width = width, density = density, aspect_ratio = aspect_ratio)
+}
+
+PositionSunflowerDodge <-
+  ggplot2::ggproto(
+    "PositionSunflowerDodge",
+    ggplot2::PositionDodge,
+    setup_params = function(self, data) {
+      params <- ggplot2::ggproto_parent(PositionDodge, self)$setup_params(data)
+      return(params)
+    },
+    compute_panel = function(self, data, params, scales) {
+      data <- ggplot2::ggproto_parent(PositionDodge, self)$compute_panel(data, params, scales)
+
+      flowers <- split(data, interaction(data$x, data$y, data$group, drop = TRUE))
+
+      data <- do.call(rbind, lapply(flowers, function(flower) {
+        flower$x = sunflower(
+          x = flower$x,
+          density = self$density,
+          aspect_ratio = self$aspect_ratio
+        )
+        flower$y = sunflower(
+          y = flower$y,
+          density = self$density,
+          aspect_ratio = self$aspect_ratio
+        )
+        return(flower)
+      }))
+
+      return(data)
+    }
+  )
