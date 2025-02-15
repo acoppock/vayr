@@ -1,30 +1,29 @@
 Package: vayr
-Title: extensions for ggplot2 to  visualise as you randomize
+Title: Extensions for 'ggplot2' to Visualize as You Randomize
 Version: 0.0.9000
 Authors@R: 
-    person(
-      given = "Alexander",
-      family = "Coppock",
-      role = c("aut", "cre"),
-      email = "acoppock@gmail.com",
-      comment = c(ORCID = "0000-0002-5733-2386")
-    )
-Description: This package provides position adjustments for ggplot2 that can be especially useful when plotting experimental data.
+    person("Alexander", "Coppock", , "acoppock@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-5733-2386"))
+Description: Position adjustments for 'ggplot2' to implement "visualize as
+    you randomize" principles, which can be especially useful when
+    plotting experimental data.
+License: GPL-2 | file LICENSE
 URL: https://alexandercoppock.com
 Depends:
-    R (>= 3.2)
+    R (>= 3.5.0)
 Imports:
     ggplot2 (>= 3.0.0),
     packcircles (>= 0.3.7),
     withr (>= 2.1.1)
-License: GPL-2 | file LICENSE
-LazyData: true
-RoxygenNote: 7.3.2
-Roxygen: list(markdown = TRUE)
 Suggests: 
     knitr,
+    randomizr,
     rmarkdown,
     testthat,
     tidyverse
+VignetteBuilder: 
+    knitr
 Encoding: UTF-8
-VignetteBuilder: knitr
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2

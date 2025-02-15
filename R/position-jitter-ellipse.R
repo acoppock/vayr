@@ -8,24 +8,23 @@
 #'
 #' @inheritParams ggplot2::position_jitter
 #'
-#' @importFrom ggplot2 ggproto Position
-#'
 #' @export
 #'
 #' @examples
+#' 
+#' if (require(ggplot2, quietly = TRUE)) {
+#'   dat <- data.frame(x = rep(1, 500), y = rep(1, 500))
 #'
-#' library(ggplot2)
-#' dat <- data.frame(x = rep(1, 500), y = rep(1, 500))
+#'   # Jitter on an ellipse.
+#'   ggplot(dat, aes(x, y)) +
+#'     geom_point(position = position_jitter_ellipse(width = 0.5, height = 0.5)) +
+#'     coord_cartesian(xlim = c(0, 2), ylim = c(0, 2))
 #'
-#' # Jitter on an ellipse.
-#' ggplot(dat, aes(x, y)) +
-#'   geom_point(position = position_jitter_ellipse(width = 0.5, height = 0.5)) +
-#'   coord_cartesian(xlim = c(0, 2), ylim = c(0, 2))
-#'
-#' # Jitter on a rectangle, for comparison.
-#' ggplot(dat, aes(x, y)) +
-#'   geom_point(position = position_jitter(width = 0.5, height = 0.5)) +
-#'   coord_cartesian(xlim = c(0, 2), ylim = c(0, 2))
+#'   # Jitter on a rectangle, for comparison.
+#'   ggplot(dat, aes(x, y)) +
+#'     geom_point(position = position_jitter(width = 0.5, height = 0.5)) +
+#'     coord_cartesian(xlim = c(0, 2), ylim = c(0, 2))
+#' }
 #'
 position_jitter_ellipse <- function(width = NULL, height = NULL, seed = NA) {
     if (!is.null(seed) && is.na(seed)) {
@@ -74,22 +73,21 @@ PositionJitterEllipse <-
 #' 
 #' @inheritParams ggplot2::position_jitterdodge
 #'
-#' @importFrom ggplot2 ggproto ggproto_parent PositionDodge
-#'
 #' @export
 #'
 #' @examples
+#' 
+#' if (require(ggplot2, quietly = TRUE)) {
+#'   dat <- data.frame(x = rep(1, 500), y = rep(1, 500), 
+#'                     group = sample(LETTERS[1:2], 500, replace = TRUE))
 #'
-#' library(ggplot2)
-#' dat <- data.frame(x = rep(1, 500), y = rep(1, 500),
-#'                  group = sample(LETTERS[1:2], 500, replace = TRUE))
-#'
-#' ggplot(dat, aes(x, y, shape = group)) +
-#'   geom_point(position = position_jitterdodge_ellipse(jitter.width  = 0.5,
-#'                                                      jitter.height =  0.5,
-#'                                                      dodge.width = 1)) +
-#'   coord_cartesian(xlim = c(0, 2), ylim = c(0, 2))
-#'   
+#'   ggplot(dat, aes(x, y, shape = group)) +
+#'     geom_point(position = position_jitterdodge_ellipse(jitter.width  = 0.5, 
+#'                                                        jitter.height =  0.5, 
+#'                                                        dodge.width = 1)) +
+#'     coord_cartesian(xlim = c(0, 2), ylim = c(0, 2))
+#' }
+#' 
 position_jitterdodge_ellipse <- function(jitter.width = NULL, jitter.height = NULL, dodge.width = 1, seed = NA) {
     if (!is.null(seed) && is.na(seed)) {
       seed <- sample.int(.Machine$integer.max, 1L)

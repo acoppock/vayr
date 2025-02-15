@@ -12,23 +12,26 @@
 #'
 #' @examples
 #'
-#' library(tidyverse)
-#' # Adjust position manually, arranging points per the sunflower algorithm and then dodging groups
-#' N <- 300
-#' dat <- tibble(
-#'   x = sample(1:2, size = N, replace = TRUE),
-#'   y = sample(1:7, size = N, replace = TRUE),
-#'   type = factor(sample(LETTERS[1:2], N, replace = TRUE))
-#' ) %>%
-#'   group_by(x, y, type) %>%
-#'   mutate(
-#'     x = sunflower(x = x, density = 1, aspect_ratio = 1),
-#'     y = sunflower(y = y, density = 1, aspect_ratio = 1),
-#'     x = if_else(type == "A", x - (1 / 8), x + (1 / 8))
-#'   )
+#' if (require(tidyverse, quietly = TRUE)) {
+#'   # Manually adjust position of N points,
+#'   # arranging points per the sunflower algorithm and then dodging groups
+#'   N <- 300
+#' 
+#'   dat <- tibble(
+#'     x = sample(1:2, size = N, replace = TRUE),
+#'     y = sample(1:7, size = N, replace = TRUE),
+#'     type = factor(sample(LETTERS[1:2], N, replace = TRUE))
+#'   ) %>%
+#'     group_by(x, y, type) %>%
+#'     mutate(
+#'       x = sunflower(x = x, density = 1, aspect_ratio = 1),
+#'       y = sunflower(y = y, density = 1, aspect_ratio = 1),
+#'       x = if_else(type == "A", x - (1 / 8), x + (1 / 8))
+#'     )
 #'
-#' ggplot(dat, aes(x, y, color = type, shape = type)) +
-#'   geom_point() + coord_equal()
+#'   ggplot(dat, aes(x, y, color = type, shape = type)) +
+#'     geom_point() + coord_equal()
+#' }
 #'
 sunflower <- function(x = NULL, y = NULL, density, aspect_ratio) {
     if (!is.null(x)) {
@@ -72,25 +75,25 @@ sunflower <- function(x = NULL, y = NULL, density, aspect_ratio) {
 #' @param density seed density
 #' @param aspect_ratio aspect ratio adjustment
 #'
-#' @importFrom ggplot2 ggproto Position
-#'
 #' @export
 #'
 #' @examples
+#' 
+#' if (require(tidyverse, quietly = TRUE)) {
+#'   # Use the sunflower position function to arrange N points
+#'   N <- 100
+#' 
+#'   dat <- tibble(
+#'     x = rep(1:4, times = N),
+#'     y = rep(1:4, times = N)
+#'   )
 #'
-#' library(tidyverse)
-#' # Use the sunflower position function to arrange points
-#' N <- 100
-#' dat <- tibble(
-#'   x = rep(1:4, times = N),
-#'   y = rep(1:4, times = N)
-#' )
-#'
-#' ggplot(dat, aes(x = x, y = y)) +
-#'   geom_point(size = 1, position = position_sunflower(density = 1, aspect_ratio = 1)) +
-#'   xlim(0, 5) +
-#'   ylim(0, 5) +
-#'   coord_equal()
+#'   ggplot(dat, aes(x = x, y = y)) +
+#'     geom_point(size = 1, position = position_sunflower(density = 1, aspect_ratio = 1)) +
+#'     xlim(0, 5) +
+#'     ylim(0, 5) +
+#'     coord_equal()
+#' }
 #'
 position_sunflower <- function(density = 1, aspect_ratio = 1) {
   ggplot2::ggproto(NULL, PositionSunflower, density = density, aspect_ratio = aspect_ratio)
@@ -129,37 +132,38 @@ PositionSunflower <-
 #' @param density seed density
 #' @param aspect_ratio aspect ratio adjustment
 #'
-#' @importFrom ggplot2 ggproto ggproto_parent PositionDodge
-#'
 #' @export
 #'
 #' @examples
 #'
-#' library(tidyverse)
+#' if (require(tidyverse, quietly = TRUE)) {
+#'   # Use the sunflower dodge position function to arrange and dodge N points.
+#'   N <- 300
+#' 
+#'   dat <- tibble(
+#'     x = sample(1:2, size = N, replace = TRUE),
+#'     y = sample(1:7, size = N, replace = TRUE),
+#'     type = factor(sample(LETTERS[1:2], N, replace = TRUE))
+#'   )
 #'
-#' # Use the sunflower dodge position function to arrange and dodge points.
-#' N <- 300
-#' dat <- tibble(
-#'   x = sample(1:2, size = N, replace = TRUE),
-#'   y = sample(1:7, size = N, replace = TRUE),
-#'   type = factor(sample(LETTERS[1:2], N, replace = TRUE))
-#' )
+#'   # With coord_equal
+#'   ggplot(dat, aes(x, y, color = type, shape = type)) +
+#'     geom_point(position = position_sunflowerdodge(width = 0.5, density = 2, aspect_ratio = 1)) +
+#'     coord_equal()
+#'   
+#'   # Without coord_equal, might want to play with aspect ratio to get a pleasing plot
+#'   ggplot(dat, aes(x, y, color = type, shape = type)) +
+#'     geom_point(position = position_sunflowerdodge(width = 0.5, density = 10, aspect_ratio = 0.25))
 #'
-#'
-#' # With coord_equal
-#' ggplot(dat, aes(x, y, color = type, shape = type)) +
-#'   geom_point(position = position_sunflowerdodge(width = 0.5, density = 2, aspect_ratio = 1)) +
-#'   coord_equal()
-#' # Without coord_equal, might want to play with density and aspect ratio to get a pleasing plot
-#' ggplot(dat, aes(x, y, color = type, shape = type)) +
-#'   geom_point(position = position_sunflowerdodge(width = 0.5, density = 10, aspect_ratio = 0.25))
-#'
-#' # As applied to the Patriot Act experiment
-#' ggplot(patriot_act, aes(T1_content, PA_support, color = pid_3, group = pid_3)) +
-#'   geom_point(size = 0.25, position = position_sunflowerdodge(width = 0.5, density = 10, aspect_ratio = 6/7)) +
-#'   scale_color_manual(values = c("blue", "red")) +
-#'   facet_wrap(~sample_label) +
-#'   stat_smooth(position = position_dodge(width = 0.5))
+#'   # As applied to the Patriot Act experiment
+#'   ggplot(patriot_act, aes(T1_content, PA_support, color = pid_3, group = pid_3)) +
+#'     geom_point(size = 0.25, position = position_sunflowerdodge(width = 0.5, 
+#'                                                               density = 10, 
+#'                                                               aspect_ratio = 6/7)) +
+#'     scale_color_manual(values = c("blue", "red")) +
+#'     facet_wrap(~sample_label) +
+#'     stat_smooth(position = position_dodge(width = 0.5))
+#' } 
 #'
 position_sunflowerdodge <- function(width = 1, density = 1, aspect_ratio = 1) {
   ggplot2::ggproto(NULL, PositionSunflowerDodge, width = width, density = density, aspect_ratio = aspect_ratio)
