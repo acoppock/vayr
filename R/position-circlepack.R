@@ -10,11 +10,16 @@
 #' @param density density of the circle pack
 #' @param aspect_ratio aspect_ratio adjustment of the elliptical area
 #'
+#' @returns A `ggproto` object of class `PositionCirclePack`
+#'
 #' @export
 #'
 #' @examples
+#'   library(ggplot2)
+#'   library(dplyr)
+#'   library(randomizr)
+#'   library(tibble)
 #'
-#' if (require(tidyverse, quietly = TRUE) && require(randomizr, quietly = TRUE)) {
 #'   dat <-
 #'     tibble(
 #'       age_group = rep(c("young", "middle", "old"), c(100, 200, 300)),
@@ -43,7 +48,6 @@
 #'
 #'   ggplot(dat, aes(treatment, outcome, size = weights, color = age_group)) +
 #'     geom_point(alpha = 0.5, position = position_circlepack(density = 0.5))
-#' }
 #'
 position_circlepack <-function(density = 1, aspect_ratio = 1) {
     ggplot2::ggproto(NULL, PositionCirclePack, density = density, aspect_ratio = aspect_ratio)
@@ -54,8 +58,8 @@ PositionCirclePack <-
     "PositionCirclePack",
     ggplot2::Position,
     compute_panel = function(self, data, params, scales) {
-      data$size_normalized <- if(max(data$size) == min(data$size)) {
-        rep(1, length(data$size))
+      data$size_normalized <- if(!"size" %in% names(data) || max(data$size) == min(data$size)) {
+        rep(1, nrow(data))
       } else {
         .1 + (data$size - min(data$size)) * (1 - .1) / (max(data$size) - min(data$size))
       }
@@ -85,11 +89,13 @@ PositionCirclePack <-
 #' @param density density of the circle pack
 #' @param aspect_ratio aspect_ratio adjustment of the elliptical area
 #'
+#' @returns A `ggproto` object of class `PositionCirclePackDodge`
+#'
 #' @export
 #'
 #' @examples
-#' 
-#' if (require(ggplot2, quietly = TRUE)) {
+#'   library(ggplot2)
+#'
 #'   df2 <- data.frame(
 #'     X = c(rep(0, 200)),
 #'     Y = rep(0, 200),
@@ -103,7 +109,6 @@ PositionCirclePack <-
 #'     coord_equal(xlim = c(-1, 1), ylim = c(-1, 1), expand = TRUE) +
 #'     scale_size_continuous(range = c(1, 3)) +
 #'     theme(legend.position = "none")
-#' }
 #'
 position_circlepackdodge <- function(width = 1, density = 1, aspect_ratio = 1) {
     ggplot2::ggproto(NULL, PositionCirclePackDodge, width = width, density = density, aspect_ratio = aspect_ratio)
@@ -119,9 +124,9 @@ PositionCirclePackDodge <-
     },
     compute_panel = function(self, data, params, scales) {
       data <- ggplot2::ggproto_parent(PositionDodge, self)$compute_panel(data, params, scales)
-      
-      data$size_normalized <- if(max(data$size) == min(data$size)) {
-        rep(1, length(data$size))
+
+      data$size_normalized <- if(!"size" %in% names(data) || max(data$size) == min(data$size)) {
+        rep(1, nrow(data))
       } else {
         .1 + (data$size - min(data$size)) * (1 - .1) / (max(data$size) - min(data$size))
       }

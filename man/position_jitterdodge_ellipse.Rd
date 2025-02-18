@@ -29,21 +29,23 @@ this makes sure that two subsequent calls start with a different seed.
 Use \code{NULL} to use the current random seed and also avoid resetting
 (the behaviour of \pkg{ggplot} 2.2.1 and earlier).}
 }
+\value{
+A \code{ggproto} object of class \code{PositionJitterdodgeEllipse}
+}
 \description{
 As well as adding elliptical random noise to over-plotted points,
 this function also dodges groups of points side-to-side.
 }
 \examples{
+  library(ggplot2)
 
-if (require(ggplot2, quietly = TRUE)) {
-  dat <- data.frame(x = rep(1, 500), y = rep(1, 500), 
+  dat <- data.frame(x = rep(1, 500), y = rep(1, 500),
                     group = sample(LETTERS[1:2], 500, replace = TRUE))
 
   ggplot(dat, aes(x, y, shape = group)) +
-    geom_point(position = position_jitterdodge_ellipse(jitter.width  = 0.5, 
-                                                       jitter.height =  0.5, 
+    geom_point(position = position_jitterdodge_ellipse(jitter.width  = 0.5,
+                                                       jitter.height =  0.5,
                                                        dodge.width = 1)) +
     coord_cartesian(xlim = c(0, 2), ylim = c(0, 2))
-}
 
 }

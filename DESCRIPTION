@@ -16,10 +16,12 @@ Imports:
     packcircles (>= 0.3.7),
     withr (>= 2.1.1)
 Suggests: 
+    dplyr,
     knitr,
     randomizr,
     rmarkdown,
     testthat,
+    tibble,
     tidyverse
 VignetteBuilder: 
     knitr

@@ -8,16 +8,19 @@
 #' @param density seed density
 #' @param aspect_ratio aspect ratio adjustment
 #'
+#' @returns A numeric vector of adjusted `x` or `y` positions, computed using a sunflower seed distribution.
+#'
 #' @export
 #'
 #' @examples
+#'   library(ggplot2)
+#'   library(dplyr)
 #'
-#' if (require(tidyverse, quietly = TRUE)) {
 #'   # Manually adjust position of N points,
 #'   # arranging points per the sunflower algorithm and then dodging groups
 #'   N <- 300
-#' 
-#'   dat <- tibble(
+#'
+#'   dat <- data.frame(
 #'     x = sample(1:2, size = N, replace = TRUE),
 #'     y = sample(1:7, size = N, replace = TRUE),
 #'     type = factor(sample(LETTERS[1:2], N, replace = TRUE))
@@ -31,7 +34,6 @@
 #'
 #'   ggplot(dat, aes(x, y, color = type, shape = type)) +
 #'     geom_point() + coord_equal()
-#' }
 #'
 sunflower <- function(x = NULL, y = NULL, density, aspect_ratio) {
     if (!is.null(x)) {
@@ -75,15 +77,17 @@ sunflower <- function(x = NULL, y = NULL, density, aspect_ratio) {
 #' @param density seed density
 #' @param aspect_ratio aspect ratio adjustment
 #'
+#' @returns A `ggproto` object of class `PositionSunflower`
+#'
 #' @export
 #'
 #' @examples
-#' 
-#' if (require(tidyverse, quietly = TRUE)) {
+#'   library(ggplot2)
+#'
 #'   # Use the sunflower position function to arrange N points
 #'   N <- 100
-#' 
-#'   dat <- tibble(
+#'
+#'   dat <- data.frame(
 #'     x = rep(1:4, times = N),
 #'     y = rep(1:4, times = N)
 #'   )
@@ -93,7 +97,6 @@ sunflower <- function(x = NULL, y = NULL, density, aspect_ratio) {
 #'     xlim(0, 5) +
 #'     ylim(0, 5) +
 #'     coord_equal()
-#' }
 #'
 position_sunflower <- function(density = 1, aspect_ratio = 1) {
   ggplot2::ggproto(NULL, PositionSunflower, density = density, aspect_ratio = aspect_ratio)
@@ -132,15 +135,17 @@ PositionSunflower <-
 #' @param density seed density
 #' @param aspect_ratio aspect ratio adjustment
 #'
+#' @returns A `ggproto` object of class `PositionSunflowerDodge`
+#'
 #' @export
 #'
 #' @examples
+#'   library(ggplot2)
 #'
-#' if (require(tidyverse, quietly = TRUE)) {
 #'   # Use the sunflower dodge position function to arrange and dodge N points.
 #'   N <- 300
-#' 
-#'   dat <- tibble(
+#'
+#'   dat <- data.frame(
 #'     x = sample(1:2, size = N, replace = TRUE),
 #'     y = sample(1:7, size = N, replace = TRUE),
 #'     type = factor(sample(LETTERS[1:2], N, replace = TRUE))
@@ -150,20 +155,19 @@ PositionSunflower <-
 #'   ggplot(dat, aes(x, y, color = type, shape = type)) +
 #'     geom_point(position = position_sunflowerdodge(width = 0.5, density = 2, aspect_ratio = 1)) +
 #'     coord_equal()
-#'   
+#'
 #'   # Without coord_equal, might want to play with aspect ratio to get a pleasing plot
 #'   ggplot(dat, aes(x, y, color = type, shape = type)) +
 #'     geom_point(position = position_sunflowerdodge(width = 0.5, density = 10, aspect_ratio = 0.25))
 #'
 #'   # As applied to the Patriot Act experiment
 #'   ggplot(patriot_act, aes(T1_content, PA_support, color = pid_3, group = pid_3)) +
-#'     geom_point(size = 0.25, position = position_sunflowerdodge(width = 0.5, 
-#'                                                               density = 10, 
+#'     geom_point(size = 0.25, position = position_sunflowerdodge(width = 0.5,
+#'                                                               density = 10,
 #'                                                               aspect_ratio = 6/7)) +
 #'     scale_color_manual(values = c("blue", "red")) +
 #'     facet_wrap(~sample_label) +
 #'     stat_smooth(position = position_dodge(width = 0.5))
-#' } 
 #'
 position_sunflowerdodge <- function(width = 1, density = 1, aspect_ratio = 1) {
   ggplot2::ggproto(NULL, PositionSunflowerDodge, width = width, density = density, aspect_ratio = aspect_ratio)

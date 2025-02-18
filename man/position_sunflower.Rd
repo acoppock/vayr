@@ -11,17 +11,20 @@ position_sunflower(density = 1, aspect_ratio = 1)
 
 \item{aspect_ratio}{aspect ratio adjustment}
 }
+\value{
+A \code{ggproto} object of class \code{PositionSunflower}
+}
 \description{
 This function applies the sunflower algorithm, as executed by the sunflower function, as a position adjustment,
 arranging overlapping points at any given x and y into a sunflower pattern.
 }
 \examples{
+  library(ggplot2)
 
-if (require(tidyverse, quietly = TRUE)) {
   # Use the sunflower position function to arrange N points
   N <- 100
 
-  dat <- tibble(
+  dat <- data.frame(
     x = rep(1:4, times = N),
     y = rep(1:4, times = N)
   )
@@ -31,6 +34,5 @@ if (require(tidyverse, quietly = TRUE)) {
     xlim(0, 5) +
     ylim(0, 5) +
     coord_equal()
-}
 
 }

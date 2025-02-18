@@ -15,18 +15,22 @@ sunflower(x = NULL, y = NULL, density, aspect_ratio)
 
 \item{aspect_ratio}{aspect ratio adjustment}
 }
+\value{
+A numeric vector of adjusted \code{x} or \code{y} positions, computed using a sunflower seed distribution.
+}
 \description{
 This function distributes points in a ellipse via the sunflower seed algorithm, as a solution for over-plotting.
 To implement the algorithm, this function adapts the code from https://stackoverflow.com/questions/28567166/uniformly-distribute-x-points-inside-a-circle.
 }
 \examples{
+  library(ggplot2)
+  library(dplyr)
 
-if (require(tidyverse, quietly = TRUE)) {
   # Manually adjust position of N points,
   # arranging points per the sunflower algorithm and then dodging groups
   N <- 300
 
-  dat <- tibble(
+  dat <- data.frame(
     x = sample(1:2, size = N, replace = TRUE),
     y = sample(1:7, size = N, replace = TRUE),
     type = factor(sample(LETTERS[1:2], N, replace = TRUE))
@@ -40,6 +44,5 @@ if (require(tidyverse, quietly = TRUE)) {
 
   ggplot(dat, aes(x, y, color = type, shape = type)) +
     geom_point() + coord_equal()
-}
 
 }

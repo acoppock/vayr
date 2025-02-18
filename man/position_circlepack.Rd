@@ -11,6 +11,9 @@ position_circlepack(density = 1, aspect_ratio = 1)
 
 \item{aspect_ratio}{aspect_ratio adjustment of the elliptical area}
 }
+\value{
+A \code{ggproto} object of class \code{PositionCirclePack}
+}
 \description{
 This function uses circle packing algorithms from the "packcircles" package
 to arrange perfectly over-plotted points of varying sizes into a elliptical area.
@@ -20,8 +23,11 @@ position adjustment, the correct density will be a factor of both the image size
 and the limits of the x and y axes.
 }
 \examples{
+  library(ggplot2)
+  library(dplyr)
+  library(randomizr)
+  library(tibble)
 
-if (require(tidyverse, quietly = TRUE) && require(randomizr, quietly = TRUE)) {
   dat <-
     tibble(
       age_group = rep(c("young", "middle", "old"), c(100, 200, 300)),
@@ -50,6 +56,5 @@ if (require(tidyverse, quietly = TRUE) && require(randomizr, quietly = TRUE)) {
 
   ggplot(dat, aes(treatment, outcome, size = weights, color = age_group)) +
     geom_point(alpha = 0.5, position = position_circlepack(density = 0.5))
-}
 
 }

@@ -1,18 +1,20 @@
 #' Jitter points on an ellipse to avoid over-plotting
-#'  
+#'
 #' This function adds elliptical random noise to perfectly over-plotted points,
-#' offering a pleasing way to visualize many points that represent the same position. 
-#' In contrast to the position_jitter function which samples on a rectangle, the position_jitter_ellipse function samples on an ellipse. 
-#' This function takes algorithmic inspiration from https://stackoverflow.com/questions/5529148/algorithm-calculate-pseudo-random-point-inside-an-ellipse 
+#' offering a pleasing way to visualize many points that represent the same position.
+#' In contrast to the position_jitter function which samples on a rectangle, the position_jitter_ellipse function samples on an ellipse.
+#' This function takes algorithmic inspiration from https://stackoverflow.com/questions/5529148/algorithm-calculate-pseudo-random-point-inside-an-ellipse
 #' and https://stats.stackexchange.com/questions/120527/simulate-a-uniform-distribution-on-a-disc.
 #'
 #' @inheritParams ggplot2::position_jitter
 #'
+#' @returns A `ggproto` object of class `PositionJitterEllipse`
+#'
 #' @export
 #'
 #' @examples
-#' 
-#' if (require(ggplot2, quietly = TRUE)) {
+#'   library(ggplot2)
+#'
 #'   dat <- data.frame(x = rep(1, 500), y = rep(1, 500))
 #'
 #'   # Jitter on an ellipse.
@@ -24,7 +26,6 @@
 #'   ggplot(dat, aes(x, y)) +
 #'     geom_point(position = position_jitter(width = 0.5, height = 0.5)) +
 #'     coord_cartesian(xlim = c(0, 2), ylim = c(0, 2))
-#' }
 #'
 position_jitter_ellipse <- function(width = NULL, height = NULL, seed = NA) {
     if (!is.null(seed) && is.na(seed)) {
@@ -68,36 +69,37 @@ PositionJitterEllipse <-
 
 #' Jitter points on an ellipse and dodge groups simultaneously
 #'
-#' As well as adding elliptical random noise to over-plotted points, 
+#' As well as adding elliptical random noise to over-plotted points,
 #' this function also dodges groups of points side-to-side.
-#' 
+#'
 #' @inheritParams ggplot2::position_jitterdodge
+#'
+#' @returns A `ggproto` object of class `PositionJitterdodgeEllipse`
 #'
 #' @export
 #'
 #' @examples
-#' 
-#' if (require(ggplot2, quietly = TRUE)) {
-#'   dat <- data.frame(x = rep(1, 500), y = rep(1, 500), 
+#'   library(ggplot2)
+#'
+#'   dat <- data.frame(x = rep(1, 500), y = rep(1, 500),
 #'                     group = sample(LETTERS[1:2], 500, replace = TRUE))
 #'
 #'   ggplot(dat, aes(x, y, shape = group)) +
-#'     geom_point(position = position_jitterdodge_ellipse(jitter.width  = 0.5, 
-#'                                                        jitter.height =  0.5, 
+#'     geom_point(position = position_jitterdodge_ellipse(jitter.width  = 0.5,
+#'                                                        jitter.height =  0.5,
 #'                                                        dodge.width = 1)) +
 #'     coord_cartesian(xlim = c(0, 2), ylim = c(0, 2))
-#' }
-#' 
+#'
 position_jitterdodge_ellipse <- function(jitter.width = NULL, jitter.height = NULL, dodge.width = 1, seed = NA) {
     if (!is.null(seed) && is.na(seed)) {
       seed <- sample.int(.Machine$integer.max, 1L)
     }
-    ggplot2::ggproto(NULL, PositionJitterdodgeEllipse, jitter.width = jitter.width, jitter.height = jitter.height, dodge.width = dodge.width, seed = seed)
+    ggplot2::ggproto(NULL, PositionJitterDodgeEllipse, jitter.width = jitter.width, jitter.height = jitter.height, dodge.width = dodge.width, seed = seed)
   }
 
-PositionJitterdodgeEllipse <-
+PositionJitterDodgeEllipse <-
   ggplot2::ggproto(
-    "PositionJitterdodgeEllipse",
+    "PositionJitterDodgeEllipse",
     ggplot2::PositionDodge,
     required_aes = c("x", "y"),
     setup_params = function(self, data) {
@@ -106,17 +108,17 @@ PositionJitterdodgeEllipse <-
         jitter.height = self$jitter.height %||% (resolution(data$y, zero = FALSE) * 0.4),
         seed = self$seed
       )
-      
+
       self$width = self$dodge.width
       dodge_params <- ggplot2::ggproto_parent(PositionDodge, self)$setup_params(data)
-      
+
       return(modifyList(dodge_params, params))
     },
     compute_layer = function(self, data, params, layout) {
       data <- ggplot2::ggproto_parent(PositionDodge, self)$compute_panel(data, params, scales)
-     
+
       groups <- split(data, data$group, drop = TRUE)
-      
+
       data <- do.call(rbind, lapply(groups, function(group) {
         trans_x <-
           function(x) {

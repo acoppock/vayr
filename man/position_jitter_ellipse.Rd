@@ -2,13 +2,7 @@
 % Please edit documentation in R/position-jitter-ellipse.R
 \name{position_jitter_ellipse}
 \alias{position_jitter_ellipse}
-\title{Jitter points on an ellipse to avoid over-plotting
-
-This function adds elliptical random noise to perfectly over-plotted points,
-offering a pleasing way to visualize many points that represent the same position.
-In contrast to the position_jitter function which samples on a rectangle, the position_jitter_ellipse function samples on an ellipse.
-This function takes algorithmic inspiration from https://stackoverflow.com/questions/5529148/algorithm-calculate-pseudo-random-point-inside-an-ellipse
-and https://stats.stackexchange.com/questions/120527/simulate-a-uniform-distribution-on-a-disc.}
+\title{Jitter points on an ellipse to avoid over-plotting}
 \usage{
 position_jitter_ellipse(width = NULL, height = NULL, seed = NA)
 }
@@ -31,9 +25,10 @@ this makes sure that two subsequent calls start with a different seed.
 Use \code{NULL} to use the current random seed and also avoid resetting
 (the behaviour of \pkg{ggplot} 2.2.1 and earlier).}
 }
+\value{
+A \code{ggproto} object of class \code{PositionJitterEllipse}
+}
 \description{
-Jitter points on an ellipse to avoid over-plotting
-
 This function adds elliptical random noise to perfectly over-plotted points,
 offering a pleasing way to visualize many points that represent the same position.
 In contrast to the position_jitter function which samples on a rectangle, the position_jitter_ellipse function samples on an ellipse.
@@ -41,8 +36,8 @@ This function takes algorithmic inspiration from https://stackoverflow.com/quest
 and https://stats.stackexchange.com/questions/120527/simulate-a-uniform-distribution-on-a-disc.
 }
 \examples{
+  library(ggplot2)
 
-if (require(ggplot2, quietly = TRUE)) {
   dat <- data.frame(x = rep(1, 500), y = rep(1, 500))
 
   # Jitter on an ellipse.
@@ -54,6 +49,5 @@ if (require(ggplot2, quietly = TRUE)) {
   ggplot(dat, aes(x, y)) +
     geom_point(position = position_jitter(width = 0.5, height = 0.5)) +
     coord_cartesian(xlim = c(0, 2), ylim = c(0, 2))
-}
 
 }

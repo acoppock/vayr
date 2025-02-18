@@ -13,13 +13,16 @@ position_circlepackdodge(width = 1, density = 1, aspect_ratio = 1)
 
 \item{aspect_ratio}{aspect_ratio adjustment of the elliptical area}
 }
+\value{
+A \code{ggproto} object of class \code{PositionCirclePackDodge}
+}
 \description{
 This function dodges groups and arranges the over-plotted points (of various sizes)
 using algorithms from the "packcirles" package. The algorithms are applied per group.
 }
 \examples{
+  library(ggplot2)
 
-if (require(ggplot2, quietly = TRUE)) {
   df2 <- data.frame(
     X = c(rep(0, 200)),
     Y = rep(0, 200),
@@ -33,6 +36,5 @@ if (require(ggplot2, quietly = TRUE)) {
     coord_equal(xlim = c(-1, 1), ylim = c(-1, 1), expand = TRUE) +
     scale_size_continuous(range = c(1, 3)) +
     theme(legend.position = "none")
-}
 
 }
