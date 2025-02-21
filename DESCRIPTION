@@ -18,6 +18,7 @@ Imports:
 Suggests: 
     dplyr,
     knitr,
+    patchwork,
     randomizr,
     rmarkdown,
     testthat,

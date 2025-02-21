@@ -39,13 +39,13 @@ arranging overlapping points per x, y, AND group into a sunflower pattern.
 
   # Without coord_equal, might want to play with aspect ratio to get a pleasing plot
   ggplot(dat, aes(x, y, color = type, shape = type)) +
-    geom_point(position = position_sunflowerdodge(width = 0.5, density = 10, aspect_ratio = 0.25))
+    geom_point(position = position_sunflowerdodge(width = 0.5, density = 10, aspect_ratio = 4))
 
   # As applied to the Patriot Act experiment
   ggplot(patriot_act, aes(T1_content, PA_support, color = pid_3, group = pid_3)) +
     geom_point(size = 0.25, position = position_sunflowerdodge(width = 0.5,
                                                               density = 10,
-                                                              aspect_ratio = 6/7)) +
+                                                              aspect_ratio = 7/6)) +
     scale_color_manual(values = c("blue", "red")) +
     facet_wrap(~sample_label) +
     stat_smooth(position = position_dodge(width = 0.5))
