@@ -1,0 +1,7 @@
+pandoc: '3.2'
+pkgdown: 2.0.9
+pkgdown_sha: ~
+articles:
+  sunflower_adjustments: sunflower_adjustments.html
+last_built: 2025-02-26T20:31Z
+
