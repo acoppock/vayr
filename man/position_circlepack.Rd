@@ -15,10 +15,9 @@ position_circlepack(density = 1, aspect_ratio = 1)
 A \code{ggproto} object of class \code{PositionCirclePack}
 }
 \description{
-This function uses circle packing algorithms from the "packcircles" package
+This function uses circle packing algorithms from the 'packcircles' package
 to arrange perfectly over-plotted points of varying sizes into a elliptical area.
-The density and the aspect ratio can be adjusted, and the circle pack can be
-random or ordered by size (ascending or descending). Because the function is a
+The density and the aspect ratio can be adjusted. Because the function is a
 position adjustment, the correct density will be a factor of both the image size
 and the limits of the x and y axes.
 }

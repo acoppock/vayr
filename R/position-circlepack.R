@@ -1,9 +1,8 @@
 #' Use circle packing to avoid over-plotting
 #'
-#' This function uses circle packing algorithms from the "packcircles" package
+#' This function uses circle packing algorithms from the 'packcircles' package
 #' to arrange perfectly over-plotted points of varying sizes into a elliptical area.
-#' The density and the aspect ratio can be adjusted, and the circle pack can be
-#' random or ordered by size (ascending or descending). Because the function is a
+#' The density and the aspect ratio can be adjusted. Because the function is a
 #' position adjustment, the correct density will be a factor of both the image size
 #' and the limits of the x and y axes.
 #'
@@ -71,7 +70,7 @@ PositionCirclePack <-
         circle_layout <- packcircles::circleProgressiveLayout(pair$size_normalized * density)
 
         pair$x <- circle_layout$x + pair$x
-        pair$y <- (circle_layout$y / self$aspect_ratio) + pair$y # either make denser/less dense or both denser or both less dense
+        pair$y <- (circle_layout$y * self$aspect_ratio) + pair$y # either make denser/less dense or both denser or both less dense
 
         return(pair)
       }))
@@ -83,7 +82,7 @@ PositionCirclePack <-
 #' Arrange over-plotted points with a circle-packing algorithm and dodge groups side-to-side
 #'
 #' This function dodges groups and arranges the over-plotted points (of various sizes)
-#' using algorithms from the "packcirles" package. The algorithms are applied per group.
+#' using algorithms from the 'packcirles' package. The algorithms are applied per group.
 #'
 #' @param width dodging width
 #' @param density density of the circle pack
@@ -96,14 +95,14 @@ PositionCirclePack <-
 #' @examples
 #'   library(ggplot2)
 #'
-#'   df2 <- data.frame(
+#'   dat <- data.frame(
 #'     X = c(rep(0, 200)),
 #'     Y = rep(0, 200),
 #'     size = runif(200, 0, 1),
 #'     id = (rep(c("A", "B"), 100))
 #'   )
 #'
-#'   ggplot(df2, aes(x = X, y = Y, size = size, color = id)) +
+#'   ggplot(dat, aes(x = X, y = Y, size = size, color = id)) +
 #'     geom_point(position = position_circlepackdodge(width = 1, density = 1, aspect_ratio = 1),
 #'               alpha = 0.25) +
 #'     coord_equal(xlim = c(-1, 1), ylim = c(-1, 1), expand = TRUE) +
@@ -139,7 +138,7 @@ PositionCirclePackDodge <-
         packcircles::circleProgressiveLayout(pair$size_normalized * density)
 
         pair$x <- circle_layout$x + pair$x
-        pair$y <- (circle_layout$y / self$aspect_ratio) + pair$y
+        pair$y <- (circle_layout$y * self$aspect_ratio) + pair$y
 
         return(pair)
       }))
