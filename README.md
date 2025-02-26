@@ -47,6 +47,7 @@ library(dplyr)
 library(ggplot2)
 library(patchwork)
 library(vayr)
+library(estimatr)
 
 dat <- data.frame(
   X = c(rep(0, 200)),
@@ -225,7 +226,7 @@ plot + dodged_plot
 <img src="man/figures/README-contents_3A-1.png" width="100%" />
 
 Like **position_sunflower()**, **position_circlepack()** creates
-meta-points from the inside out in the order of the data. Thus, the
+meta-points from the inside out in the order of the data. Thus,
 arranging the data by size will organize the meta-points accordingly.
 
 ``` r
@@ -258,5 +259,34 @@ functions from ‘vayr’ so as to demonstrate the package’s functionality
 with a real-world example. \[VISUALIZE ME\].
 
 ``` r
-## [EXAMPLE CODE]
+summary_data <- patriot_act |> 
+  group_by(T1_content, pid_3, sample_label) |> 
+  reframe(tidy(lm_robust(PA_support~1)))
+
+label_df <- summary_data |> 
+  filter(sample_label == "Original Study", T1_content == "Control") |> 
+  mutate(PA_support = case_when(pid_3 == "Democrat"~conf.low - 0.15, 
+                                pid_3 == "Republican"~conf.high + 0.15))
+
+ggplot(patriot_act, aes(T1_content, PA_support, color = pid_3, group = pid_3)) +
+  geom_point(size = 0.1, alpha = 0.7,
+             position = position_sunflowerdodge(width = 0.5, density = 10)) +
+  geom_line(data = summary_data, aes(x = T1_content, y = estimate),  
+            linewidth = 0.5, position = position_dodge(width = 0.5)) +  
+  geom_point(data = summary_data, aes(x = T1_content, y = estimate),  
+             size = 3, position = position_dodge(width = 0.5)) +
+  geom_linerange(data = summary_data, aes(x = T1_content, ymin = conf.low, ymax = conf.high, y = estimate),
+                 position = position_dodge(width = 0.5)) +
+  geom_text(data = label_df, aes(label = pid_3)) +
+  scale_color_manual(values = c("blue4", "red3")) +
+  scale_y_continuous(breaks = 1:7) +
+  coord_equal() +
+  facet_wrap(~sample_label) +
+  theme_bw() +
+  theme(legend.position = "none",
+        strip.background = element_blank(),
+        panel.grid.minor = element_blank()) +
+  labs(y = "Do you oppose or support the Patriot Act?\n[1: Oppose very strongly, 7: Support very strongly]", x = "Randomly assigned information")
 ```
+
+<img src="man/figures/README-patriot_act_visualization-1.png" width="100%" />
