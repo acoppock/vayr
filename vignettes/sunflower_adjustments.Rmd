@@ -1,5 +1,5 @@
 ---
-title: "Sunflower adjustments to avoid overplotting"
+title: "sunflower_adjustments"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{sunflower_adjustments}

@@ -14,8 +14,8 @@ statistical models in “data-space.” In other words, these position
 adjustments help you organize “data-space,” such that it can
 contextualize your models. The principles underlying ‘vayr’ are outlined
 in detail in “Visualize as You Randomize: Design-Based Statistical
-Graphs for Randomized Experiments.” That paper can be accessed
-[here](https://alexandercoppock.com/coppock_2020.pdf).
+Graphs for Randomized Experiments.” That paper can be accessed as a
+[PDF](https://alexandercoppock.com/coppock_2020.pdf).
 
 ## Installation
 
@@ -37,8 +37,9 @@ functions, all of which may be applied as position adjustments to the
 point geom: **position_jitter_ellipse()**, **position_sunflower()**, and
 **position_circlepack()**; as well as their dodged counterparts:
 **position_jitterdodge_ellipse()**, **position_sunflowerdodge()**, and
-**position_circlepackdodge()**. These functions are useful when plotting
-discrete rather than continuous data. As a matter of brief
+**position_circlepackdodge()**. These functions avoid perfect
+over-plotting and are therefore useful when plotting discrete rather
+than continuous data in a bivariate context. As a matter of
 demonstration, they are used below to visualize synthetic data,
 over-plotted at the origin.
 
@@ -58,14 +59,46 @@ dat <- data.frame(
 )
 ```
 
+If position is the product of discrete variables alone, then perfect
+over-plotting is of particular concern. To mitigate this concern,
+**position_jitter()** can introduce a degree of variation, whereby
+points are randomly sampled on a rectangle, but it dilutes the visual
+effect of discrete data. The functions in ‘vayr’ are preferable
+alternatives.
+
+``` r
+# perfectly over-plotted points
+overplot <- ggplot(dat, aes(x = X, y = Y)) +
+  geom_point() +
+  coord_equal(xlim = c(-1.1, 1.1), ylim = c(-1.1, 1.1)) +
+  theme_bw() +
+  theme(axis.title = element_blank(),
+        plot.title = element_text(hjust = 0.5, face = "bold")) +
+  ggtitle('"perfect over-plotting"')
+
+# position_jitter()
+plot <- ggplot(dat, aes(x = X, y = Y)) + 
+  geom_point(position = position_jitter(width = 0.5, height = 0.5)) +
+  coord_equal(xlim = c(-1.1, 1.1), ylim = c(-1.1, 1.1)) +
+  theme_bw() +
+  theme(axis.title = element_blank(),
+        plot.title = element_text(hjust = 0.5, face = "bold")) +
+  ggtitle("position_jitter()")
+
+
+overplot + plot
+```
+
+<img src="man/figures/README-contents_0-1.png" alt="perfect over-plotting and position_jitter()" width="100%" />
+
 ### Position Jitter Ellipse:
 
 This position adjustment adds elliptical random noise to perfectly
 over-plotted points, offering a pleasing way to visualize many points
 that represent the same position. The benefit of sampling on an ellipse
 (of a given **height** and **width**) rather than a rectangle is that
-the dispersion retains the impression of a single point. The size of
-these meta-points remains constant across a graph, while the density
+the resulting dispersion retains the impression of a single point. The
+size of these meta-points is constant across a graph, while the density
 varies depending on the amount of over-plotting.
 
 ``` r
@@ -74,7 +107,9 @@ plot <- ggplot(dat, aes(x = X, y = Y)) +
   geom_point(position = position_jitter_ellipse(width = 0.5, height = 0.5)) +
   coord_equal(xlim = c(-1.1, 1.1), ylim = c(-1.1, 1.1)) +
   theme_bw() +
-  theme(axis.title = element_blank())
+  theme(axis.title = element_blank(),
+        plot.title = element_text(hjust = 0.5, face = "bold")) +
+  ggtitle("position_jitter_ellipse()")
 
 # position_jitterdodge_ellipse()
 dodged_plot <- ggplot(dat, aes(x = X, y = Y, color = Group)) +
@@ -84,12 +119,14 @@ dodged_plot <- ggplot(dat, aes(x = X, y = Y, color = Group)) +
   coord_equal(xlim = c(-1.1, 1.1), ylim = c(-1.1, 1.1)) +
   theme_bw() +
   theme(legend.position = "none",
-        axis.title = element_blank())
+        axis.title = element_blank(),
+        plot.title = element_text(hjust = 0.5, face = "bold")) +
+  ggtitle("position_jitterdodge_ellipse()")
   
 plot + dodged_plot
 ```
 
-<img src="man/figures/README-contents_1-1.png" width="100%" />
+<img src="man/figures/README-contents_1-1.png" alt="position_jitter_ellipse() and position_jitterdodge_ellipse()" width="100%" />
 
 ### Position Sunflower:
 
@@ -111,7 +148,9 @@ plot <- ggplot(dat, aes(x = X, y = Y)) +
   geom_point(position = position_sunflower(density = 1, aspect_ratio = 1)) +
   coord_equal(xlim = c(-1.1, 1.1), ylim = c(-1.1, 1.1)) +
   theme_bw() +
-  theme(axis.title = element_blank())
+  theme(axis.title = element_blank(),
+        plot.title = element_text(hjust = 0.5, face = "bold")) +
+  ggtitle("position_sunflower()")
   
 # position_sunflowerdodge()
 dodged_plot <- ggplot(dat, aes(x = X, y = Y, color = Group)) +
@@ -119,12 +158,14 @@ dodged_plot <- ggplot(dat, aes(x = X, y = Y, color = Group)) +
   coord_equal(xlim = c(-1.1, 1.1), ylim = c(-1.1, 1.1)) +
   theme_bw() + 
   theme(legend.position = "none",
-        axis.title = element_blank())
+        axis.title = element_blank(),
+        plot.title = element_text(hjust = 0.5, face = "bold")) +
+  ggtitle("position_sunflowerdodge()")
   
 plot + dodged_plot
 ```
 
-<img src="man/figures/README-contents_2A-1.png" width="100%" />
+<img src="man/figures/README-contents_2A-1.png" alt="position_sunflower() and position_sunflowerdodge()" width="100%" />
 
 As stated, the density of the seeds can be adjusted. Density is not
 standardized but rather depends on the ranges of the axes and dimensions
@@ -138,24 +179,25 @@ effect.
 plot <- ggplot(dat, aes(x = X, y = Y)) +
   coord_equal(xlim = c(-1.1, 1.1), ylim = c(-1.1, 1.1)) +
   theme_bw() +
-  theme(axis.title = element_blank())
+  theme(axis.title = element_blank(),
+        plot.title = element_text(hjust = 0.5, face = "bold"))
 
 # low density
 low <- plot + geom_point(position = position_sunflower(density = 0.5, aspect_ratio = 1),
-                         size = 0.25)
+                         size = 0.25) + ggtitle("density = 0.5")
 
 # medium density
 medium <- plot + geom_point(position = position_sunflower(density = 1, aspect_ratio = 1),
-                            size = 0.25)
+                            size = 0.25) + ggtitle("density = 1")
 
 # high density
 high <- plot + geom_point(position = position_sunflower(density = 2, aspect_ratio = 1),
-                          size = 0.25)
+                          size = 0.25) + ggtitle("density = 2")
 
 low + medium + high
 ```
 
-<img src="man/figures/README-contents_2B-1.png" width="100%" />
+<img src="man/figures/README-contents_2B-1.png" alt="density" width="100%" />
 
 The aspect ratio of the flowers can also be tweaked. This is useful when
 the position adjustment is used without **coord_equal()**. The flowers
@@ -173,24 +215,25 @@ legends, and the like.
 plot <- ggplot(dat, aes(x = X, y = Y)) +
   coord_equal(xlim = c(-1.1, 1.1), ylim = c(-1.1, 1.1)) +
   theme_bw() +
-  theme(axis.title = element_blank())
+  theme(axis.title = element_blank(),
+        plot.title = element_text(hjust = 0.5, face = "bold"))
 
 # wide aspect ratio 
 wide <- plot + geom_point(position = position_sunflower(density = 1, aspect_ratio = 0.5),
-                         size = 0.25)
+                         size = 0.25) + ggtitle("aspect_ratio = 0.5")
 
 # normal aspect ratio
 normal <- plot + geom_point(position = position_sunflower(density = 1, aspect_ratio = 1),
-                            size = 0.25)
+                            size = 0.25) + ggtitle("aspect_ratio = 1")
 
 # tall aspect ratio
 tall <- plot + geom_point(position = position_sunflower(density = 1, aspect_ratio = 2),
-                          size = 0.25)
+                          size = 0.25) + ggtitle("aspect_ratio = 2")
 
 wide + normal + tall
 ```
 
-<img src="man/figures/README-contents_2C-1.png" width="100%" />
+<img src="man/figures/README-contents_2C-1.png" alt="aspect_ratio" width="100%" />
 
 ### Position Circle Pack:
 
@@ -209,7 +252,9 @@ plot <- ggplot(dat, aes(x = X, y = Y, size = Size)) +
   coord_equal(xlim = c(-1, 1), ylim = c(-1.1, 1.1)) +
   theme_bw() +
   theme(legend.position = "none",
-        axis.title = element_blank())
+        axis.title = element_blank(),
+        plot.title = element_text(hjust = 0.5, face = "bold")) +
+  ggtitle("position_circlepack()")
   
 # position_circlepackdodge()
 dodged_plot <- ggplot(dat, aes(x = X, y = Y, color = Group, size = Size)) +
@@ -218,12 +263,14 @@ dodged_plot <- ggplot(dat, aes(x = X, y = Y, color = Group, size = Size)) +
   coord_equal(xlim = c(-1, 1), ylim = c(-1.1, 1.1)) +
   theme_bw() + 
   theme(legend.position = "none",
-        axis.title = element_blank())
+        axis.title = element_blank(),
+        plot.title = element_text(hjust = 0.5, face = "bold")) +
+  ggtitle("position_circlepackdodge()")
   
 plot + dodged_plot
 ```
 
-<img src="man/figures/README-contents_3A-1.png" width="100%" />
+<img src="man/figures/README-contents_3A-1.png" alt="position_circlepack() and position_circlepackdodge()" width="100%" />
 
 Like **position_sunflower()**, **position_circlepack()** creates
 meta-points from the inside out in the order of the data. Thus,
@@ -237,47 +284,67 @@ random <- dat |> ggplot(aes(x = X, y = Y, size = Size)) +
   coord_equal(xlim = c(-1, 1), ylim = c(-1.1, 1.1)) +
   theme_bw() +
   theme(legend.position = "none",
-        axis.title = element_blank())
+        axis.title = element_blank(),
+        plot.title = element_text(hjust = 0.5, face = "bold")) +
+  ggtitle("random")
 
 # ascending size
-ascending <- random %+% (dat |> arrange(Size))
+ascending <- random %+% (dat |> arrange(Size)) + ggtitle("ascending")
 
 # descending size
-descending <- random %+% (dat |> arrange(desc(Size)))
+descending <- random %+% (dat |> arrange(desc(Size))) + ggtitle("descending")
 
 random + ascending + descending
 ```
 
-<img src="man/figures/README-contents_3B-1.png" width="100%" />
+<img src="man/figures/README-contents_3B-1.png" alt="random, ascending, descending" width="100%" />
 
 ## Example:
 
 The current version of ‘vayr’ also includes data from the Patriot Act
-experiment described in *Persuasion in Parallel*. The dataset,
-**patriot_act**, \[DESCRIBE ME\]. The data is visualized below using
-functions from ‘vayr’ so as to demonstrate the package’s functionality
-with a real-world example. \[VISUALIZE ME\].
+experiment described in *Persuasion in Parallel*. The Patriot Act was an
+anti-terrorism law; the eponymous dataset, **patriot_act**, contains
+data relating to an experiment that measured support for this law after
+exposing participants to statements that cast it in either a negative or
+positive light. The experiment was conducted in 2009 with a nationwide
+sample, and it was replicated in 2015 with a sample of MTurkers. In both
+instances, the treatments had a parallel effect on Democrats and
+Republicans. There are four variables in the data: **sample_label**, the
+study to which the participant belonged (Original Study or Mechanical
+Turk Replication); **pid_3**, the partisanship of the participant
+(Republican or Democrat); **T1_content**, the statements to which the
+participant was exposed (Control, Pro, or Con); and **PA_support**, the
+participant’s post-treatment support for the Patriot Act (1: Oppose very
+strongly to 7: Support very strongly). The data is visualized below
+using **position_sunflowerdodge()** from ‘vayr’ so as to demonstrate the
+package’s functionality with a real-world example.
 
 ``` r
-summary_data <- patriot_act |> 
+# A df for statistical models
+summary_df <- patriot_act |> 
   group_by(T1_content, pid_3, sample_label) |> 
   reframe(tidy(lm_robust(PA_support~1)))
 
-label_df <- summary_data |> 
+# A df for direct labels
+label_df <- summary_df |> 
   filter(sample_label == "Original Study", T1_content == "Control") |> 
   mutate(PA_support = case_when(pid_3 == "Democrat"~conf.low - 0.15, 
                                 pid_3 == "Republican"~conf.high + 0.15))
 
 ggplot(patriot_act, aes(T1_content, PA_support, color = pid_3, group = pid_3)) +
-  geom_point(size = 0.1, alpha = 0.7,
-             position = position_sunflowerdodge(width = 0.5, density = 10)) +
-  geom_line(data = summary_data, aes(x = T1_content, y = estimate),  
-            linewidth = 0.5, position = position_dodge(width = 0.5)) +  
-  geom_point(data = summary_data, aes(x = T1_content, y = estimate),  
-             size = 3, position = position_dodge(width = 0.5)) +
-  geom_linerange(data = summary_data, aes(x = T1_content, ymin = conf.low, ymax = conf.high, y = estimate),
+  # the data
+  geom_point(position = position_sunflowerdodge(width = 0.5, density = 10),
+             size = 0.1, alpha = 0.5) +
+  # the statistical model
+  geom_line(data = summary_df, aes(x = T1_content, y = estimate),  
+            position = position_dodge(width = 0.5), linewidth = 0.5) +  
+  geom_point(data = summary_df, aes(x = T1_content, y = estimate),  
+             position = position_dodge(width = 0.5), size = 3) +
+  geom_linerange(data = summary_df, aes(x = T1_content, ymin = conf.low, ymax = conf.high, y = estimate),
                  position = position_dodge(width = 0.5)) +
+  # the direct labels
   geom_text(data = label_df, aes(label = pid_3)) +
+  # the rest
   scale_color_manual(values = c("blue4", "red3")) +
   scale_y_continuous(breaks = 1:7) +
   coord_equal() +
@@ -286,7 +353,9 @@ ggplot(patriot_act, aes(T1_content, PA_support, color = pid_3, group = pid_3)) +
   theme(legend.position = "none",
         strip.background = element_blank(),
         panel.grid.minor = element_blank()) +
-  labs(y = "Do you oppose or support the Patriot Act?\n[1: Oppose very strongly, 7: Support very strongly]", x = "Randomly assigned information")
+  labs(y = "Do you oppose or support the Patriot Act?
+            [1: Oppose very strongly to 7: Support very strongly]",
+       x = "Randomly assigned information")
 ```
 
-<img src="man/figures/README-patriot_act_visualization-1.png" width="100%" />
+<img src="man/figures/README-patriot_act_visualization-1.png" alt="patriot_act" width="100%" />
