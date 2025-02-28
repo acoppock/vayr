@@ -57,3 +57,13 @@ and the limits of the x and y axes.
     geom_point(alpha = 0.5, position = position_circlepack(density = 0.5))
 
 }
+\seealso{
+Other Functions: 
+\code{\link{position_circlepackdodge}()},
+\code{\link{position_jitter_ellipse}()},
+\code{\link{position_jitterdodge_ellipse}()},
+\code{\link{position_sunflower}()},
+\code{\link{position_sunflowerdodge}()},
+\code{\link{sunflower}()}
+}
+\concept{Functions}

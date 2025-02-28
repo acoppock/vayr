@@ -6,6 +6,8 @@
 #' position adjustment, the correct density will be a factor of both the image size
 #' and the limits of the x and y axes.
 #'
+#' @family Functions
+#'
 #' @param density density of the circle pack
 #' @param aspect_ratio aspect_ratio adjustment of the elliptical area
 #'
@@ -83,6 +85,8 @@ PositionCirclePack <-
 #'
 #' This function dodges groups and arranges the over-plotted points (of various sizes)
 #' using algorithms from the 'packcirles' package. The algorithms are applied per group.
+#'
+#' @family Functions
 #'
 #' @param width dodging width
 #' @param density density of the circle pack

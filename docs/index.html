@@ -35,7 +35,7 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="articles/sunflower_adjustments.html">sunflower_adjustments</a></li>
+<li><a class="dropdown-item" href="articles/vayr-vignette.html">Using vayr with ggplot2</a></li>
   </ul>
 </li>
       </ul>
@@ -106,7 +106,7 @@
 <span><span class="va">overplot</span> <span class="op">+</span> <span class="va">plot</span></span></code></pre></div>
 <p><img src="reference/figures/README-contents_0-1.png" alt="perfect over-plotting and position_jitter()" width="100%"></p>
 <div class="section level3">
-<h3 id="position-jitter-ellipse">Position Jitter Ellipse:<a class="anchor" aria-label="anchor" href="#position-jitter-ellipse"></a>
+<h3 id="position-jitter-ellipse">Position Jitter Ellipse<a class="anchor" aria-label="anchor" href="#position-jitter-ellipse"></a>
 </h3>
 <p>This position adjustment adds elliptical random noise to perfectly over-plotted points, offering a pleasing way to visualize many points that represent the same position. The benefit of sampling on an ellipse (of a given <strong>height</strong> and <strong>width</strong>) rather than a rectangle is that the resulting dispersion retains the impression of a single point. The size of these meta-points is constant across a graph, while the density varies depending on the amount of over-plotting.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -135,7 +135,7 @@
 <p><img src="reference/figures/README-contents_1-1.png" alt="position_jitter_ellipse() and position_jitterdodge_ellipse()" width="100%"></p>
 </div>
 <div class="section level3">
-<h3 id="position-sunflower">Position Sunflower:<a class="anchor" aria-label="anchor" href="#position-sunflower"></a>
+<h3 id="position-sunflower">Position Sunflower<a class="anchor" aria-label="anchor" href="#position-sunflower"></a>
 </h3>
 <p>This position adjustment arranges perfectly over-plotted points using a sunflower algorithm, which produces a pattern that resembles the seeds of a sunflower. The algorithm works from the inside out in the order of the data. The parameters for this position adjustment (<strong>density</strong> and <strong>aspect_ratio</strong>) are novel but intuitive. The size of the meta-points (the flowers, that is) varies depending on the amount over over-plotting, but the density of the pattern remains constant. It is possible to adjust the aspect ratio of the meta-points, but it is generally recommended that the position adjustment be used in tandem with <strong>coord_equal()</strong>, in which case an aspect ratio of 1 (the default) should yield perfect circles.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -208,7 +208,7 @@
 <p><img src="reference/figures/README-contents_2C-1.png" alt="aspect_ratio" width="100%"></p>
 </div>
 <div class="section level3">
-<h3 id="position-circle-pack">Position Circle Pack:<a class="anchor" aria-label="anchor" href="#position-circle-pack"></a>
+<h3 id="position-circle-pack">Position Circle Pack<a class="anchor" aria-label="anchor" href="#position-circle-pack"></a>
 </h3>
 <p>This position adjustment uses circle packing algorithms from the ‘packcircles’ package to arrange perfectly over-plotted points of varying sizes into an elliptical area. It also takes <strong>density</strong> and <strong>aspect_ratio</strong> as parameters, and they function as previously described. Again, the desirable density will depend on both the ranges of the axes and the dimensions of the image.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
@@ -260,7 +260,7 @@
 </div>
 </div>
 <div class="section level2">
-<h2 id="example">Example:<a class="anchor" aria-label="anchor" href="#example"></a>
+<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
 <p>The current version of ‘vayr’ also includes data from the Patriot Act experiment described in <em>Persuasion in Parallel</em>. The Patriot Act was an anti-terrorism law; the eponymous dataset, <strong>patriot_act</strong>, contains data relating to an experiment that measured support for this law after exposing participants to statements that cast it in either a negative or positive light. The experiment was conducted in 2009 with a nationwide sample, and it was replicated in 2015 with a sample of MTurkers. In both instances, the treatments had a parallel effect on Democrats and Republicans. There are four variables in the data: <strong>sample_label</strong>, the study to which the participant belonged (Original Study or Mechanical Turk Replication); <strong>pid_3</strong>, the partisanship of the participant (Republican or Democrat); <strong>T1_content</strong>, the statements to which the participant was exposed (Control, Pro, or Con); and <strong>PA_support</strong>, the participant’s post-treatment support for the Patriot Act (1: Oppose very strongly to 7: Support very strongly). The data is visualized below using <strong>position_sunflowerdodge()</strong> from ‘vayr’ so as to demonstrate the package’s functionality with a real-world example.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">

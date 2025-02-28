@@ -25,4 +25,5 @@ patriot_act
 \description{
 Original and Replication data for the Patriot Act experiment described in Persuasion in Parallel
 }
+\concept{Data}
 \keyword{datasets}

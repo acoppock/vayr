@@ -1,5 +1,6 @@
 #' Original and Replication data for the Patriot Act experiment described in Persuasion in Parallel
 #'
+#' @family Data
 #'
 #' @format ## `patriot_act`
 #' A data frame with 2062 rows and 4 columns:

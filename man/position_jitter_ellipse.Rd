@@ -51,3 +51,13 @@ and https://stats.stackexchange.com/questions/120527/simulate-a-uniform-distribu
     coord_cartesian(xlim = c(0, 2), ylim = c(0, 2))
 
 }
+\seealso{
+Other Functions: 
+\code{\link{position_circlepack}()},
+\code{\link{position_circlepackdodge}()},
+\code{\link{position_jitterdodge_ellipse}()},
+\code{\link{position_sunflower}()},
+\code{\link{position_sunflowerdodge}()},
+\code{\link{sunflower}()}
+}
+\concept{Functions}

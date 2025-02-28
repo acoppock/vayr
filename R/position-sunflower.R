@@ -3,6 +3,8 @@
 #' This function distributes points in a ellipse via the sunflower seed algorithm, as a solution for over-plotting.
 #' To implement the algorithm, this function adapts the code from https://stackoverflow.com/questions/28567166/uniformly-distribute-x-points-inside-a-circle.
 #'
+#' @family Functions
+#'
 #' @param x x position
 #' @param y y position
 #' @param density seed density
@@ -74,6 +76,8 @@ sunflower <- function(x = NULL, y = NULL, density, aspect_ratio) {
 #' This function applies the sunflower algorithm, as executed by the sunflower function, as a position adjustment,
 #' arranging overlapping points at any given x and y into a sunflower pattern.
 #'
+#' @family Functions
+#'
 #' @param density seed density
 #' @param aspect_ratio aspect ratio adjustment
 #'
@@ -130,6 +134,8 @@ PositionSunflower <-
 #'
 #' This function applies the sunflower position adjustment alongside the dodge position adjustment,
 #' arranging overlapping points per x, y, AND group into a sunflower pattern.
+#'
+#' @family Functions
 #'
 #' @param width dodging width
 #' @param density seed density

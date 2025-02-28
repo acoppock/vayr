@@ -38,3 +38,13 @@ using algorithms from the 'packcirles' package. The algorithms are applied per g
     theme(legend.position = "none")
 
 }
+\seealso{
+Other Functions: 
+\code{\link{position_circlepack}()},
+\code{\link{position_jitter_ellipse}()},
+\code{\link{position_jitterdodge_ellipse}()},
+\code{\link{position_sunflower}()},
+\code{\link{position_sunflowerdodge}()},
+\code{\link{sunflower}()}
+}
+\concept{Functions}

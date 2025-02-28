@@ -1,4 +1,13 @@
 url: https://alexandercoppock.com/vayr/index.html
 template:
   bootstrap: 5
-
+reference:
+- title: Data
+- contents:
+    - has_concept("Data")
+- title: Functions
+- contents:
+    - has_concept("Functions")
+- title: Package
+- contents:
+    - has_concept("Package")

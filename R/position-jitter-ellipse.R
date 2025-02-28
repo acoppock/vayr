@@ -6,6 +6,8 @@
 #' This function takes algorithmic inspiration from https://stackoverflow.com/questions/5529148/algorithm-calculate-pseudo-random-point-inside-an-ellipse
 #' and https://stats.stackexchange.com/questions/120527/simulate-a-uniform-distribution-on-a-disc.
 #'
+#' @family Functions
+#'
 #' @inheritParams ggplot2::position_jitter
 #'
 #' @returns A `ggproto` object of class `PositionJitterEllipse`
@@ -71,6 +73,8 @@ PositionJitterEllipse <-
 #'
 #' As well as adding elliptical random noise to over-plotted points,
 #' this function also dodges groups of points side-to-side.
+#'
+#' @family Functions
 #'
 #' @inheritParams ggplot2::position_jitterdodge
 #'

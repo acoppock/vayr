@@ -23,7 +23,7 @@ At the moment, ‘vayr’ only exists on [GitHub](https://github.com/),
 although we ultimately hope to release the package to CRAN. You can
 install the development version of the package using ‘pak,’ as shown
 below. It is important to note that ‘vayr’ relies on ‘ggplot2,’
-‘packcircles,’ and ‘withr,’ so these packages but also be installed.
+‘packcircles,’ and ‘withr,’ so these packages must also be installed.
 
 ``` r
 # install.packages("pak")
@@ -91,7 +91,7 @@ overplot + plot
 
 <img src="man/figures/README-contents_0-1.png" alt="perfect over-plotting and position_jitter()" width="100%" />
 
-### Position Jitter Ellipse:
+### Position Jitter Ellipse
 
 This position adjustment adds elliptical random noise to perfectly
 over-plotted points, offering a pleasing way to visualize many points
@@ -128,7 +128,7 @@ plot + dodged_plot
 
 <img src="man/figures/README-contents_1-1.png" alt="position_jitter_ellipse() and position_jitterdodge_ellipse()" width="100%" />
 
-### Position Sunflower:
+### Position Sunflower
 
 This position adjustment arranges perfectly over-plotted points using a
 sunflower algorithm, which produces a pattern that resembles the seeds
@@ -235,7 +235,7 @@ wide + normal + tall
 
 <img src="man/figures/README-contents_2C-1.png" alt="aspect_ratio" width="100%" />
 
-### Position Circle Pack:
+### Position Circle Pack
 
 This position adjustment uses circle packing algorithms from the
 ‘packcircles’ package to arrange perfectly over-plotted points of
@@ -299,7 +299,7 @@ random + ascending + descending
 
 <img src="man/figures/README-contents_3B-1.png" alt="random, ascending, descending" width="100%" />
 
-## Example:
+## Example
 
 The current version of ‘vayr’ also includes data from the Patriot Act
 experiment described in *Persuasion in Parallel*. The Patriot Act was an

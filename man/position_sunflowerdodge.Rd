@@ -51,3 +51,13 @@ arranging overlapping points per x, y, AND group into a sunflower pattern.
     stat_smooth(position = position_dodge(width = 0.5))
 
 }
+\seealso{
+Other Functions: 
+\code{\link{position_circlepack}()},
+\code{\link{position_circlepackdodge}()},
+\code{\link{position_jitter_ellipse}()},
+\code{\link{position_jitterdodge_ellipse}()},
+\code{\link{position_sunflower}()},
+\code{\link{sunflower}()}
+}
+\concept{Functions}

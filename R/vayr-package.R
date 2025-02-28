@@ -1,5 +1,7 @@
 #' Extensions for 'ggplot2' to Visualize as You Randomize
 #'
+#' @family Package
+#'
 #' @name vayr
 #'
 #' @description

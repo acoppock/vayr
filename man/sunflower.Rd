@@ -46,3 +46,13 @@ To implement the algorithm, this function adapts the code from https://stackover
     geom_point() + coord_equal()
 
 }
+\seealso{
+Other Functions: 
+\code{\link{position_circlepack}()},
+\code{\link{position_circlepackdodge}()},
+\code{\link{position_jitter_ellipse}()},
+\code{\link{position_jitterdodge_ellipse}()},
+\code{\link{position_sunflower}()},
+\code{\link{position_sunflowerdodge}()}
+}
+\concept{Functions}

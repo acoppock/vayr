@@ -1,22 +1,21 @@
 ---
-output: github_document
+title: "Using vayr with ggplot2"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{vayr-vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
-
-<!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "man/figures/README-",
   out.width = "100%"
 )
 ```
 
 # vayr
-
-<!-- badges: start -->
-<!-- badges: end -->
 
 The goal of 'vayr' is to provide 'ggplot2' extensions that foster "visualize as you randomize" principles,
 which guide the visualization of experimental data. Thus far, the package includes position adjustments
@@ -54,7 +53,7 @@ over-plotted at the origin.
 suppressMessages(library(dplyr))
 ```
 
-```{r}
+```{r setup}
 library(dplyr)
 library(ggplot2)
 library(patchwork)

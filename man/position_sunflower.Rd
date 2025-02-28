@@ -36,3 +36,13 @@ arranging overlapping points at any given x and y into a sunflower pattern.
     coord_equal()
 
 }
+\seealso{
+Other Functions: 
+\code{\link{position_circlepack}()},
+\code{\link{position_circlepackdodge}()},
+\code{\link{position_jitter_ellipse}()},
+\code{\link{position_jitterdodge_ellipse}()},
+\code{\link{position_sunflowerdodge}()},
+\code{\link{sunflower}()}
+}
+\concept{Functions}
