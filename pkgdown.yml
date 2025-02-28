@@ -2,8 +2,8 @@ pandoc: 3.1.11
 pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
-  sunflower_adjustments: sunflower_adjustments.html
-last_built: 2025-02-28T19:41Z
+  vayr-vignette: vayr-vignette.html
+last_built: 2025-02-28T22:00Z
 urls:
   reference: https://alexandercoppock.com/vayr/index.html/reference
   article: https://alexandercoppock.com/vayr/index.html/articles
