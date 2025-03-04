@@ -22,6 +22,7 @@ Suggests:
     patchwork,
     randomizr,
     rmarkdown,
+    sessioninfo,
     testthat,
     tibble,
     tidyverse
