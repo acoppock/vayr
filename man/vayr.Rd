@@ -2,11 +2,12 @@
 % Please edit documentation in R/vayr-package.R
 \docType{package}
 \name{vayr}
-\alias{vayr}
 \alias{vayr-package}
+\alias{vayr}
 \title{Extensions for 'ggplot2' to Visualize as You Randomize}
 \description{
-Position adjustments for 'ggplot2' to implement "visualize as you randomize" principles, which can be especially useful when plotting experimental data.
+Position adjustments for 'ggplot2' to implement "visualize as you randomize" principles,
+which can be especially useful when plotting experimental data.
 }
 \details{
 The 'vayr' package provides 'ggplot2' extensions that foster "visualize as you randomize" principles.
