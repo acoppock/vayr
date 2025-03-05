@@ -4,7 +4,7 @@ Version: 1.0.0
 Authors@R: 
     c(person("Alexander", "Coppock", , "acoppock@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-5733-2386")),
-           person("Elias", "Hyde", , "eliasworrallhyde@gmail.com", role = c("aut", "cre")))
+           person("Elias", "Hyde", , "eliasworrallhyde@gmail.com", role = "ctb"))
 Description: Position adjustments for 'ggplot2' to implement "visualize as
     you randomize" principles, which can be especially useful when
     plotting experimental data.

@@ -25,5 +25,10 @@ Useful links:
 \author{
 \strong{Maintainer}: Alexander Coppock \email{acoppock@gmail.com} (\href{https://orcid.org/0000-0002-5733-2386}{ORCID})
 
+Other contributors:
+\itemize{
+  \item Elias Hyde \email{eliasworrallhyde@gmail.com} [contributor]
+}
+
 }
 \concept{Package}
