@@ -2,7 +2,7 @@
 % Please edit documentation in R/position-jitter-ellipse.R
 \name{position_jitterdodge_ellipse}
 \alias{position_jitterdodge_ellipse}
-\title{Jitter points on an ellipse and dodge groups simultaneously}
+\title{Jitter points on an ellipse and dodge groups side-to-side}
 \usage{
 position_jitterdodge_ellipse(
   jitter.width = NULL,
@@ -12,29 +12,19 @@ position_jitterdodge_ellipse(
 )
 }
 \arguments{
-\item{jitter.width}{degree of jitter in x direction. Defaults to 40\% of the
-resolution of the data.}
+\item{jitter.width, jitter.height}{The dimensions of the elliptical field,
+from which over-plotted points are sampled.}
 
-\item{jitter.height}{degree of jitter in y direction. Defaults to 0.}
+\item{dodge.width}{The dodging width, which defaults to 1.}
 
-\item{dodge.width}{the amount to dodge in the x direction. Defaults to 0.75,
-the default \code{position_dodge()} width.}
-
-\item{seed}{A random seed to make the jitter reproducible.
-Useful if you need to apply the same jitter twice, e.g., for a point and
-a corresponding label.
-The random seed is reset after jittering.
-If \code{NA} (the default value), the seed is initialised with a random value;
-this makes sure that two subsequent calls start with a different seed.
-Use \code{NULL} to use the current random seed and also avoid resetting
-(the behaviour of \pkg{ggplot} 2.2.1 and earlier).}
+\item{seed}{A random seed for reproducibility.}
 }
 \value{
-A \code{ggproto} object of class \code{PositionJitterdodgeEllipse}
+A \code{ggproto} object of class \code{PositionJitterdodgeEllipse}.
 }
 \description{
-As well as adding elliptical random noise to over-plotted points,
-this function also dodges groups of points side-to-side.
+This function dodges groups of points side-to-side and adds elliptical random noise
+to perfectly over-plotted points. See the position_jitter_ellipse() documentation for more information.
 }
 \examples{
   library(ggplot2)

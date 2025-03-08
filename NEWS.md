@@ -2,4 +2,7 @@
 
 * Initial CRAN submission.
 
-This first release of vayr includes three position adjustments (and their dodged versions): position_circlepack(), position_sunflower(), and position_jitter_ellipse().
+This first release of vayr includes three position adjustments and their dodged counterparts:
+position_jitter_ellipse() and position_jitterdodge_ellipse(),
+position_sunflower() and position_sunflower_dodge(), 
+position_circlepack() and position_circlepack_dodge().

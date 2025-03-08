@@ -2,24 +2,26 @@
 % Please edit documentation in R/position-sunflower.R
 \name{sunflower}
 \alias{sunflower}
-\title{Distribute points using a "sunflower seed" algorithm}
+\title{Distribute points using a sunflower seed algorithm}
 \usage{
 sunflower(x = NULL, y = NULL, density, aspect_ratio)
 }
 \arguments{
-\item{x}{x position}
+\item{x, y}{The identical coordinates of multiple over-plotted points, as vectors, which will
+be arranged using a sunflower seed algorithm.}
 
-\item{y}{y position}
+\item{density}{The pattern density.}
 
-\item{density}{seed density}
-
-\item{aspect_ratio}{aspect ratio adjustment}
+\item{aspect_ratio}{An aspect ratio adjustment to compensate for distortion of the circular arrangement,
+which might occur when plotting if coord_equal() is not used. A wide aspect ratio (eg. 0.5)
+would adjust for vertical stretching, whereas a tall aspect ratio (eg. 2) would adjust for
+horizontal stretching. An aspect ratio of 1 is appropriate when no adjustment is required.}
 }
 \value{
-A numeric vector of adjusted \code{x} or \code{y} positions, computed using a sunflower seed distribution.
+A numeric vector of adjusted \code{x} or \code{y} positions, computed using a sunflower seed algorithm.
 }
 \description{
-This function distributes points in a ellipse via the sunflower seed algorithm, as a solution for over-plotting.
+This function distributes points in a ellipse via a sunflower seed algorithm as a solution for over-plotting.
 To implement the algorithm, this function adapts the code from https://stackoverflow.com/questions/28567166/uniformly-distribute-x-points-inside-a-circle.
 }
 \examples{
@@ -27,15 +29,15 @@ To implement the algorithm, this function adapts the code from https://stackover
   library(dplyr)
 
   # Manually adjust position of N points,
-  # arranging points per the sunflower algorithm and then dodging groups
+  # arranging them per the sunflower algorithm and then dodging groups
   N <- 300
 
   dat <- data.frame(
     x = sample(1:2, size = N, replace = TRUE),
     y = sample(1:7, size = N, replace = TRUE),
     type = factor(sample(LETTERS[1:2], N, replace = TRUE))
-  ) \%>\%
-    group_by(x, y, type) \%>\%
+  ) |>
+    group_by(x, y, type) |>
     mutate(
       x = sunflower(x = x, density = 1, aspect_ratio = 1),
       y = sunflower(y = y, density = 1, aspect_ratio = 1),

@@ -2,15 +2,17 @@
 #'
 #' This function adds elliptical random noise to perfectly over-plotted points,
 #' offering a pleasing way to visualize many points that represent the same position.
-#' In contrast to the position_jitter function which samples on a rectangle, the position_jitter_ellipse function samples on an ellipse.
+#' In contrast to the position_jitter function which samples from a rectangular field, the position_jitter_ellipse function samples from an elliptical field.
 #' This function takes algorithmic inspiration from https://stackoverflow.com/questions/5529148/algorithm-calculate-pseudo-random-point-inside-an-ellipse
 #' and https://stats.stackexchange.com/questions/120527/simulate-a-uniform-distribution-on-a-disc.
 #'
 #' @family Functions
 #'
-#' @inheritParams ggplot2::position_jitter
+#' @param width,height The dimensions of the elliptical field,
+#' from which over-plotted points are sampled.
+#' @param seed A random seed for reproducibility.
 #'
-#' @returns A `ggproto` object of class `PositionJitterEllipse`
+#' @returns A `ggproto` object of class `PositionJitterEllipse`.
 #'
 #' @export
 #'
@@ -69,16 +71,19 @@ PositionJitterEllipse <-
     }
   )
 
-#' Jitter points on an ellipse and dodge groups simultaneously
+#' Jitter points on an ellipse and dodge groups side-to-side
 #'
-#' As well as adding elliptical random noise to over-plotted points,
-#' this function also dodges groups of points side-to-side.
+#' This function dodges groups of points side-to-side and adds elliptical random noise
+#' to perfectly over-plotted points. See the position_jitter_ellipse() documentation for more information.
 #'
 #' @family Functions
 #'
-#' @inheritParams ggplot2::position_jitterdodge
+#' @param jitter.width,jitter.height The dimensions of the elliptical field,
+#' from which over-plotted points are sampled.
+#' @param dodge.width The dodging width, which defaults to 1.
+#' @param seed A random seed for reproducibility.
 #'
-#' @returns A `ggproto` object of class `PositionJitterdodgeEllipse`
+#' @returns A `ggproto` object of class `PositionJitterdodgeEllipse`.
 #'
 #' @export
 #'

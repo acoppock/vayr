@@ -1,17 +1,20 @@
-#' Use circle packing to avoid over-plotting
+#' Arrange over-plotted points with a circle-packing algorithm
 #'
-#' This function uses circle packing algorithms from the 'packcircles' package
+#' This function uses a circle packing algorithm from the 'packcircles' package
 #' to arrange perfectly over-plotted points of varying sizes into a elliptical area.
-#' The density and the aspect ratio can be adjusted. Because the function is a
-#' position adjustment, the correct density will be a factor of both the image size
-#' and the limits of the x and y axes.
 #'
 #' @family Functions
 #'
-#' @param density density of the circle pack
-#' @param aspect_ratio aspect_ratio adjustment of the elliptical area
+#' @param density The density of the circle pack, which defaults to 1 but will
+#' have to be adjusted in most cases. The desirable density will depend on both
+#' the ranges of the axes and the dimensions of the image. It will also depend
+#' on the size scale.
+#' @param aspect_ratio An aspect ratio adjustment to compensate for distortion of the circular arrangement,
+#' which might occur when plotting if coord_equal() is not used. A wide aspect ratio (eg. 0.5)
+#' would adjust for vertical stretching, whereas a tall aspect ratio (eg. 2) would adjust for
+#' horizontal stretching. The default aspect ratio of 1 is appropriate when no adjustment is required.
 #'
-#' @returns A `ggproto` object of class `PositionCirclePack`
+#' @returns A `ggproto` object of class `PositionCirclePack`.
 #'
 #' @export
 #'
@@ -20,6 +23,20 @@
 #'   library(dplyr)
 #'   library(randomizr)
 #'   library(tibble)
+#'
+#'   dat <- data.frame(
+#'     X = c(rep(0, 200)),
+#'     Y = rep(0, 200),
+#'     size = runif(200, 0, 1)
+#'   )
+#'
+#'   ggplot(dat, aes(x = X, y = Y, size = size)) +
+#'     geom_point(position = position_circlepack(density = 0.25, aspect_ratio = 1),
+#'               alpha = 0.25) +
+#'     coord_equal(xlim = c(-1, 1), ylim = c(-1, 1), expand = TRUE) +
+#'     theme(legend.position = "none")
+#'
+#'   # Applied to a mock experiment with weighted groups
 #'
 #'   dat <-
 #'     tibble(
@@ -72,7 +89,7 @@ PositionCirclePack <-
         circle_layout <- packcircles::circleProgressiveLayout(pair$size_normalized * density)
 
         pair$x <- circle_layout$x + pair$x
-        pair$y <- (circle_layout$y * self$aspect_ratio) + pair$y # either make denser/less dense or both denser or both less dense
+        pair$y <- (circle_layout$y * self$aspect_ratio) + pair$y
 
         return(pair)
       }))
@@ -83,16 +100,22 @@ PositionCirclePack <-
 
 #' Arrange over-plotted points with a circle-packing algorithm and dodge groups side-to-side
 #'
-#' This function dodges groups and arranges the over-plotted points (of various sizes)
-#' using algorithms from the 'packcirles' package. The algorithms are applied per group.
+#' This function uses a circle packing algorithm from the 'packcircles' package
+#' to arrange perfectly over-plotted points of varying sizes into a elliptical area.
 #'
 #' @family Functions
 #'
-#' @param width dodging width
-#' @param density density of the circle pack
-#' @param aspect_ratio aspect_ratio adjustment of the elliptical area
+#' @param width The dodging width, which defaults to 1.
+#' @param density The density of the circle pack, which defaults to 1 but will
+#' have to be adjusted in most cases. The desirable density will depend on both
+#' the ranges of the axes and the dimensions of the image. It will also depend
+#' on the size scale.
+#' @param aspect_ratio An aspect ratio adjustment to compensate for distortion of the circular arrangement,
+#' which might occur when plotting if coord_equal() is not used. A wide aspect ratio (eg. 0.5)
+#' would adjust for vertical stretching, whereas a tall aspect ratio (eg. 2) would adjust for
+#' horizontal stretching. The default aspect ratio of 1 is appropriate when no adjustment is required.
 #'
-#' @returns A `ggproto` object of class `PositionCirclePackDodge`
+#' @returns A `ggproto` object of class `PositionCirclePackDodge`.
 #'
 #' @export
 #'

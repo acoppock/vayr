@@ -2,7 +2,7 @@ Package: vayr
 Title: Extensions for 'ggplot2' to Visualize as You Randomize
 Version: 1.0.0
 Authors@R: 
-    c(person("Alexander", "Coppock", , "acoppock@gmail.com", role = c("aut", "cre"),
+    c(person("Alexander", "Coppock", , "acoppock@gmail.com", role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0000-0002-5733-2386")),
            person("Elias", "Hyde", , "eliasworrallhyde@gmail.com", role = "ctb"))
 Description: Position adjustments for 'ggplot2' to implement "visualize as

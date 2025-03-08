@@ -2,23 +2,28 @@
 % Please edit documentation in R/position-sunflower.R
 \name{position_sunflowerdodge}
 \alias{position_sunflowerdodge}
-\title{Arrange over-plotted points in a sunflower pattern and dodges groups side-to-side}
+\title{Arrange over-plotted points in a sunflower pattern and dodge groups side-to-side}
 \usage{
 position_sunflowerdodge(width = 1, density = 1, aspect_ratio = 1)
 }
 \arguments{
-\item{width}{dodging width}
+\item{width}{The dodging width, which defaults to 1.}
 
-\item{density}{seed density}
+\item{density}{The pattern density, which defaults to 1 but will have to be adjusted in most cases.
+The desirable density will depend on both the ranges of the axes and the dimensions of the image.}
 
-\item{aspect_ratio}{aspect ratio adjustment}
+\item{aspect_ratio}{An aspect ratio adjustment to compensate for distortion of the circular arrangement,
+which might occur when plotting if coord_equal() is not used. A wide aspect ratio (eg. 0.5)
+would adjust for vertical stretching, whereas a tall aspect ratio (eg. 2) would adjust for
+horizontal stretching. The default aspect ratio of 1 is appropriate when no adjustment is required.}
 }
 \value{
-A \code{ggproto} object of class \code{PositionSunflowerDodge}
+A \code{ggproto} object of class \code{PositionSunflowerDodge}.
 }
 \description{
 This function applies the sunflower position adjustment alongside the dodge position adjustment,
-arranging overlapping points per x, y, AND group into a sunflower pattern.
+arranging overlapping points per x, y, and group into a sunflower pattern. See the 'sunflower()' documentation for
+more information.
 }
 \examples{
   library(ggplot2)
@@ -40,15 +45,6 @@ arranging overlapping points per x, y, AND group into a sunflower pattern.
   # Without coord_equal, might want to play with aspect ratio to get a pleasing plot
   ggplot(dat, aes(x, y, color = type, shape = type)) +
     geom_point(position = position_sunflowerdodge(width = 0.5, density = 10, aspect_ratio = 4))
-
-  # As applied to the Patriot Act experiment
-  ggplot(patriot_act, aes(T1_content, PA_support, color = pid_3, group = pid_3)) +
-    geom_point(size = 0.25, position = position_sunflowerdodge(width = 0.5,
-                                                              density = 10,
-                                                              aspect_ratio = 7/6)) +
-    scale_color_manual(values = c("blue", "red")) +
-    facet_wrap(~sample_label) +
-    stat_smooth(position = position_dodge(width = 0.5))
 
 }
 \seealso{

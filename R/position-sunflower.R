@@ -1,16 +1,19 @@
-#' Distribute points using a "sunflower seed" algorithm
+#' Distribute points using a sunflower seed algorithm
 #'
-#' This function distributes points in a ellipse via the sunflower seed algorithm, as a solution for over-plotting.
+#' This function distributes points in a ellipse via a sunflower seed algorithm as a solution for over-plotting.
 #' To implement the algorithm, this function adapts the code from https://stackoverflow.com/questions/28567166/uniformly-distribute-x-points-inside-a-circle.
 #'
 #' @family Functions
 #'
-#' @param x x position
-#' @param y y position
-#' @param density seed density
-#' @param aspect_ratio aspect ratio adjustment
+#' @param x,y The identical coordinates of multiple over-plotted points, as vectors, which will
+#' be arranged using a sunflower seed algorithm.
+#' @param density The pattern density.
+#' @param aspect_ratio An aspect ratio adjustment to compensate for distortion of the circular arrangement,
+#' which might occur when plotting if coord_equal() is not used. A wide aspect ratio (eg. 0.5)
+#' would adjust for vertical stretching, whereas a tall aspect ratio (eg. 2) would adjust for
+#' horizontal stretching. An aspect ratio of 1 is appropriate when no adjustment is required.
 #'
-#' @returns A numeric vector of adjusted `x` or `y` positions, computed using a sunflower seed distribution.
+#' @returns A numeric vector of adjusted `x` or `y` positions, computed using a sunflower seed algorithm.
 #'
 #' @export
 #'
@@ -19,15 +22,15 @@
 #'   library(dplyr)
 #'
 #'   # Manually adjust position of N points,
-#'   # arranging points per the sunflower algorithm and then dodging groups
+#'   # arranging them per the sunflower algorithm and then dodging groups
 #'   N <- 300
 #'
 #'   dat <- data.frame(
 #'     x = sample(1:2, size = N, replace = TRUE),
 #'     y = sample(1:7, size = N, replace = TRUE),
 #'     type = factor(sample(LETTERS[1:2], N, replace = TRUE))
-#'   ) %>%
-#'     group_by(x, y, type) %>%
+#'   ) |>
+#'     group_by(x, y, type) |>
 #'     mutate(
 #'       x = sunflower(x = x, density = 1, aspect_ratio = 1),
 #'       y = sunflower(y = y, density = 1, aspect_ratio = 1),
@@ -74,14 +77,20 @@ sunflower <- function(x = NULL, y = NULL, density, aspect_ratio) {
 #' Arrange over-plotted points in a sunflower pattern
 #'
 #' This function applies the sunflower algorithm, as executed by the sunflower function, as a position adjustment,
-#' arranging overlapping points at any given x and y into a sunflower pattern.
+#' arranging overlapping points at any given x and y into a sunflower pattern. See the 'sunflower()' documentation for
+#' more information.
 #'
 #' @family Functions
 #'
-#' @param density seed density
-#' @param aspect_ratio aspect ratio adjustment
+#' @param density The pattern density, which defaults to 1 but will have to be adjusted in most cases.
+#' The desirable density will depend on both the ranges of the axes and the dimensions of the image.
+#' @param aspect_ratio An aspect ratio adjustment to compensate for distortion of the circular arrangement,
+#' which might occur when plotting if coord_equal() is not used. A wide aspect ratio (eg. 0.5)
+#' would adjust for vertical stretching, whereas a tall aspect ratio (eg. 2) would adjust for
+#' horizontal stretching. The default aspect ratio of 1 is appropriate when no adjustment is required.
 #'
-#' @returns A `ggproto` object of class `PositionSunflower`
+#'
+#' @returns A `ggproto` object of class `PositionSunflower`.
 #'
 #' @export
 #'
@@ -130,18 +139,23 @@ PositionSunflower <-
     }
   )
 
-#' Arrange over-plotted points in a sunflower pattern and dodges groups side-to-side
+#' Arrange over-plotted points in a sunflower pattern and dodge groups side-to-side
 #'
 #' This function applies the sunflower position adjustment alongside the dodge position adjustment,
-#' arranging overlapping points per x, y, AND group into a sunflower pattern.
+#' arranging overlapping points per x, y, and group into a sunflower pattern. See the 'sunflower()' documentation for
+#' more information.
 #'
 #' @family Functions
 #'
-#' @param width dodging width
-#' @param density seed density
-#' @param aspect_ratio aspect ratio adjustment
+#' @param width The dodging width, which defaults to 1.
+#' @param density The pattern density, which defaults to 1 but will have to be adjusted in most cases.
+#' The desirable density will depend on both the ranges of the axes and the dimensions of the image.
+#' @param aspect_ratio An aspect ratio adjustment to compensate for distortion of the circular arrangement,
+#' which might occur when plotting if coord_equal() is not used. A wide aspect ratio (eg. 0.5)
+#' would adjust for vertical stretching, whereas a tall aspect ratio (eg. 2) would adjust for
+#' horizontal stretching. The default aspect ratio of 1 is appropriate when no adjustment is required.
 #'
-#' @returns A `ggproto` object of class `PositionSunflowerDodge`
+#' @returns A `ggproto` object of class `PositionSunflowerDodge`.
 #'
 #' @export
 #'
@@ -165,15 +179,6 @@ PositionSunflower <-
 #'   # Without coord_equal, might want to play with aspect ratio to get a pleasing plot
 #'   ggplot(dat, aes(x, y, color = type, shape = type)) +
 #'     geom_point(position = position_sunflowerdodge(width = 0.5, density = 10, aspect_ratio = 4))
-#'
-#'   # As applied to the Patriot Act experiment
-#'   ggplot(patriot_act, aes(T1_content, PA_support, color = pid_3, group = pid_3)) +
-#'     geom_point(size = 0.25, position = position_sunflowerdodge(width = 0.5,
-#'                                                               density = 10,
-#'                                                               aspect_ratio = 7/6)) +
-#'     scale_color_manual(values = c("blue", "red")) +
-#'     facet_wrap(~sample_label) +
-#'     stat_smooth(position = position_dodge(width = 0.5))
 #'
 position_sunflowerdodge <- function(width = 1, density = 1, aspect_ratio = 1) {
   ggplot2::ggproto(NULL, PositionSunflowerDodge, width = width, density = density, aspect_ratio = aspect_ratio)

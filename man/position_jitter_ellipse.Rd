@@ -7,31 +7,18 @@
 position_jitter_ellipse(width = NULL, height = NULL, seed = NA)
 }
 \arguments{
-\item{width, height}{Amount of vertical and horizontal jitter. The jitter
-is added in both positive and negative directions, so the total spread
-is twice the value specified here.
+\item{width, height}{The dimensions of the elliptical field,
+from which over-plotted points are sampled.}
 
-If omitted, defaults to 40\% of the resolution of the data: this means the
-jitter values will occupy 80\% of the implied bins. Categorical data
-is aligned on the integers, so a width or height of 0.5 will spread the
-data so it's not possible to see the distinction between the categories.}
-
-\item{seed}{A random seed to make the jitter reproducible.
-Useful if you need to apply the same jitter twice, e.g., for a point and
-a corresponding label.
-The random seed is reset after jittering.
-If \code{NA} (the default value), the seed is initialised with a random value;
-this makes sure that two subsequent calls start with a different seed.
-Use \code{NULL} to use the current random seed and also avoid resetting
-(the behaviour of \pkg{ggplot} 2.2.1 and earlier).}
+\item{seed}{A random seed for reproducibility.}
 }
 \value{
-A \code{ggproto} object of class \code{PositionJitterEllipse}
+A \code{ggproto} object of class \code{PositionJitterEllipse}.
 }
 \description{
 This function adds elliptical random noise to perfectly over-plotted points,
 offering a pleasing way to visualize many points that represent the same position.
-In contrast to the position_jitter function which samples on a rectangle, the position_jitter_ellipse function samples on an ellipse.
+In contrast to the position_jitter function which samples from a rectangular field, the position_jitter_ellipse function samples from an elliptical field.
 This function takes algorithmic inspiration from https://stackoverflow.com/questions/5529148/algorithm-calculate-pseudo-random-point-inside-an-ellipse
 and https://stats.stackexchange.com/questions/120527/simulate-a-uniform-distribution-on-a-disc.
 }
