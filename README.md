@@ -94,12 +94,12 @@ overplot + plot
 ### Position Jitter Ellipse
 
 This position adjustment adds elliptical random noise to perfectly
-over-plotted points, offering a pleasing way to visualize many points
-that represent the same position. The benefit of sampling on an ellipse
-(of a given **height** and **width**) rather than a rectangle is that
-the resulting dispersion retains the impression of a single point. The
-size of these meta-points is constant across a graph, while the density
-varies depending on the amount of over-plotting.
+over-plotted points, thus offering a pleasing way to visualize many
+points that represent the same position. The benefit of sampling on an
+ellipse (of a given **height** and **width**) rather than a rectangle is
+that the resulting dispersion retains the impression of a single point.
+The size of these meta-points is constant across a graph, while the
+density varies depending on the amount of over-plotting.
 
 ``` r
 # position_jitter_ellipse()

@@ -75,7 +75,7 @@ To mitigate this concern, **position_jitter()** can introduce a degree of variat
 whereby points are randomly sampled on a rectangle, but it dilutes the visual effect of 
 discrete data. The functions in 'vayr' are preferable alternatives.
 
-```{r contents_0, dpi = 300, fig.width = 12, fig.height = 6, fig.alt = 'perfect over-plotting and position_jitter()'}
+```{r contents_0, dpi = 96, fig.width = 12, fig.height = 6, fig.alt = 'perfect over-plotting and position_jitter()'}
 # perfectly over-plotted points
 overplot <- ggplot(dat, aes(x = X, y = Y)) +
   geom_point() +
@@ -100,13 +100,13 @@ overplot + plot
 
 ### Position Jitter Ellipse
 
-This position adjustment adds elliptical random noise to perfectly over-plotted points, offering
+This position adjustment adds elliptical random noise to perfectly over-plotted points, thus offering
 a pleasing way to visualize many points that represent the same position. The benefit of
 sampling on an ellipse (of a given **height** and **width**) rather than a rectangle is that the 
 resulting dispersion retains the impression of a single point. The size of these meta-points is constant across a graph,
 while the density varies depending on the amount of over-plotting.
 
-```{r contents_1, dpi = 300, fig.width = 12, fig.height = 6, fig.alt = 'position_jitter_ellipse() and position_jitterdodge_ellipse()'}
+```{r contents_1, dpi = 96, fig.width = 12, fig.height = 6, fig.alt = 'position_jitter_ellipse() and position_jitterdodge_ellipse()'}
 # position_jitter_ellipse()
 plot <- ggplot(dat, aes(x = X, y = Y)) +
   geom_point(position = position_jitter_ellipse(width = 0.5, height = 0.5)) +
@@ -143,7 +143,7 @@ but it is generally recommended that the position adjustment be used in tandem w
 in which case an aspect ratio of 1 (the default) should yield perfect circles.
 
 
-```{r contents_2A, dpi = 300, fig.width = 12, fig.height = 6, fig.alt = 'position_sunflower() and position_sunflowerdodge()'}
+```{r contents_2A, dpi = 96, fig.width = 12, fig.height = 6, fig.alt = 'position_sunflower() and position_sunflowerdodge()'}
 # position_sunflower()
 plot <- ggplot(dat, aes(x = X, y = Y)) +
   geom_point(position = position_sunflower(density = 1, aspect_ratio = 1)) +
@@ -172,7 +172,7 @@ it can be thought of as the number of points within a certain Cartesian area.
 Thus smaller ranges and/or larger dimensions will require a greater density to produce the same
 visual effect.
 
-```{r contents_2B, dpi = 300, fig.width = 12, fig.height = 4, fig.alt = 'density'}
+```{r contents_2B, dpi = 96, fig.width = 12, fig.height = 4, fig.alt = 'density'}
 # base plot
 plot <- ggplot(dat, aes(x = X, y = Y)) +
   coord_equal(xlim = c(-1.1, 1.1), ylim = c(-1.1, 1.1)) +
@@ -203,7 +203,7 @@ vertical range of 2 and a horizontal range of 1 as a square image would result i
 Setting the aspect ratio of the flowers to 1/2 would offset the distortion, although refinement 
 would likely be warranted due to labels, legends, and the like.
 
-```{r contents_2C, dpi = 300, fig.width = 12, fig.height = 4, fig.alt = 'aspect_ratio'}
+```{r contents_2C, dpi = 96, fig.width = 12, fig.height = 4, fig.alt = 'aspect_ratio'}
 # base plot
 plot <- ggplot(dat, aes(x = X, y = Y)) +
   coord_equal(xlim = c(-1.1, 1.1), ylim = c(-1.1, 1.1)) +
@@ -234,7 +234,7 @@ It also takes **density** and **aspect_ratio** as parameters, and they function 
 previously described. Again, the desirable density will depend on both the ranges of the axes 
 and the dimensions of the image.
 
-```{r contents_3A, dpi = 300, fig.width = 12, fig.height = 6, fig.alt = 'position_circlepack() and position_circlepackdodge()'}
+```{r contents_3A, dpi = 96, fig.width = 12, fig.height = 6, fig.alt = 'position_circlepack() and position_circlepackdodge()'}
 # position_circlepack()
 plot <- ggplot(dat, aes(x = X, y = Y, size = Size)) +
   geom_point(position = position_circlepack(density = 0.25, aspect_ratio = 1),
@@ -264,7 +264,7 @@ Like **position_sunflower()**, **position_circlepack()** creates meta-points fro
 the inside out in the order of the data. Thus, arranging the data by size will
 organize the meta-points accordingly.
 
-```{r contents_3B, dpi = 300, fig.width = 12, fig.height = 4, fig.alt = 'random, ascending, descending'}
+```{r contents_3B, dpi = 96, fig.width = 12, fig.height = 4, fig.alt = 'random, ascending, descending'}
 # random size, base plot
 random <- dat |> ggplot(aes(x = X, y = Y, size = Size)) +
   geom_point(position = position_circlepack(density = 0.075, aspect_ratio = 1),
@@ -301,7 +301,7 @@ and **PA_support**, the participant's post-treatment support for the Patriot Act
 The data is visualized below using **position_sunflowerdodge()** from 'vayr' 
 so as to demonstrate the package's functionality with a real-world example.
 
-```{r patriot_act_visualization, dpi = 300, fig.width = 10, fig.height = 6, fig.alt = "patriot_act"}
+```{r patriot_act_visualization, dpi = 96, fig.width = 10, fig.height = 6, fig.alt = "patriot_act"}
 # A df for statistical models
 summary_df <- patriot_act |> 
   group_by(T1_content, pid_3, sample_label) |> 
