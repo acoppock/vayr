@@ -1,17 +1,19 @@
 #' Distribute points using a sunflower seed algorithm
 #'
-#' This function distributes points in a ellipse via a sunflower seed algorithm as a solution for over-plotting.
-#' To implement the algorithm, this function adapts the code from https://stackoverflow.com/questions/28567166/uniformly-distribute-x-points-inside-a-circle.
+#' This function distributes points in a ellipse via a sunflower seed algorithm
+#' as a solution for over-plotting. To implement the algorithm, this function
+#' adapts the code from https://stackoverflow.com/questions/28567166/uniformly-distribute-x-points-inside-a-circle.
 #'
 #' @family Functions
 #'
-#' @param x,y The identical coordinates of multiple over-plotted points, as vectors, which will
-#' be arranged using a sunflower seed algorithm.
+#' @param x,y The identical coordinates of multiple over-plotted points, as vectors,
+#' which will be arranged using a sunflower seed algorithm.
 #' @param density The pattern density.
-#' @param aspect_ratio An aspect ratio adjustment to compensate for distortion of the circular arrangement,
-#' which might occur when plotting if coord_equal() is not used. A wide aspect ratio (eg. 2)
-#' would adjust for vertical stretching, whereas a tall aspect ratio (eg. 0.5) would adjust for
-#' horizontal stretching. An aspect ratio of 1 is appropriate when no adjustment is required.
+#' @param aspect_ratio An aspect ratio adjustment to compensate for distortion of
+#' the circular arrangement, which might occur when plotting if coord_equal()
+#' is not used. A wide aspect ratio (eg. 2) would adjust for vertical stretching,
+#' whereas a tall aspect ratio (eg. 0.5) would adjust for horizontal stretching.
+#' An aspect ratio of 1 is appropriate when no adjustment is required.
 #'
 #' @returns A numeric vector of adjusted `x` or `y` positions, computed using a sunflower seed algorithm.
 #'
@@ -76,8 +78,8 @@ sunflower <- function(x = NULL, y = NULL, density, aspect_ratio) {
 
 #' Arrange over-plotted points in a sunflower pattern
 #'
-#' This function applies the sunflower algorithm, as executed by the sunflower function, as a position adjustment,
-#' arranging overlapping points at any given x and y into a sunflower pattern. See the 'sunflower()' documentation for
+#' This function applies the sunflower algorithm, executed by the sunflower() function, as a position adjustment,
+#' arranging overlapping points at any given x and y into a sunflower pattern. See the sunflower() documentation for
 #' more information.
 #'
 #' @family Functions
@@ -142,7 +144,7 @@ PositionSunflower <-
 #' Arrange over-plotted points in a sunflower pattern and dodge groups side-to-side
 #'
 #' This function applies the sunflower position adjustment alongside the dodge position adjustment,
-#' arranging overlapping points per x, y, and group into a sunflower pattern. See the 'sunflower()' documentation for
+#' arranging overlapping points per x, y, and group into a sunflower pattern. See the sunflower() documentation for
 #' more information.
 #'
 #' @family Functions

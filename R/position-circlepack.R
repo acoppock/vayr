@@ -100,7 +100,7 @@ PositionCirclePack <-
 
 #' Arrange over-plotted points with a circle-packing algorithm and dodge groups side-to-side
 #'
-#' This function uses a circle packing algorithm from the 'packcircles' package
+#' This function dodges groups and uses a circle packing algorithm from the 'packcircles' package
 #' to arrange perfectly over-plotted points of varying sizes into a elliptical area.
 #'
 #' @family Functions
