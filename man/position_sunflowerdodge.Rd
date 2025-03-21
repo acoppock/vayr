@@ -13,8 +13,8 @@ position_sunflowerdodge(width = 1, density = 1, aspect_ratio = 1)
 The desirable density will depend on both the ranges of the axes and the dimensions of the image.}
 
 \item{aspect_ratio}{An aspect ratio adjustment to compensate for distortion of the circular arrangement,
-which might occur when plotting if coord_equal() is not used. A wide aspect ratio (eg. 0.5)
-would adjust for vertical stretching, whereas a tall aspect ratio (eg. 2) would adjust for
+which might occur when plotting if coord_equal() is not used. A wide aspect ratio (eg. 2)
+would adjust for vertical stretching, whereas a tall aspect ratio (eg. 0.5) would adjust for
 horizontal stretching. The default aspect ratio of 1 is appropriate when no adjustment is required.}
 }
 \value{
@@ -44,7 +44,7 @@ more information.
 
   # Without coord_equal, might want to play with aspect ratio to get a pleasing plot
   ggplot(dat, aes(x, y, color = type, shape = type)) +
-    geom_point(position = position_sunflowerdodge(width = 0.5, density = 10, aspect_ratio = 4))
+    geom_point(position = position_sunflowerdodge(width = 0.5, density = 10, aspect_ratio = 1/4))
 
 }
 \seealso{

@@ -10,8 +10,8 @@
 #' the ranges of the axes and the dimensions of the image. It will also depend
 #' on the size scale.
 #' @param aspect_ratio An aspect ratio adjustment to compensate for distortion of the circular arrangement,
-#' which might occur when plotting if coord_equal() is not used. A wide aspect ratio (eg. 0.5)
-#' would adjust for vertical stretching, whereas a tall aspect ratio (eg. 2) would adjust for
+#' which might occur when plotting if coord_equal() is not used. A wide aspect ratio (eg. 2)
+#' would adjust for vertical stretching, whereas a tall aspect ratio (eg. 0.5) would adjust for
 #' horizontal stretching. The default aspect ratio of 1 is appropriate when no adjustment is required.
 #'
 #' @returns A `ggproto` object of class `PositionCirclePack`.
@@ -89,7 +89,7 @@ PositionCirclePack <-
         circle_layout <- packcircles::circleProgressiveLayout(pair$size_normalized * density)
 
         pair$x <- circle_layout$x + pair$x
-        pair$y <- (circle_layout$y * self$aspect_ratio) + pair$y
+        pair$y <- (circle_layout$y / self$aspect_ratio) + pair$y
 
         return(pair)
       }))
@@ -111,8 +111,8 @@ PositionCirclePack <-
 #' the ranges of the axes and the dimensions of the image. It will also depend
 #' on the size scale.
 #' @param aspect_ratio An aspect ratio adjustment to compensate for distortion of the circular arrangement,
-#' which might occur when plotting if coord_equal() is not used. A wide aspect ratio (eg. 0.5)
-#' would adjust for vertical stretching, whereas a tall aspect ratio (eg. 2) would adjust for
+#' which might occur when plotting if coord_equal() is not used. A wide aspect ratio (eg. 2)
+#' would adjust for vertical stretching, whereas a tall aspect ratio (eg. 0.5) would adjust for
 #' horizontal stretching. The default aspect ratio of 1 is appropriate when no adjustment is required.
 #'
 #' @returns A `ggproto` object of class `PositionCirclePackDodge`.
@@ -165,7 +165,7 @@ PositionCirclePackDodge <-
         packcircles::circleProgressiveLayout(pair$size_normalized * density)
 
         pair$x <- circle_layout$x + pair$x
-        pair$y <- (circle_layout$y * self$aspect_ratio) + pair$y
+        pair$y <- (circle_layout$y / self$aspect_ratio) + pair$y
 
         return(pair)
       }))

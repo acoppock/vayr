@@ -9,8 +9,8 @@
 #' be arranged using a sunflower seed algorithm.
 #' @param density The pattern density.
 #' @param aspect_ratio An aspect ratio adjustment to compensate for distortion of the circular arrangement,
-#' which might occur when plotting if coord_equal() is not used. A wide aspect ratio (eg. 0.5)
-#' would adjust for vertical stretching, whereas a tall aspect ratio (eg. 2) would adjust for
+#' which might occur when plotting if coord_equal() is not used. A wide aspect ratio (eg. 2)
+#' would adjust for vertical stretching, whereas a tall aspect ratio (eg. 0.5) would adjust for
 #' horizontal stretching. An aspect ratio of 1 is appropriate when no adjustment is required.
 #'
 #' @returns A numeric vector of adjusted `x` or `y` positions, computed using a sunflower seed algorithm.
@@ -56,7 +56,7 @@ sunflower <- function(x = NULL, y = NULL, density, aspect_ratio) {
     phi <- (sqrt(5) + 1) / 2  # golden ratio
 
     width <- radius / sqrt((100 * density) / n)
-    height <- (radius / sqrt((100 * density) / n)) * aspect_ratio
+    height <- (radius / sqrt((100 * density) / n)) / aspect_ratio
 
     radius <-
       function(k, n, b) {
@@ -85,8 +85,8 @@ sunflower <- function(x = NULL, y = NULL, density, aspect_ratio) {
 #' @param density The pattern density, which defaults to 1 but will have to be adjusted in most cases.
 #' The desirable density will depend on both the ranges of the axes and the dimensions of the image.
 #' @param aspect_ratio An aspect ratio adjustment to compensate for distortion of the circular arrangement,
-#' which might occur when plotting if coord_equal() is not used. A wide aspect ratio (eg. 0.5)
-#' would adjust for vertical stretching, whereas a tall aspect ratio (eg. 2) would adjust for
+#' which might occur when plotting if coord_equal() is not used. A wide aspect ratio (eg. 2)
+#' would adjust for vertical stretching, whereas a tall aspect ratio (eg. 0.5) would adjust for
 #' horizontal stretching. The default aspect ratio of 1 is appropriate when no adjustment is required.
 #'
 #'
@@ -151,8 +151,8 @@ PositionSunflower <-
 #' @param density The pattern density, which defaults to 1 but will have to be adjusted in most cases.
 #' The desirable density will depend on both the ranges of the axes and the dimensions of the image.
 #' @param aspect_ratio An aspect ratio adjustment to compensate for distortion of the circular arrangement,
-#' which might occur when plotting if coord_equal() is not used. A wide aspect ratio (eg. 0.5)
-#' would adjust for vertical stretching, whereas a tall aspect ratio (eg. 2) would adjust for
+#' which might occur when plotting if coord_equal() is not used. A wide aspect ratio (eg. 2)
+#' would adjust for vertical stretching, whereas a tall aspect ratio (eg. 0.5) would adjust for
 #' horizontal stretching. The default aspect ratio of 1 is appropriate when no adjustment is required.
 #'
 #' @returns A `ggproto` object of class `PositionSunflowerDodge`.
@@ -178,7 +178,7 @@ PositionSunflower <-
 #'
 #'   # Without coord_equal, might want to play with aspect ratio to get a pleasing plot
 #'   ggplot(dat, aes(x, y, color = type, shape = type)) +
-#'     geom_point(position = position_sunflowerdodge(width = 0.5, density = 10, aspect_ratio = 4))
+#'     geom_point(position = position_sunflowerdodge(width = 0.5, density = 10, aspect_ratio = 1/4))
 #'
 position_sunflowerdodge <- function(width = 1, density = 1, aspect_ratio = 1) {
   ggplot2::ggproto(NULL, PositionSunflowerDodge, width = width, density = density, aspect_ratio = aspect_ratio)
