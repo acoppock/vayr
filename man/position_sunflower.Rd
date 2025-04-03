@@ -19,8 +19,8 @@ horizontal stretching. The default aspect ratio of 1 is appropriate when no adju
 A \code{ggproto} object of class \code{PositionSunflower}.
 }
 \description{
-This function applies the sunflower algorithm, as executed by the sunflower function, as a position adjustment,
-arranging overlapping points at any given x and y into a sunflower pattern. See the 'sunflower()' documentation for
+This function applies the sunflower algorithm, executed by the sunflower() function, as a position adjustment,
+arranging overlapping points at any given x and y into a sunflower pattern. See the sunflower() documentation for
 more information.
 }
 \examples{

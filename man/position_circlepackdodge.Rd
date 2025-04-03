@@ -23,7 +23,7 @@ horizontal stretching. The default aspect ratio of 1 is appropriate when no adju
 A \code{ggproto} object of class \code{PositionCirclePackDodge}.
 }
 \description{
-This function uses a circle packing algorithm from the 'packcircles' package
+This function dodges groups and uses a circle packing algorithm from the 'packcircles' package
 to arrange perfectly over-plotted points of varying sizes into a elliptical area.
 }
 \examples{

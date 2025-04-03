@@ -51,7 +51,7 @@ sunflower <- function(x = NULL, y = NULL, density, aspect_ratio) {
       stop("requires either x or y")
     }
 
-    radius = 0.5 # constant radius
+    radius = 1 # constant radius
 
     alpha = 2
     b <- round(alpha * sqrt(n))  # number of boundary points

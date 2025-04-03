@@ -22,7 +22,7 @@ A \code{ggproto} object of class \code{PositionSunflowerDodge}.
 }
 \description{
 This function applies the sunflower position adjustment alongside the dodge position adjustment,
-arranging overlapping points per x, y, and group into a sunflower pattern. See the 'sunflower()' documentation for
+arranging overlapping points per x, y, and group into a sunflower pattern. See the sunflower() documentation for
 more information.
 }
 \examples{

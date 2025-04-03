@@ -32,7 +32,7 @@ to perfectly over-plotted points. See the position_jitter_ellipse() documentatio
   dat <- data.frame(x = rep(1, 500), y = rep(1, 500),
                     group = sample(LETTERS[1:2], 500, replace = TRUE))
 
-  ggplot(dat, aes(x, y, shape = group)) +
+  ggplot(dat, aes(x, y, shape = group, color = group)) +
     geom_point(position = position_jitterdodge_ellipse(jitter.width  = 0.5,
                                                        jitter.height =  0.5,
                                                        dodge.width = 1)) +

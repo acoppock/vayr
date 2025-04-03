@@ -18,7 +18,8 @@ A \code{ggproto} object of class \code{PositionJitterEllipse}.
 \description{
 This function adds elliptical random noise to perfectly over-plotted points,
 offering a pleasing way to visualize many points that represent the same position.
-In contrast to the position_jitter function which samples from a rectangular field, the position_jitter_ellipse function samples from an elliptical field.
+In contrast to the position_jitter() function which samples from a rectangular field,
+the position_jitter_ellipse() function samples from an elliptical field.
 This function takes algorithmic inspiration from https://stackoverflow.com/questions/5529148/algorithm-calculate-pseudo-random-point-inside-an-ellipse
 and https://stats.stackexchange.com/questions/120527/simulate-a-uniform-distribution-on-a-disc.
 }
