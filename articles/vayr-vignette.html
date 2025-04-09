@@ -249,11 +249,15 @@ useful when using the position adjustment without
 <code><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html" class="external-link">coord_equal()</a></code>. The flowers can be made wider or taller to
 compensate for the aspect ratio of the axes or the image. The aspect
 ratio of the flowers should be set to the opposite of the aspect ratio
-for which it must compensate. For instance, consider a plot with anx
+for which it must compensate. For instance, consider a plot with an x
 axis that ranges from 0 to 1, and a y axis that ranges from 0 to 2.
 Saving this plot as a square image would squish the y axis, resulting in
 wider flowers. Setting the aspect ratio of the flowers to 0.5 would
-offset this distortion.</p>
+offset this distortion. Note that while the aspect ratio is
+parameterized as width to height, the <code>ratio</code> parameter for
+coord_fixed() is height to width. So in this case, setting
+<code>aspect_ratio</code> equal to <code>ratio</code> results in
+non-distorted distributions.</p>
 <p><img src="vayr-vignette_files/figure-html/contents_2C-1.png" alt="aspect_ratio" width="100%"></p>
 </div>
 <div class="section level3">
