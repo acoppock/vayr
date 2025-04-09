@@ -214,11 +214,13 @@ The `aspect_ratio` parameter changes the aspect ratio of the flowers, which is
 their width divided by their height. This is useful when using the position 
 adjustment without `coord_equal()`. The flowers can be made wider or taller to 
 compensate for the aspect ratio of the axes or the image. The aspect ratio of the 
-flowers should be set to the opposite of the aspect ratio for which it must compensate. 
-For instance, consider a plot with anx axis that ranges from 0 to 1, and a y axis 
-that ranges from 0 to 2. Saving this plot as a square image would  squish the y 
+flowers should be set to the opposite of the aspect ratio for which it must compensate.
+For instance, consider a plot with an x axis that ranges from 0 to 1, and a y axis 
+that ranges from 0 to 2. Saving this plot as a square image would squish the y 
 axis, resulting in wider flowers. Setting the aspect ratio of the flowers to 0.5 
-would offset this distortion.
+would offset this distortion. Note that while the aspect ratio is parameterized as width to height,
+the `ratio` parameter for coord_fixed() is height to width. So in this case, setting 
+`aspect_ratio` equal to `ratio` results in non-distorted distributions.
 
 ``` {r contents_2C, dpi = 96, fig.width = 12, fig.height = 12, fig.alt = 'aspect_ratio', echo = FALSE}
 flower_ratios <- rep(c(0.5, 1, 2), each = 3)
@@ -236,10 +238,10 @@ for (i in 1:9) {
                 ylim = c(-2, 2),
                 ratio = axis_ratios[i]) +
     theme_bw() +
-    labs(title = paste0("aspect_ratio = ", flower_ratios[i])) +
+    labs(title = paste0("aspect_ratio = ", flower_ratios[i], "\ncoord_fixed(ratio = ", axis_ratios[i], ")")) +
     theme(axis.title = element_blank(),
           panel.grid.minor = element_blank(),
-          plot.title = element_text(face = "bold"))
+          plot.title = element_text(face = "bold", size = 10))
 }
 
 wrap_plots(aspect_ratio_plots, ncol = 3)

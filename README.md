@@ -193,10 +193,13 @@ the position adjustment without `coord_equal()`. The flowers can be made
 wider or taller to compensate for the aspect ratio of the axes or the
 image. The aspect ratio of the flowers should be set to the opposite of
 the aspect ratio for which it must compensate. For instance, consider a
-plot with anx axis that ranges from 0 to 1, and a y axis that ranges
+plot with an x axis that ranges from 0 to 1, and a y axis that ranges
 from 0 to 2. Saving this plot as a square image would squish the y axis,
 resulting in wider flowers. Setting the aspect ratio of the flowers to
-0.5 would offset this distortion.
+0.5 would offset this distortion. Note that while the aspect ratio is
+parameterized as width to height, the `ratio` parameter for
+coord_fixed() is height to width. So in this case, setting
+`aspect_ratio` equal to `ratio` results in non-distorted distributions.
 
 <img src="man/figures/README-contents_2C-1.png" alt="aspect_ratio" width="100%" />
 
