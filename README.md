@@ -181,7 +181,7 @@ The `density` parameter controls the density of the pattern. A density
 of 1 is normalized to 100 points in a unit circle; a density of 2, 200
 points; and a density of 0.5, 50 points. Because density is normalized
 relative to Cartesian units, its visual effect depends on the ranges of
-the axes and the dimensions of the saved image.Smaller ranges or larger
+the axes and the dimensions of the saved image. Smaller ranges or larger
 dimensions require a greater density to produce the same visual effect.
 The size of points should also be taken into account.
 
