@@ -17,7 +17,7 @@ A data frame with 2062 rows and 4 columns:
 }
 }
 \source{
-\url{https://doi.org/10.7910/DVN/I9GSKI}
+\doi{doi:10.7910/DVN/I9GSKI}
 }
 \usage{
 patriot_act
