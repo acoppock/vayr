@@ -3,7 +3,7 @@ pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   vayr-vignette: vayr-vignette.html
-last_built: 2025-04-10T02:10Z
+last_built: 2025-04-10T02:27Z
 urls:
   reference: https://alexandercoppock.com/vayr/index.html/reference
   article: https://alexandercoppock.com/vayr/index.html/articles
