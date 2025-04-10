@@ -10,6 +10,6 @@
 #'   \item{T1_content}{Content of assigned treatment condition: pro-Patriot act statements, anti-Patriot act statements, or a control}
 #'   \item{PA_support}{Post-treatment support for the Patriot Act on a 1 to 7 Likert scale}
 #' }
-#' @source \doi{doi:10.7910/DVN/I9GSKI}
+#' @source \doi{10.7910/DVN/I9GSKI}
 #'
 "patriot_act"
