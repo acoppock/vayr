@@ -9,7 +9,7 @@ Description: Position adjustments for 'ggplot2' to implement "visualize as
     you randomize" principles, which can be especially useful when
     plotting experimental data.
 License: GPL-2 | file LICENSE
-URL: https://alexandercoppock.com/vayr/index.html
+URL: https://alexandercoppock.com/vayr/
 Depends:
     R (>= 4.1.0)
 Imports:
