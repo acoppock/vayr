@@ -30,18 +30,33 @@ the \doi{} form.
 
 ## R CMD check results
 
-0 errors | 0 warnings | 0 notes
+0 errors | 0 warnings | 1 note
+
+The note is from win-builder only:
+
+```
+* checking CRAN incoming feasibility ... NOTE
+Maintainer: 'Alexander Coppock <acoppock@gmail.com>'
+
+Possibly misspelled words in DESCRIPTION:
+  Coppock (9:30)
+```
+
+Coppock is the surname of the package maintainer and of the author of the work
+the Description cites. It is spelled correctly.
 
 ## Test environments
 
 * local aarch64-apple-darwin23, R 4.6.0
+* win-builder, R Under development (2026-08-08 r90381 ucrt)
 * GitHub Actions, macos-latest, R release
 * GitHub Actions, windows-latest, R release
 * GitHub Actions, ubuntu-latest, R devel
 * GitHub Actions, ubuntu-latest, R release
 * GitHub Actions, ubuntu-latest, R oldrel-1
 
-All six report 0 errors, 0 warnings, 0 notes.
+All report 0 errors and 0 warnings. Only win-builder reports the note above; the
+other six report no notes.
 
 ## Reverse dependencies
 
