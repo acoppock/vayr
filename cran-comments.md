@@ -1,20 +1,36 @@
+## Summary
+
+This is a minor release of an existing package.
+
+It adds one exported function (`impute_extreme_values()`), seven simulated
+datasets, and a second vignette. It also fixes six bugs in the position
+adjustments. The most serious of those is that four of the six exported
+position adjustments used `resolution()`, `transform_position()`, and
+`PositionDodge` without qualification, so they resolved off the search path and
+failed for anyone who called `ggplot2::ggplot()` without first attaching
+'ggplot2'. They are now imported explicitly.
+
+Three of the fixes change where points are drawn, so figures produced under
+1.0.0 will not reproduce exactly under 1.1.0. NEWS.md says which three.
+
+The Description field now cites the book chapter the package implements, using
+the \doi{} form.
+
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
+0 errors | 0 warnings | 0 notes
 
-* This is a new release.
+## Test environments
 
-We have checked this in win builder and on OS X with no issues. 
+* local aarch64-apple-darwin23, R 4.6.0
+* GitHub Actions, macos-latest, R release
+* GitHub Actions, windows-latest, R release
+* GitHub Actions, ubuntu-latest, R devel
+* GitHub Actions, ubuntu-latest, R release
+* GitHub Actions, ubuntu-latest, R oldrel-1
 
-* This is a resubmission that fixes two NOTES:
+All six report 0 errors, 0 warnings, 0 notes.
 
-1. Missing dependency on R >= 4.1.0 because package code uses the pipe
-  |> or function shorthand \(...) syntax added in R 4.1.0.
-  
-We have updated the R dependency
+## Reverse dependencies
 
-2. Found the following URLs which should use \doi (with the DOI name only):
-  File 'patriot_act.Rd':
-    https://doi.org/10.7910/DVN/I9GSKI
-  
-We have updated to \doi{10.7910/DVN/I9GSKI}
+There are no reverse dependencies.

@@ -11,7 +11,7 @@
 #' This function does the imputation only, so that the two scenarios can be
 #' plotted alongside the observed data. It estimates nothing. For the bounds
 #' themselves and their uncertainty, see `estimator_ev()` in the 'attrition'
-#' package.
+#' package, available at <https://github.com/acoppock/attrition>.
 #'
 #' `range` has no default. The logical minimum and maximum of the outcome are
 #' the substantive input the bounds rest on, so they are stated at the call
