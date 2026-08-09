@@ -5,9 +5,13 @@ Authors@R:
     c(person("Alexander", "Coppock", , "acoppock@gmail.com", role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0000-0002-5733-2386")),
            person("Elias", "Hyde", , "eliasworrallhyde@gmail.com", role = "ctb"))
-Description: Position adjustments for 'ggplot2' to implement "visualize as
-    you randomize" principles, which can be especially useful when
-    plotting experimental data.
+Description: Extensions for 'ggplot2' that implement the "visualize as you
+    randomize" principles of Coppock (2021)
+    <doi:10.1017/9781108777919.022>, which can be especially useful when
+    plotting experimental data. Provides position adjustments that arrange
+    over-plotted points so that a statistical model can be shown in
+    data-space, and a helper for graphing extreme value bounds when an
+    experiment encounters attrition.
 License: GPL-2 | file LICENSE
 URL: https://alexandercoppock.com/vayr/
 Depends:
@@ -26,6 +30,7 @@ Suggests:
     sessioninfo,
     testthat,
     tibble,
+    tidyr,
     tidyverse
 VignetteBuilder:
     knitr

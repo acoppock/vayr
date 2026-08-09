@@ -16,6 +16,10 @@
   and all report both potential outcomes and the probability of the assigned
   condition.
 
+* A second vignette, `vignette("design-based-graphs")`, reproduces the
+  chapter's seven worked examples, one per experimental design, contrasting a
+  strong graph with a weak one in each case.
+
 ## Bug fixes
 
 All six position adjustments now have behavioural tests covering the geometry they promise, which is how these were found.
