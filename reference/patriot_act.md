@@ -13,7 +13,7 @@ patriot_act
 
 ### `patriot_act`
 
-A data frame with 2062 rows and 4 columns:
+A tibble with 2062 rows and 4 columns:
 
 - sample_label:
 
@@ -37,3 +37,14 @@ A data frame with 2062 rows and 4 columns:
 ## Source
 
 [doi:10.7910/DVN/I9GSKI](https://doi.org/10.7910/DVN/I9GSKI)
+
+## See also
+
+Other Data:
+[`attrition_experiment`](https://alexandercoppock.com/vayr/reference/attrition_experiment.md),
+[`blocked_experiment`](https://alexandercoppock.com/vayr/reference/blocked_experiment.md),
+[`clustered_experiment`](https://alexandercoppock.com/vayr/reference/clustered_experiment.md),
+[`continuous_interaction`](https://alexandercoppock.com/vayr/reference/continuous_interaction.md),
+[`covariate_adjustment`](https://alexandercoppock.com/vayr/reference/covariate_adjustment.md),
+[`noncompliance_experiment`](https://alexandercoppock.com/vayr/reference/noncompliance_experiment.md),
+[`two_arm_trial`](https://alexandercoppock.com/vayr/reference/two_arm_trial.md)

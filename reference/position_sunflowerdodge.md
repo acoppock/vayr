@@ -40,6 +40,7 @@ A `ggproto` object of class `PositionSunflowerDodge`.
 ## See also
 
 Other Functions:
+[`impute_extreme_values()`](https://alexandercoppock.com/vayr/reference/impute_extreme_values.md),
 [`position_circlepack()`](https://alexandercoppock.com/vayr/reference/position_circlepack.md),
 [`position_circlepackdodge()`](https://alexandercoppock.com/vayr/reference/position_circlepackdodge.md),
 [`position_jitter_ellipse()`](https://alexandercoppock.com/vayr/reference/position_jitter_ellipse.md),

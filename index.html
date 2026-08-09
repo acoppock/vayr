@@ -11,8 +11,8 @@
 <script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Extensions for ggplot2 to Visualize as You Randomize">
-<meta name="description" content='Position adjustments for ggplot2 to implement "visualize as you randomize" principles, which can be especially useful when plotting experimental data.'>
-<meta property="og:description" content='Position adjustments for ggplot2 to implement "visualize as you randomize" principles, which can be especially useful when plotting experimental data.'>
+<meta name="description" content='Extensions for ggplot2 that implement the "visualize as you randomize" principles of Coppock (2021) &lt;doi:10.1017/9781108777919.022&gt;, which can be especially useful when plotting experimental data. Provides position adjustments that arrange over-plotted points so that a statistical model can be shown in data-space, and a helper for graphing extreme value bounds when an experiment encounters attrition.'>
+<meta property="og:description" content='Extensions for ggplot2 that implement the "visualize as you randomize" principles of Coppock (2021) &lt;doi:10.1017/9781108777919.022&gt;, which can be especially useful when plotting experimental data. Provides position adjustments that arrange over-plotted points so that a statistical model can be shown in data-space, and a helper for graphing extreme value bounds when an experiment encounters attrition.'>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;1,400&amp;family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&amp;family=IBM+Plex+Mono:wght@400&amp;display=swap" rel="stylesheet">
@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="index.html">vayr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,7 +38,8 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="articles/vayr-vignette.html">Visualize as you randomize</a></li>
+<li><a class="dropdown-item" href="articles/design-based-graphs.html">Design-based graphs for seven experiments</a></li>
+    <li><a class="dropdown-item" href="articles/vayr-vignette.html">Visualize as you randomize</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
@@ -59,7 +60,7 @@
 </h1></div>
 <!-- badges: start -->
 
-<p>The goal of <code>vayr</code> is to provide <code>ggplot2</code> extensions that foster “visualize as you randomize” principles. These principles are outlined in detail in “Visualize As You Randomize: Design-based Statistical Graphs for Randomized Experiments,” a chapter in <em>Advances in Experimental Political Science</em> (<a href="https://alexandercoppock.com/coppock_2020.pdf" class="external-link">PDF</a>, <a href="https://doi.org/10.1017/9781108777919.022" class="external-link">DOI</a>). The package includes position adjustments that avoid over-plotting, which helps organize “data-space” to better contextualize statistical models.</p>
+<p>The goal of <code>vayr</code> is to provide <code>ggplot2</code> extensions that foster “visualize as you randomize” principles. These principles are outlined in detail in “Visualize As You Randomize: Design-based Statistical Graphs for Randomized Experiments,” a chapter in <em>Advances in Experimental Political Science</em> (<a href="https://alexandercoppock.com/coppock_2021.pdf" class="external-link">PDF</a>, <a href="https://doi.org/10.1017/9781108777919.022" class="external-link">DOI</a>). The package includes position adjustments that avoid over-plotting, which helps organize “data-space” to better contextualize statistical models.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -149,10 +150,12 @@
 <div class="section level2">
 <h2 id="learn-more">Learn more<a class="anchor" aria-label="anchor" href="#learn-more"></a>
 </h2>
-<p>The vignette walks through every position adjustment, explains how <code>density</code> and <code>aspect_ratio</code> interact with the plotting region, and closes with a worked example that plots an experiment’s data and its statistical model together:</p>
+<p>There are two vignettes. The first walks through every position adjustment, explains how <code>density</code> and <code>aspect_ratio</code> interact with the plotting region, and closes with a worked example that plots an experiment’s data and its statistical model together. The second reproduces the seven worked examples from the chapter, one per experimental design, using the chapter’s own simulated data, which ships with the package.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html" class="external-link">vignette</a></span><span class="op">(</span><span class="st">"vayr-vignette"</span>, package <span class="op">=</span> <span class="st">"vayr"</span><span class="op">)</span></span></code></pre></div>
-<p>It is also on the package site, along with the reference documentation: <a href="https://alexandercoppock.com/vayr/" class="uri">https://alexandercoppock.com/vayr/</a>.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html" class="external-link">vignette</a></span><span class="op">(</span><span class="st">"vayr-vignette"</span>, package <span class="op">=</span> <span class="st">"vayr"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html" class="external-link">vignette</a></span><span class="op">(</span><span class="st">"design-based-graphs"</span>, package <span class="op">=</span> <span class="st">"vayr"</span><span class="op">)</span></span></code></pre></div>
+<p>Both are on the package site, along with the reference documentation: <a href="https://alexandercoppock.com/vayr/" class="uri">https://alexandercoppock.com/vayr/</a>.</p>
+<p><code>vayr</code> also provides <code><a href="reference/impute_extreme_values.html">impute_extreme_values()</a></code>, which prepares the extreme value bounds figure for an experiment that encountered attrition.</p>
 </div>
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>

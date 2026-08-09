@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">vayr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,7 +18,8 @@
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/vayr-vignette.html">Visualize as you randomize</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/design-based-graphs.html">Design-based graphs for seven experiments</a></li>
+    <li><a class="dropdown-item" href="../articles/vayr-vignette.html">Visualize as you randomize</a></li>
   </ul></li>
 <li class="active nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -36,8 +37,16 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.0.1" id="vayr-101">vayr 1.0.1<a class="anchor" aria-label="anchor" href="#vayr-101"></a></h2>
-<p>Bug fixes. All six position adjustments now have behavioural tests covering the geometry they promise, which is how these were found.</p>
+<h2 class="pkg-version" data-toc-text="1.1.0" id="vayr-110">vayr 1.1.0<a class="anchor" aria-label="anchor" href="#vayr-110"></a></h2>
+<div class="section level3">
+<h3 id="new-features-1-1-0">New features<a class="anchor" aria-label="anchor" href="#new-features-1-1-0"></a></h3>
+<ul><li><p><code><a href="../reference/impute_extreme_values.html">impute_extreme_values()</a></code> prepares the extreme value bounds figure for an experiment with attrition, imputing the logical best case and worst case for the missing outcomes and flagging which points are observed and which are imputed. It estimates nothing; <code>attrition::estimator_ev()</code> provides the bounds themselves. The outcome’s logical range is required at the call site rather than guessed from the data, because guessing narrows the bounds.</p></li>
+<li><p>Seven new datasets carry the worked examples from the chapter the package implements: <code>two_arm_trial</code>, <code>blocked_experiment</code>, <code>clustered_experiment</code>, <code>covariate_adjustment</code>, <code>continuous_interaction</code>, <code>noncompliance_experiment</code>, and <code>attrition_experiment</code>. All are simulated, and all report both potential outcomes and the probability of the assigned condition.</p></li>
+<li><p>A second vignette, <code><a href="../articles/design-based-graphs.html">vignette("design-based-graphs")</a></code>, reproduces the chapter’s seven worked examples, one per experimental design, contrasting a strong graph with a weak one in each case.</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-1-1-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-1-0"></a></h3>
+<p>All six position adjustments now have behavioural tests covering the geometry they promise, which is how these were found.</p>
 <ul><li><p>The position adjustments no longer require <code>ggplot2</code> to be attached. They used <code><a href="https://ggplot2.tidyverse.org/reference/resolution.html" class="external-link">resolution()</a></code>, <code><a href="https://ggplot2.tidyverse.org/reference/transform_position.html" class="external-link">transform_position()</a></code>, and <code>PositionDodge</code> unqualified, so <code><a href="../reference/position_jitter_ellipse.html">position_jitter_ellipse()</a></code>, <code><a href="../reference/position_jitterdodge_ellipse.html">position_jitterdodge_ellipse()</a></code>, <code><a href="../reference/position_sunflowerdodge.html">position_sunflowerdodge()</a></code>, and <code><a href="../reference/position_circlepackdodge.html">position_circlepackdodge()</a></code> failed for anyone calling <code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot2::ggplot()</a></code> without <code><a href="https://ggplot2.tidyverse.org" class="external-link">library(ggplot2)</a></code>, and for any package importing ‘vayr’.</p></li>
 <li><p><code><a href="../reference/position_jitterdodge_ellipse.html">position_jitterdodge_ellipse()</a></code> gave every group the same jitter, so one group’s cloud was an exact translation of the next. Each group is now jittered independently.</p></li>
 <li><p><code><a href="../reference/position_jitter_ellipse.html">position_jitter_ellipse()</a></code> and <code><a href="../reference/position_jitterdodge_ellipse.html">position_jitterdodge_ellipse()</a></code> drew the radius and angle separately for the x and y shifts, which placed points outside the requested ellipse whenever <code>seed = NULL</code>. The two shifts now share one draw.</p></li>
@@ -45,6 +54,7 @@
 <li><p>All four splitting position adjustments returned rows in a different order than they received them. Row order is now preserved.</p></li>
 <li><p><code><a href="../reference/position_circlepackdodge.html">position_circlepackdodge()</a></code> ran the circle packing twice per group and discarded the first result.</p></li>
 </ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.0" id="vayr-100">vayr 1.0.0<a class="anchor" aria-label="anchor" href="#vayr-100"></a></h2><p class="text-muted">CRAN release: 2025-04-15</p>
 <ul><li>Initial CRAN submission.</li>

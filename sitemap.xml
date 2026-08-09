@@ -2,12 +2,20 @@
 <url><loc>https://alexandercoppock.com/vayr/404.html</loc></url>
 <url><loc>https://alexandercoppock.com/vayr/LICENSE-text.html</loc></url>
 <url><loc>https://alexandercoppock.com/vayr/LICENSE.html</loc></url>
+<url><loc>https://alexandercoppock.com/vayr/articles/design-based-graphs.html</loc></url>
 <url><loc>https://alexandercoppock.com/vayr/articles/index.html</loc></url>
 <url><loc>https://alexandercoppock.com/vayr/articles/vayr-vignette.html</loc></url>
 <url><loc>https://alexandercoppock.com/vayr/authors.html</loc></url>
 <url><loc>https://alexandercoppock.com/vayr/index.html</loc></url>
 <url><loc>https://alexandercoppock.com/vayr/news/index.html</loc></url>
+<url><loc>https://alexandercoppock.com/vayr/reference/attrition_experiment.html</loc></url>
+<url><loc>https://alexandercoppock.com/vayr/reference/blocked_experiment.html</loc></url>
+<url><loc>https://alexandercoppock.com/vayr/reference/clustered_experiment.html</loc></url>
+<url><loc>https://alexandercoppock.com/vayr/reference/continuous_interaction.html</loc></url>
+<url><loc>https://alexandercoppock.com/vayr/reference/covariate_adjustment.html</loc></url>
+<url><loc>https://alexandercoppock.com/vayr/reference/impute_extreme_values.html</loc></url>
 <url><loc>https://alexandercoppock.com/vayr/reference/index.html</loc></url>
+<url><loc>https://alexandercoppock.com/vayr/reference/noncompliance_experiment.html</loc></url>
 <url><loc>https://alexandercoppock.com/vayr/reference/patriot_act.html</loc></url>
 <url><loc>https://alexandercoppock.com/vayr/reference/position_circlepack.html</loc></url>
 <url><loc>https://alexandercoppock.com/vayr/reference/position_circlepackdodge.html</loc></url>
@@ -16,6 +24,7 @@
 <url><loc>https://alexandercoppock.com/vayr/reference/position_sunflower.html</loc></url>
 <url><loc>https://alexandercoppock.com/vayr/reference/position_sunflowerdodge.html</loc></url>
 <url><loc>https://alexandercoppock.com/vayr/reference/sunflower.html</loc></url>
+<url><loc>https://alexandercoppock.com/vayr/reference/two_arm_trial.html</loc></url>
 <url><loc>https://alexandercoppock.com/vayr/reference/vayr.html</loc></url>
 </urlset>
 

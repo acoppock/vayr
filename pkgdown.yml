@@ -2,8 +2,9 @@ pandoc: 3.8.3
 pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
+  design-based-graphs: design-based-graphs.html
   vayr-vignette: vayr-vignette.html
-last_built: 2026-08-09T02:56Z
+last_built: 2026-08-09T03:44Z
 urls:
   reference: https://alexandercoppock.com/vayr/reference
   article: https://alexandercoppock.com/vayr/articles

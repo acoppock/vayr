@@ -5,7 +5,7 @@ The goal of `vayr` is to provide `ggplot2` extensions that foster
 in detail in “Visualize As You Randomize: Design-based Statistical
 Graphs for Randomized Experiments,” a chapter in *Advances in
 Experimental Political Science*
-([PDF](https://alexandercoppock.com/coppock_2020.pdf),
+([PDF](https://alexandercoppock.com/coppock_2021.pdf),
 [DOI](https://doi.org/10.1017/9781108777919.022)). The package includes
 position adjustments that avoid over-plotting, which helps organize
 “data-space” to better contextualize statistical models.
@@ -127,18 +127,27 @@ origin](reference/figures/README-overview-1.png)
 
 ## Learn more
 
-The vignette walks through every position adjustment, explains how
-`density` and `aspect_ratio` interact with the plotting region, and
-closes with a worked example that plots an experiment’s data and its
-statistical model together:
+There are two vignettes. The first walks through every position
+adjustment, explains how `density` and `aspect_ratio` interact with the
+plotting region, and closes with a worked example that plots an
+experiment’s data and its statistical model together. The second
+reproduces the seven worked examples from the chapter, one per
+experimental design, using the chapter’s own simulated data, which ships
+with the package.
 
 ``` r
 
 vignette("vayr-vignette", package = "vayr")
+vignette("design-based-graphs", package = "vayr")
 ```
 
-It is also on the package site, along with the reference documentation:
+Both are on the package site, along with the reference documentation:
 <https://alexandercoppock.com/vayr/>.
+
+`vayr` also provides
+[`impute_extreme_values()`](https://alexandercoppock.com/vayr/reference/impute_extreme_values.md),
+which prepares the extreme value bounds figure for an experiment that
+encountered attrition.
 
 ## Citation
 
