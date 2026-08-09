@@ -7,7 +7,7 @@
 \format{
 \subsection{\code{patriot_act}}{
 
-A data frame with 2062 rows and 4 columns:
+A tibble with 2062 rows and 4 columns:
 \describe{
 \item{sample_label}{The original study (Chong and Druckman (2011) or the Mechanical Turk replication)}
 \item{pid_3}{Subject partisanship (limited to Republicans and Democracts, including leaners)}
@@ -24,6 +24,16 @@ patriot_act
 }
 \description{
 Original and Replication data for the Patriot Act experiment described in Persuasion in Parallel
+}
+\seealso{
+Other Data:
+\code{\link{attrition_experiment}},
+\code{\link{blocked_experiment}},
+\code{\link{clustered_experiment}},
+\code{\link{continuous_interaction}},
+\code{\link{covariate_adjustment}},
+\code{\link{noncompliance_experiment}},
+\code{\link{two_arm_trial}}
 }
 \concept{Data}
 \keyword{datasets}

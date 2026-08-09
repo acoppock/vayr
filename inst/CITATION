@@ -18,6 +18,6 @@ bibentry(
   title = "vayr: Extensions for 'ggplot2' to Visualize as You Randomize",
   author = c(person("Alexander", "Coppock"), person("Elias", "Hyde")),
   year = "2025",
-  note = "R package version 1.0.1",
+  note = "R package version 1.1.0",
   url = "https://CRAN.R-project.org/package=vayr"
 )

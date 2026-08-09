@@ -1,6 +1,24 @@
-# vayr 1.0.1
+# vayr 1.1.0
 
-Bug fixes. All six position adjustments now have behavioural tests covering the geometry they promise, which is how these were found.
+## New features
+
+* `impute_extreme_values()` prepares the extreme value bounds figure for an
+  experiment with attrition, imputing the logical best case and worst case for
+  the missing outcomes and flagging which points are observed and which are
+  imputed. It estimates nothing; `attrition::estimator_ev()` provides the bounds
+  themselves. The outcome's logical range is required at the call site rather
+  than guessed from the data, because guessing narrows the bounds.
+
+* Seven new datasets carry the worked examples from the chapter the package
+  implements: `two_arm_trial`, `blocked_experiment`, `clustered_experiment`,
+  `covariate_adjustment`, `continuous_interaction`,
+  `noncompliance_experiment`, and `attrition_experiment`. All are simulated,
+  and all report both potential outcomes and the probability of the assigned
+  condition.
+
+## Bug fixes
+
+All six position adjustments now have behavioural tests covering the geometry they promise, which is how these were found.
 
 * The position adjustments no longer require `ggplot2` to be attached. They used
   `resolution()`, `transform_position()`, and `PositionDodge` unqualified, so

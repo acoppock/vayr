@@ -11,3 +11,4 @@
 ^\.claude$
 ^doc$
 ^Meta$
+^data-raw$
