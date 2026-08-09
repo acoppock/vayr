@@ -67,7 +67,7 @@ summary_df <-
 
 good <-
   ggplot(two_arm_trial, aes(condition, Y)) +
-  geom_point(position = position_sunflower(density = 35, aspect_ratio = 5),
+  geom_point(position = position_sunflower(density = 60, aspect_ratio = 2),
              alpha = 0.2, stroke = 0) +
   geom_point(data = summary_df, size = 3) +
   geom_errorbar(data = summary_df, aes(ymin = conf.low, ymax = conf.high), width = 0) +
@@ -447,7 +447,7 @@ by_assignment <-
 
 good <-
   ggplot(long_df, aes(Z, value)) +
-  geom_point(position = position_sunflower(density = 35, aspect_ratio = 5),
+  geom_point(position = position_sunflower(density = 50, aspect_ratio = 4),
              alpha = 0.15, stroke = 0) +
   geom_point(data = by_assignment, size = 3) +
   geom_errorbar(data = by_assignment, aes(ymin = conf.low, ymax = conf.high), width = 0) +
@@ -468,7 +468,7 @@ by_receipt <-
 
 bad <-
   ggplot(received, aes(Z, Y)) +
-  geom_point(position = position_sunflower(density = 35, aspect_ratio = 5),
+  geom_point(position = position_sunflower(density = 50, aspect_ratio = 4),
              alpha = 0.15, stroke = 0) +
   geom_point(data = by_receipt, size = 3) +
   geom_errorbar(data = by_receipt, aes(ymin = conf.low, ymax = conf.high), width = 0) +
@@ -518,7 +518,7 @@ bound_means <-
 
 ggplot(bounded, aes(condition, Y)) +
   geom_point(aes(colour = imputed, shape = imputed),
-             position = position_sunflower(density = 45, aspect_ratio = 1 / 4),
+             position = position_sunflower(density = 45, aspect_ratio = 0.4),
              alpha = 0.5, stroke = 0) +
   geom_point(data = bound_means, size = 3) +
   geom_errorbar(data = bound_means, aes(ymin = conf.low, ymax = conf.high), width = 0) +
