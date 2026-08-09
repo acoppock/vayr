@@ -47,6 +47,7 @@ to arrange perfectly over-plotted points of varying sizes into an elliptical are
 }
 \seealso{
 Other Functions:
+\code{\link[=impute_extreme_values]{impute_extreme_values()}},
 \code{\link[=position_circlepack]{position_circlepack()}},
 \code{\link[=position_jitter_ellipse]{position_jitter_ellipse()}},
 \code{\link[=position_jitterdodge_ellipse]{position_jitterdodge_ellipse()}},

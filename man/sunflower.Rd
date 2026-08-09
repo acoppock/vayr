@@ -54,6 +54,7 @@ adapts the code from https://stackoverflow.com/questions/28567166/uniformly-dist
 }
 \seealso{
 Other Functions:
+\code{\link[=impute_extreme_values]{impute_extreme_values()}},
 \code{\link[=position_circlepack]{position_circlepack()}},
 \code{\link[=position_circlepackdodge]{position_circlepackdodge()}},
 \code{\link[=position_jitter_ellipse]{position_jitter_ellipse()}},

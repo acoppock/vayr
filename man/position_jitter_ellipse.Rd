@@ -41,6 +41,7 @@ and https://stats.stackexchange.com/questions/120527/simulate-a-uniform-distribu
 }
 \seealso{
 Other Functions:
+\code{\link[=impute_extreme_values]{impute_extreme_values()}},
 \code{\link[=position_circlepack]{position_circlepack()}},
 \code{\link[=position_circlepackdodge]{position_circlepackdodge()}},
 \code{\link[=position_jitterdodge_ellipse]{position_jitterdodge_ellipse()}},
