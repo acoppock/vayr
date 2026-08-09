@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">vayr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,11 +36,22 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.0.1" id="vayr-101">vayr 1.0.1<a class="anchor" aria-label="anchor" href="#vayr-101"></a></h2>
+<p>Bug fixes. All six position adjustments now have behavioural tests covering the geometry they promise, which is how these were found.</p>
+<ul><li><p>The position adjustments no longer require <code>ggplot2</code> to be attached. They used <code><a href="https://ggplot2.tidyverse.org/reference/resolution.html" class="external-link">resolution()</a></code>, <code><a href="https://ggplot2.tidyverse.org/reference/transform_position.html" class="external-link">transform_position()</a></code>, and <code>PositionDodge</code> unqualified, so <code><a href="../reference/position_jitter_ellipse.html">position_jitter_ellipse()</a></code>, <code><a href="../reference/position_jitterdodge_ellipse.html">position_jitterdodge_ellipse()</a></code>, <code><a href="../reference/position_sunflowerdodge.html">position_sunflowerdodge()</a></code>, and <code><a href="../reference/position_circlepackdodge.html">position_circlepackdodge()</a></code> failed for anyone calling <code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot2::ggplot()</a></code> without <code><a href="https://ggplot2.tidyverse.org" class="external-link">library(ggplot2)</a></code>, and for any package importing ‘vayr’.</p></li>
+<li><p><code><a href="../reference/position_jitterdodge_ellipse.html">position_jitterdodge_ellipse()</a></code> gave every group the same jitter, so one group’s cloud was an exact translation of the next. Each group is now jittered independently.</p></li>
+<li><p><code><a href="../reference/position_jitter_ellipse.html">position_jitter_ellipse()</a></code> and <code><a href="../reference/position_jitterdodge_ellipse.html">position_jitterdodge_ellipse()</a></code> drew the radius and angle separately for the x and y shifts, which placed points outside the requested ellipse whenever <code>seed = NULL</code>. The two shifts now share one draw.</p></li>
+<li><p><code><a href="../reference/sunflower.html">sunflower()</a></code> and <code><a href="../reference/position_sunflower.html">position_sunflower()</a></code> moved a point that had nothing over-plotting it. A lone point now stays at its own coordinates.</p></li>
+<li><p>All four splitting position adjustments returned rows in a different order than they received them. Row order is now preserved.</p></li>
+<li><p><code><a href="../reference/position_circlepackdodge.html">position_circlepackdodge()</a></code> ran the circle packing twice per group and discarded the first result.</p></li>
+</ul></div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.0" id="vayr-100">vayr 1.0.0<a class="anchor" aria-label="anchor" href="#vayr-100"></a></h2><p class="text-muted">CRAN release: 2025-04-15</p>
 <ul><li>Initial CRAN submission.</li>
 </ul><p>This first release of ‘vayr’ includes three position adjustments and their dodged counterparts: position_jitter_ellipse() and position_jitterdodge_ellipse(); position_sunflower() and position_sunflower_dodge(); position_circlepack() and position_circlepack_dodge().</p>
 </div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">

@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="index.html">vayr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -58,7 +58,7 @@
 <div class="page-header"><h1 id="vayr">vayr<a class="anchor" aria-label="anchor" href="#vayr"></a>
 </h1></div>
 <!-- badges: start -->
-<!-- badges: end -->
+
 <p>The goal of <code>vayr</code> is to provide <code>ggplot2</code> extensions that foster “visualize as you randomize” principles. These principles are outlined in detail in “Visualize as You Randomize: Design-Based Statistical Graphs for Randomized Experiments.” That paper can be accessed as a <a href="https://alexandercoppock.com/coppock_2020.pdf" class="external-link">PDF</a>. The package includes position adjustments to avoid over-plotting, facilitating the the organization of “data-space” to better contextualize statistical models.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -247,6 +247,11 @@
 <span><span class="va">ascending</span> <span class="op">&lt;-</span> <span class="va">random</span> <span class="op"><a href="https://ggplot2.tidyverse.org/reference/gg-add.html" class="external-link">%+%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">dat</span>, <span class="va">size</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"ascending"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: &lt;ggplot&gt; %+% x was deprecated in ggplot2 4.0.0.</span></span>
+<span><span class="co">#&gt; ℹ Please use &lt;ggplot&gt; + x instead.</span></span>
+<span><span class="co">#&gt; This warning is displayed once per session.</span></span>
+<span><span class="co">#&gt; Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span>
+<span><span class="co">#&gt; generated.</span></span>
 <span></span>
 <span><span class="co"># descending size</span></span>
 <span><span class="va">descending</span> <span class="op">&lt;-</span> <span class="va">random</span> <span class="op"><a href="https://ggplot2.tidyverse.org/reference/gg-add.html" class="external-link">%+%</a></span> </span>
@@ -315,7 +320,9 @@
 <span>        panel.grid.minor <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"Do you oppose or support the Patriot Act?</span></span>
 <span><span class="st">            [1: Oppose very strongly to 7: Support very strongly]"</span>,</span>
-<span>       x <span class="op">=</span> <span class="st">"Randomly assigned information"</span><span class="op">)</span></span></code></pre></div>
+<span>       x <span class="op">=</span> <span class="st">"Randomly assigned information"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Removed 3 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">#&gt; (`geom_point()`).</span></span></code></pre></div>
 <p><img src="reference/figures/README-patriot_act_visualization-1.png" alt="patriot_act" width="100%"></p>
 </div>
 </div>
@@ -350,7 +357,15 @@
 </ul>
 </div>
 
-
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/acoppock/vayr/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/acoppock/vayr/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://app.codecov.io/gh/acoppock/vayr" class="external-link"><img src="https://codecov.io/gh/acoppock/vayr/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://CRAN.R-project.org/package=vayr" class="external-link"><img src="https://www.r-pkg.org/badges/version/vayr" alt="CRAN status"></a></li>
+<li><a href="https://CRAN.R-project.org/package=vayr" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/grand-total/vayr" alt="Downloads"></a></li>
+</ul>
+</div>
 
   </aside>
 </div>

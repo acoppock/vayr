@@ -17,12 +17,17 @@ https://alexandercoppock.com/coppock_2020.pdf.
 
 Useful links:
 
-- <https://alexandercoppock.com/vayr/index.html>
+- <https://alexandercoppock.com/vayr/>
 
 ## Author
 
 **Maintainer**: Alexander Coppock <acoppock@gmail.com>
 ([ORCID](https://orcid.org/0000-0002-5733-2386)) \[copyright holder\]
+
+Authors:
+
+- Alexander Coppock <acoppock@gmail.com>
+  ([ORCID](https://orcid.org/0000-0002-5733-2386)) \[copyright holder\]
 
 Other contributors:
 
