@@ -15,14 +15,14 @@ New features:
 * Seven new simulated datasets, and a second vignette that uses them to work
   through seven experimental designs.
 
-It also fixes six bugs in the position adjustments. The most serious is that
+It also fixes seven bugs in the position adjustments. The most serious is that
 four of the six exported adjustments used `resolution()`, `transform_position()`
 and `PositionDodge` without qualification, so they resolved off the search path
 and failed for anyone who called `ggplot2::ggplot()` without first attaching
 'ggplot2'. They are now imported explicitly.
 
-Three of the fixes change where points are drawn, so figures produced under
-1.0.0 will not reproduce exactly under 1.1.0. NEWS.md says which three.
+Four of the fixes change where points are drawn, so figures produced under
+1.0.0 will not reproduce exactly under 1.1.0. NEWS.md says which four.
 Estimates are unaffected.
 
 The Description field now cites the book chapter the package implements, using
