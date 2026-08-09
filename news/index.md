@@ -62,13 +62,13 @@
 
 ### Bug fixes
 
-All six position adjustments now have behavioural tests covering the
-geometry they promise, which is how these were found.
+Every position adjustment now has behavioural tests covering the
+geometry it promises, which is how these were found.
 
-Three of the fixes change where points are drawn, so a figure built with
+Four of the fixes change where points are drawn, so a figure built with
 1.0.0 will not reproduce pixel for pixel under 1.1.0: the lone-point
-sunflower, the row order, and the `seed = NULL` ellipse. Estimates and
-models are unaffected.
+sunflower, the row order, the `seed = NULL` ellipse, and the centring of
+the circle pack. Estimates and models are unaffected.
 
 - The position adjustments no longer require `ggplot2` to be attached.
   They used
@@ -101,6 +101,15 @@ models are unaffected.
   [`position_sunflower()`](https://alexandercoppock.com/vayr/reference/position_sunflower.md)
   moved a point that had nothing over-plotting it. A lone point now
   stays at its own coordinates.
+
+- [`position_circlepack()`](https://alexandercoppock.com/vayr/reference/position_circlepack.md)
+  and
+  [`position_circlepackdodge()`](https://alexandercoppock.com/vayr/reference/position_circlepackdodge.md)
+  displaced the cluster from the point it stands for.
+  `circleProgressiveLayout()` does not centre what it returns: a lone
+  circle lands at `(-radius, 0)`, and packs of three or five sit
+  off-centre by roughly a third of their radius. The layout is now
+  centred, so a lone point stays exactly where it is here too.
 
 - All four splitting position adjustments returned rows in a different
   order than they received them. Row order is now preserved.
