@@ -21,6 +21,9 @@
 tests/testthat/_problems/
 tests/testthat/testthat-problems.rds
 
+# private development log, mirrored to claude_control/logs/vayr.md
+notes/
+
 # RStudio files
 .Rproj.user/
 

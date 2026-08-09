@@ -7,5 +7,6 @@
 ^docs$
 ^pkgdown$
 ^cran-comments\.md$
+^notes$
 ^doc$
 ^Meta$
