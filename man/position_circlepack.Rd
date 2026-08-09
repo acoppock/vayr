@@ -75,12 +75,12 @@ to arrange perfectly over-plotted points of varying sizes into a elliptical area
 
 }
 \seealso{
-Other Functions: 
-\code{\link{position_circlepackdodge}()},
-\code{\link{position_jitter_ellipse}()},
-\code{\link{position_jitterdodge_ellipse}()},
-\code{\link{position_sunflower}()},
-\code{\link{position_sunflowerdodge}()},
-\code{\link{sunflower}()}
+Other Functions:
+\code{\link[=position_circlepackdodge]{position_circlepackdodge()}},
+\code{\link[=position_jitter_ellipse]{position_jitter_ellipse()}},
+\code{\link[=position_jitterdodge_ellipse]{position_jitterdodge_ellipse()}},
+\code{\link[=position_sunflower]{position_sunflower()}},
+\code{\link[=position_sunflowerdodge]{position_sunflowerdodge()}},
+\code{\link[=sunflower]{sunflower()}}
 }
 \concept{Functions}

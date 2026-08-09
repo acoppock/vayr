@@ -1,3 +1,31 @@
+# vayr 1.0.1
+
+Bug fixes. All six position adjustments now have behavioural tests covering the geometry they promise, which is how these were found.
+
+* The position adjustments no longer require `ggplot2` to be attached. They used
+  `resolution()`, `transform_position()`, and `PositionDodge` unqualified, so
+  `position_jitter_ellipse()`, `position_jitterdodge_ellipse()`,
+  `position_sunflowerdodge()`, and `position_circlepackdodge()` failed for anyone
+  calling `ggplot2::ggplot()` without `library(ggplot2)`, and for any package
+  importing 'vayr'.
+
+* `position_jitterdodge_ellipse()` gave every group the same jitter, so one
+  group's cloud was an exact translation of the next. Each group is now jittered
+  independently.
+
+* `position_jitter_ellipse()` and `position_jitterdodge_ellipse()` drew the
+  radius and angle separately for the x and y shifts, which placed points outside
+  the requested ellipse whenever `seed = NULL`. The two shifts now share one draw.
+
+* `sunflower()` and `position_sunflower()` moved a point that had nothing
+  over-plotting it. A lone point now stays at its own coordinates.
+
+* All four splitting position adjustments returned rows in a different order than
+  they received them. Row order is now preserved.
+
+* `position_circlepackdodge()` ran the circle packing twice per group and
+  discarded the first result.
+
 # vayr 1.0.0
 
 * Initial CRAN submission.

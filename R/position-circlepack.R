@@ -76,25 +76,20 @@ PositionCirclePack <-
     "PositionCirclePack",
     ggplot2::Position,
     compute_panel = function(self, data, params, scales) {
-      data$size_normalized <- if(!"size" %in% names(data) || max(data$size) == min(data$size)) {
-        rep(1, nrow(data))
-      } else {
-        .1 + (data$size - min(data$size)) * (1 - .1) / (max(data$size) - min(data$size))
+      areas <- normalize_size(data) * (10 ^ -3) / self$density
+
+      # Split row indices rather than the data, so rows come back in their
+      # original order.
+      pairs <- split(seq_len(nrow(data)), interaction(data$x, data$y, drop = TRUE))
+
+      for (rows in pairs) {
+        circle_layout <- packcircles::circleProgressiveLayout(areas[rows])
+
+        data$x[rows] <- data$x[rows] + circle_layout$x
+        data$y[rows] <- data$y[rows] + circle_layout$y / self$aspect_ratio
       }
 
-      pairs <- split(data, interaction(data$x, data$y, drop = TRUE))
-
-      data <- do.call(rbind, lapply(pairs, function(pair) {
-        density <- (10 ^ - 3) / (self$density)
-        circle_layout <- packcircles::circleProgressiveLayout(pair$size_normalized * density)
-
-        pair$x <- circle_layout$x + pair$x
-        pair$y <- (circle_layout$y / self$aspect_ratio) + pair$y
-
-        return(pair)
-      }))
-
-      return(data)
+      data
     }
   )
 
@@ -145,32 +140,23 @@ PositionCirclePackDodge <-
     "PositionCirclePackDodge",
     ggplot2::PositionDodge,
     setup_params = function(self, data) {
-      params <- ggplot2::ggproto_parent(PositionDodge, self)$setup_params(data)
-      return(params)
+      ggplot2::ggproto_parent(ggplot2::PositionDodge, self)$setup_params(data)
     },
     compute_panel = function(self, data, params, scales) {
-      data <- ggplot2::ggproto_parent(PositionDodge, self)$compute_panel(data, params, scales)
+      data <- ggplot2::ggproto_parent(ggplot2::PositionDodge, self)$compute_panel(data, params, scales)
 
-      data$size_normalized <- if(!"size" %in% names(data) || max(data$size) == min(data$size)) {
-        rep(1, nrow(data))
-      } else {
-        .1 + (data$size - min(data$size)) * (1 - .1) / (max(data$size) - min(data$size))
+      areas <- normalize_size(data) * (10 ^ -3) / self$density
+
+      pairs <- split(seq_len(nrow(data)), interaction(data$x, data$y, data$group, drop = TRUE))
+
+      for (rows in pairs) {
+        circle_layout <- packcircles::circleProgressiveLayout(areas[rows])
+
+        data$x[rows] <- data$x[rows] + circle_layout$x
+        data$y[rows] <- data$y[rows] + circle_layout$y / self$aspect_ratio
       }
 
-      pairs <- split(data, interaction(data$x, data$y, data$group, drop = TRUE))
-
-      data <- do.call(rbind, lapply(pairs, function(pair) {
-        density <- (10 ^ - 3) / (self$density)
-        circle_layout <- packcircles::circleProgressiveLayout(pair$size_normalized * density)
-        packcircles::circleProgressiveLayout(pair$size_normalized * density)
-
-        pair$x <- circle_layout$x + pair$x
-        pair$y <- (circle_layout$y / self$aspect_ratio) + pair$y
-
-        return(pair)
-      }))
-
-      return(data)
+      data
     }
   )
 

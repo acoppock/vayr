@@ -18,12 +18,17 @@ The 'vayr' paper is here: https://alexandercoppock.com/coppock_2020.pdf.
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://alexandercoppock.com/vayr/index.html}
+  \item \url{https://alexandercoppock.com/vayr/}
 }
 
 }
 \author{
 \strong{Maintainer}: Alexander Coppock \email{acoppock@gmail.com} (\href{https://orcid.org/0000-0002-5733-2386}{ORCID}) [copyright holder]
+
+Authors:
+\itemize{
+  \item Alexander Coppock \email{acoppock@gmail.com} (\href{https://orcid.org/0000-0002-5733-2386}{ORCID}) [copyright holder]
+}
 
 Other contributors:
 \itemize{

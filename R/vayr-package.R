@@ -17,6 +17,9 @@
 "_PACKAGE"
 
 ## usethis namespace: start
+#' @importFrom ggplot2 ggproto ggproto_parent Position PositionDodge resolution
+#' @importFrom ggplot2 transform_position
 #' @importFrom packcircles circleProgressiveLayout
+#' @importFrom stats runif
 ## usethis namespace: end
 NULL

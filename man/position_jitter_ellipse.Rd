@@ -40,12 +40,12 @@ and https://stats.stackexchange.com/questions/120527/simulate-a-uniform-distribu
 
 }
 \seealso{
-Other Functions: 
-\code{\link{position_circlepack}()},
-\code{\link{position_circlepackdodge}()},
-\code{\link{position_jitterdodge_ellipse}()},
-\code{\link{position_sunflower}()},
-\code{\link{position_sunflowerdodge}()},
-\code{\link{sunflower}()}
+Other Functions:
+\code{\link[=position_circlepack]{position_circlepack()}},
+\code{\link[=position_circlepackdodge]{position_circlepackdodge()}},
+\code{\link[=position_jitterdodge_ellipse]{position_jitterdodge_ellipse()}},
+\code{\link[=position_sunflower]{position_sunflower()}},
+\code{\link[=position_sunflowerdodge]{position_sunflowerdodge()}},
+\code{\link[=sunflower]{sunflower()}}
 }
 \concept{Functions}

@@ -46,29 +46,13 @@ PositionJitterEllipse <-
     required_aes = c("x", "y"),
     setup_params = function(self, data) {
       list(
-        width = self$width %||% (resolution(data$x, zero = FALSE) * 0.4),
-        height = self$height %||% (resolution(data$y, zero = FALSE) * 0.4),
+        width = self$width %||% (ggplot2::resolution(data$x, zero = FALSE) * 0.4),
+        height = self$height %||% (ggplot2::resolution(data$y, zero = FALSE) * 0.4),
         seed = self$seed
       )
     },
     compute_layer = function(self, data, params, layout) {
-      trans_x <-
-        function(x) {
-          set.seed(params$seed)
-          n <- length(x)
-          rho <- sqrt(runif(n)) * params$width
-          theta <- runif(n, 0, 2 * pi)
-          x + rho * cos(theta)
-        }
-      trans_y <-
-        function(x) {
-          set.seed(params$seed)
-          n <- length(x)
-          rho <- sqrt(runif(n)) * params$height
-          theta <- runif(n, 0, 2 * pi)
-          x + rho * sin(theta)
-        }
-      with_seed_null(params$seed, transform_position(data, trans_x, trans_y))
+      with_seed_null(params$seed, jitter_ellipse(data, params$width, params$height))
     }
   )
 
@@ -114,40 +98,21 @@ PositionJitterDodgeEllipse <-
     required_aes = c("x", "y"),
     setup_params = function(self, data) {
       params <- list(
-        jitter.width = self$jitter.width %||% (resolution(data$x, zero = FALSE) * 0.4),
-        jitter.height = self$jitter.height %||% (resolution(data$y, zero = FALSE) * 0.4),
+        jitter.width = self$jitter.width %||% (ggplot2::resolution(data$x, zero = FALSE) * 0.4),
+        jitter.height = self$jitter.height %||% (ggplot2::resolution(data$y, zero = FALSE) * 0.4),
         seed = self$seed
       )
 
-      self$width = self$dodge.width
-      dodge_params <- ggplot2::ggproto_parent(PositionDodge, self)$setup_params(data)
+      self$width <- self$dodge.width
+      dodge_params <- ggplot2::ggproto_parent(ggplot2::PositionDodge, self)$setup_params(data)
 
-      return(modifyList(dodge_params, params))
+      modifyList(dodge_params, params)
     },
     compute_layer = function(self, data, params, layout) {
-      data <- ggplot2::ggproto_parent(PositionDodge, self)$compute_panel(data, params, scales)
+      data <- ggplot2::ggproto_parent(ggplot2::PositionDodge, self)$compute_panel(data, params, scales = NULL)
 
-      groups <- split(data, data$group, drop = TRUE)
-
-      data <- do.call(rbind, lapply(groups, function(group) {
-        trans_x <-
-          function(x) {
-            set.seed(params$seed)
-            n <- length(x)
-            rho <- sqrt(runif(n)) * params$jitter.width
-            theta <- runif(n, 0, 2 * pi)
-            x + rho * cos(theta)
-         }
-        trans_y <-
-          function(x) {
-            set.seed(params$seed)
-            n <- length(x)
-            rho <- sqrt(runif(n)) * params$jitter.height
-            theta <- runif(n, 0, 2 * pi)
-            x + rho * sin(theta)
-          }
-        return(with_seed_null(params$seed, transform_position(group, trans_x, trans_y)))
-      }))
-      return(data)
+      # Jitter the dodged layer in one pass. Jittering group by group would hand
+      # every group the same draw, making one group a copy of the next.
+      with_seed_null(params$seed, jitter_ellipse(data, params$jitter.width, params$jitter.height))
     }
   )
