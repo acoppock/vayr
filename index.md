@@ -120,9 +120,9 @@ top <-
   plot_layout(nrow = 1)
 
 bottom <-
-  (grouped + geom_point(position = position_jitterdodge_ellipse(0.22, 0.5, 1), size = 0.6) +
+  (grouped + geom_point(position = position_jitterdodge_ellipse(0.22, 0.22, 1), size = 0.6) +
      ggtitle("position_jitterdodge_ellipse()")) +
-  (grouped + geom_point(position = position_bluenoisedodge(0.22, 0.5, 1), size = 0.6) +
+  (grouped + geom_point(position = position_bluenoisedodge(0.22, 0.22, 1), size = 0.6) +
      ggtitle("position_bluenoisedodge()")) +
   (grouped + geom_point(position = position_sunflowerdodge(1, density = 4 * d), size = 0.6) +
      ggtitle("position_sunflowerdodge()")) +
