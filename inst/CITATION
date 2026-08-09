@@ -1,0 +1,23 @@
+bibentry(
+  bibtype = "InCollection",
+  header = "To cite the principles that 'vayr' implements:",
+  title = "Visualize As You Randomize: Design-based Statistical Graphs for Randomized Experiments",
+  author = person("Alexander", "Coppock"),
+  booktitle = "Advances in Experimental Political Science",
+  editor = c(person("James N.", "Druckman"), person("Donald P.", "Green")),
+  publisher = "Cambridge University Press",
+  address = "New York",
+  year = "2021",
+  pages = "320--336",
+  doi = "10.1017/9781108777919.022"
+)
+
+bibentry(
+  bibtype = "Manual",
+  header = "To cite the package itself:",
+  title = "vayr: Extensions for 'ggplot2' to Visualize as You Randomize",
+  author = c(person("Alexander", "Coppock"), person("Elias", "Hyde")),
+  year = "2025",
+  note = "R package version 1.0.1",
+  url = "https://CRAN.R-project.org/package=vayr"
+)

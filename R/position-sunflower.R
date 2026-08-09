@@ -51,14 +51,17 @@ sunflower <- function(x = NULL, y = NULL, density, aspect_ratio) {
       stop("requires either x or y")
     }
 
-    radius = 1 # constant radius
+    # A point with nothing over-plotting it belongs at its own coordinates.
+    if (n == 1) {
+      return(x %||% y)
+    }
 
-    alpha = 2
+    alpha <- 2
     b <- round(alpha * sqrt(n))  # number of boundary points
     phi <- (sqrt(5) + 1) / 2  # golden ratio
 
-    width <- radius / sqrt((100 * density) / n)
-    height <- (radius / sqrt((100 * density) / n)) / aspect_ratio
+    width <- 1 / sqrt((100 * density) / n)
+    height <- width / aspect_ratio
 
     radius <-
       function(k, n, b) {
@@ -122,22 +125,24 @@ PositionSunflower <-
     "PositionSunflower",
     ggplot2::Position,
     compute_panel = function(self, data, params, scales) {
-      flowers <- split(data, interaction(data$x, data$y, drop = TRUE))
+      # Split row indices rather than the data, so rows come back in their
+      # original order.
+      flowers <- split(seq_len(nrow(data)), interaction(data$x, data$y, drop = TRUE))
 
-      data <- do.call(rbind, lapply(flowers, function(flower) {
-        flower$x = sunflower(
-          x = flower$x,
+      for (rows in flowers) {
+        data$x[rows] <- sunflower(
+          x = data$x[rows],
           density = self$density,
           aspect_ratio = self$aspect_ratio
         )
-        flower$y = sunflower(
-          y = flower$y,
+        data$y[rows] <- sunflower(
+          y = data$y[rows],
           density = self$density,
           aspect_ratio = self$aspect_ratio
         )
-        return(flower)
-      }))
-      return(data)
+      }
+
+      data
     }
   )
 
@@ -191,28 +196,26 @@ PositionSunflowerDodge <-
     "PositionSunflowerDodge",
     ggplot2::PositionDodge,
     setup_params = function(self, data) {
-      params <- ggplot2::ggproto_parent(PositionDodge, self)$setup_params(data)
-      return(params)
+      ggplot2::ggproto_parent(ggplot2::PositionDodge, self)$setup_params(data)
     },
     compute_panel = function(self, data, params, scales) {
-      data <- ggplot2::ggproto_parent(PositionDodge, self)$compute_panel(data, params, scales)
+      data <- ggplot2::ggproto_parent(ggplot2::PositionDodge, self)$compute_panel(data, params, scales)
 
-      flowers <- split(data, interaction(data$x, data$y, data$group, drop = TRUE))
+      flowers <- split(seq_len(nrow(data)), interaction(data$x, data$y, data$group, drop = TRUE))
 
-      data <- do.call(rbind, lapply(flowers, function(flower) {
-        flower$x = sunflower(
-          x = flower$x,
+      for (rows in flowers) {
+        data$x[rows] <- sunflower(
+          x = data$x[rows],
           density = self$density,
           aspect_ratio = self$aspect_ratio
         )
-        flower$y = sunflower(
-          y = flower$y,
+        data$y[rows] <- sunflower(
+          y = data$y[rows],
           density = self$density,
           aspect_ratio = self$aspect_ratio
         )
-        return(flower)
-      }))
+      }
 
-      return(data)
+      data
     }
   )

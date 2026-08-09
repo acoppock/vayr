@@ -51,12 +51,12 @@ adapts the code from https://stackoverflow.com/questions/28567166/uniformly-dist
 
 }
 \seealso{
-Other Functions: 
-\code{\link{position_circlepack}()},
-\code{\link{position_circlepackdodge}()},
-\code{\link{position_jitter_ellipse}()},
-\code{\link{position_jitterdodge_ellipse}()},
-\code{\link{position_sunflower}()},
-\code{\link{position_sunflowerdodge}()}
+Other Functions:
+\code{\link[=position_circlepack]{position_circlepack()}},
+\code{\link[=position_circlepackdodge]{position_circlepackdodge()}},
+\code{\link[=position_jitter_ellipse]{position_jitter_ellipse()}},
+\code{\link[=position_jitterdodge_ellipse]{position_jitterdodge_ellipse()}},
+\code{\link[=position_sunflower]{position_sunflower()}},
+\code{\link[=position_sunflowerdodge]{position_sunflowerdodge()}}
 }
 \concept{Functions}

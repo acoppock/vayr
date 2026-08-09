@@ -4,6 +4,13 @@
 # vayr
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/acoppock/vayr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/acoppock/vayr/actions/workflows/R-CMD-check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/acoppock/vayr/graph/badge.svg)](https://app.codecov.io/gh/acoppock/vayr)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/vayr)](https://CRAN.R-project.org/package=vayr)
+[![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/vayr)](https://CRAN.R-project.org/package=vayr)
 <!-- badges: end -->
 
 The goal of `vayr` is to provide `ggplot2` extensions that foster
@@ -267,6 +274,11 @@ random <- ggplot(dat, aes(x = x, y = y, size = size)) +
 ascending <- random %+% 
   arrange(dat, size) + 
   ggtitle("ascending")
+#> Warning: <ggplot> %+% x was deprecated in ggplot2 4.0.0.
+#> ℹ Please use <ggplot> + x instead.
+#> This warning is displayed once per session.
+#> Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+#> generated.
 
 # descending size
 descending <- random %+% 
@@ -347,6 +359,8 @@ ggplot(patriot_act, aes(T1_content, PA_support, color = pid_3, group = pid_3)) +
   labs(y = "Do you oppose or support the Patriot Act?
             [1: Oppose very strongly to 7: Support very strongly]",
        x = "Randomly assigned information")
+#> Warning: Removed 3 rows containing missing values or values outside the scale range
+#> (`geom_point()`).
 ```
 
 <img src="man/figures/README-patriot_act_visualization-1.png" alt="patriot_act" width="100%" />

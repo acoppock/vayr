@@ -16,6 +16,10 @@ knitr::opts_chunk$set(
 # vayr
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/acoppock/vayr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/acoppock/vayr/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/acoppock/vayr/graph/badge.svg)](https://app.codecov.io/gh/acoppock/vayr)
+[![CRAN status](https://www.r-pkg.org/badges/version/vayr)](https://CRAN.R-project.org/package=vayr)
+[![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/vayr)](https://CRAN.R-project.org/package=vayr)
 <!-- badges: end -->
 
 The goal of `vayr` is to provide `ggplot2` extensions that foster "visualize as 
