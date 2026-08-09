@@ -1,16 +1,19 @@
-# Jitter points on an ellipse and dodge groups side-to-side
+# Scatter over-plotted points evenly at random and dodge groups side-to-side
 
-This function dodges groups of points side-to-side and adds elliptical
-random noise to perfectly over-plotted points. See the
-position_jitter_ellipse() documentation for more information.
+This function dodges groups of points side-to-side and then scatters the
+points that share a position across an elliptical field, spacing them
+evenly. See the
+[`position_bluenoise()`](https://alexandercoppock.com/vayr/reference/position_bluenoise.md)
+documentation for more information.
 
 ## Usage
 
 ``` r
-position_jitterdodge_ellipse(
-  jitter.width = NULL,
-  jitter.height = NULL,
+position_bluenoisedodge(
+  scatter.width = NULL,
+  scatter.height = NULL,
   dodge.width = 1,
+  candidates = 10,
   seed = NA,
   orientation = "x"
 )
@@ -18,14 +21,17 @@ position_jitterdodge_ellipse(
 
 ## Arguments
 
-- jitter.width, jitter.height:
+- scatter.width, scatter.height:
 
-  The dimensions of the elliptical field, from which over-plotted points
-  are sampled.
+  The dimensions of the elliptical field the points are spread across.
 
 - dodge.width:
 
   The dodging width, which defaults to 1.
+
+- candidates:
+
+  The number of random draws considered for each point.
 
 - seed:
 
@@ -40,19 +46,19 @@ position_jitterdodge_ellipse(
 
 ## Value
 
-A `ggproto` object of class `PositionJitterDodgeEllipse`.
+A `ggproto` object of class `PositionBlueNoiseDodge`.
 
 ## See also
 
 Other Functions:
 [`impute_extreme_values()`](https://alexandercoppock.com/vayr/reference/impute_extreme_values.md),
 [`position_bluenoise()`](https://alexandercoppock.com/vayr/reference/position_bluenoise.md),
-[`position_bluenoisedodge()`](https://alexandercoppock.com/vayr/reference/position_bluenoisedodge.md),
 [`position_circlepack()`](https://alexandercoppock.com/vayr/reference/position_circlepack.md),
 [`position_circlepackdodge()`](https://alexandercoppock.com/vayr/reference/position_circlepackdodge.md),
 [`position_honeycomb()`](https://alexandercoppock.com/vayr/reference/position_honeycomb.md),
 [`position_honeycombdodge()`](https://alexandercoppock.com/vayr/reference/position_honeycombdodge.md),
 [`position_jitter_ellipse()`](https://alexandercoppock.com/vayr/reference/position_jitter_ellipse.md),
+[`position_jitterdodge_ellipse()`](https://alexandercoppock.com/vayr/reference/position_jitterdodge_ellipse.md),
 [`position_sunflower()`](https://alexandercoppock.com/vayr/reference/position_sunflower.md),
 [`position_sunflowerdodge()`](https://alexandercoppock.com/vayr/reference/position_sunflowerdodge.md),
 [`sunflower()`](https://alexandercoppock.com/vayr/reference/sunflower.md)
@@ -62,13 +68,13 @@ Other Functions:
 ``` r
   library(ggplot2)
 
-  dat <- data.frame(x = rep(1, 500), y = rep(1, 500),
-                    group = sample(LETTERS[1:2], 500, replace = TRUE))
+  dat <- data.frame(x = rep(1, 400), y = rep(1, 400),
+                    group = sample(LETTERS[1:2], 400, replace = TRUE))
 
   ggplot(dat, aes(x, y, shape = group, color = group)) +
-    geom_point(position = position_jitterdodge_ellipse(jitter.width  = 0.5,
-                                                       jitter.height =  0.5,
-                                                       dodge.width = 1)) +
+    geom_point(position = position_bluenoisedodge(scatter.width = 0.4,
+                                                  scatter.height = 0.4,
+                                                  dodge.width = 1)) +
     coord_cartesian(xlim = c(0, 2), ylim = c(0, 2))
 
 ```

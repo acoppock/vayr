@@ -42,8 +42,12 @@ sunflower seed algorithm.
 
 Other Functions:
 [`impute_extreme_values()`](https://alexandercoppock.com/vayr/reference/impute_extreme_values.md),
+[`position_bluenoise()`](https://alexandercoppock.com/vayr/reference/position_bluenoise.md),
+[`position_bluenoisedodge()`](https://alexandercoppock.com/vayr/reference/position_bluenoisedodge.md),
 [`position_circlepack()`](https://alexandercoppock.com/vayr/reference/position_circlepack.md),
 [`position_circlepackdodge()`](https://alexandercoppock.com/vayr/reference/position_circlepackdodge.md),
+[`position_honeycomb()`](https://alexandercoppock.com/vayr/reference/position_honeycomb.md),
+[`position_honeycombdodge()`](https://alexandercoppock.com/vayr/reference/position_honeycombdodge.md),
 [`position_jitter_ellipse()`](https://alexandercoppock.com/vayr/reference/position_jitter_ellipse.md),
 [`position_jitterdodge_ellipse()`](https://alexandercoppock.com/vayr/reference/position_jitterdodge_ellipse.md),
 [`position_sunflower()`](https://alexandercoppock.com/vayr/reference/position_sunflower.md),

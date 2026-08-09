@@ -7,7 +7,12 @@ varying sizes into an elliptical area.
 ## Usage
 
 ``` r
-position_circlepackdodge(width = 1, density = 1, aspect_ratio = 1)
+position_circlepackdodge(
+  width = 1,
+  density = 1,
+  aspect_ratio = 1,
+  orientation = "x"
+)
 ```
 
 ## Arguments
@@ -33,6 +38,13 @@ position_circlepackdodge(width = 1, density = 1, aspect_ratio = 1)
   when no adjustment is required. Under coord_fixed(), set
   `aspect_ratio` to the same value as that function's `ratio` argument.
 
+- orientation:
+
+  The axis along which groups are separated, either `"x"` (the default,
+  side-to-side) or `"y"` (up and down). Matches the argument of the same
+  name in
+  [`ggplot2::position_dodge()`](https://ggplot2.tidyverse.org/reference/position_dodge.html).
+
 ## Value
 
 A `ggproto` object of class `PositionCirclePackDodge`.
@@ -41,7 +53,11 @@ A `ggproto` object of class `PositionCirclePackDodge`.
 
 Other Functions:
 [`impute_extreme_values()`](https://alexandercoppock.com/vayr/reference/impute_extreme_values.md),
+[`position_bluenoise()`](https://alexandercoppock.com/vayr/reference/position_bluenoise.md),
+[`position_bluenoisedodge()`](https://alexandercoppock.com/vayr/reference/position_bluenoisedodge.md),
 [`position_circlepack()`](https://alexandercoppock.com/vayr/reference/position_circlepack.md),
+[`position_honeycomb()`](https://alexandercoppock.com/vayr/reference/position_honeycomb.md),
+[`position_honeycombdodge()`](https://alexandercoppock.com/vayr/reference/position_honeycombdodge.md),
 [`position_jitter_ellipse()`](https://alexandercoppock.com/vayr/reference/position_jitter_ellipse.md),
 [`position_jitterdodge_ellipse()`](https://alexandercoppock.com/vayr/reference/position_jitterdodge_ellipse.md),
 [`position_sunflower()`](https://alexandercoppock.com/vayr/reference/position_sunflower.md),

@@ -36,9 +36,15 @@ adjustments to “point-like” geoms such as `geom_point` or `geom_text`:
 - [`position_jitter_ellipse()`](https://alexandercoppock.com/vayr/reference/position_jitter_ellipse.md)
   and
   [`position_jitterdodge_ellipse()`](https://alexandercoppock.com/vayr/reference/position_jitterdodge_ellipse.md)
+- [`position_bluenoise()`](https://alexandercoppock.com/vayr/reference/position_bluenoise.md)
+  and
+  [`position_bluenoisedodge()`](https://alexandercoppock.com/vayr/reference/position_bluenoisedodge.md)
 - [`position_sunflower()`](https://alexandercoppock.com/vayr/reference/position_sunflower.md)
   and
   [`position_sunflowerdodge()`](https://alexandercoppock.com/vayr/reference/position_sunflowerdodge.md)
+- [`position_honeycomb()`](https://alexandercoppock.com/vayr/reference/position_honeycomb.md)
+  and
+  [`position_honeycombdodge()`](https://alexandercoppock.com/vayr/reference/position_honeycombdodge.md)
 - [`position_circlepack()`](https://alexandercoppock.com/vayr/reference/position_circlepack.md)
   and
   [`position_circlepackdodge()`](https://alexandercoppock.com/vayr/reference/position_circlepackdodge.md)
@@ -143,6 +149,52 @@ jitter_ellipse_plot + jitterdodge_ellipse_plot
 ![position_jitter_ellipse() and
 position_jitterdodge_ellipse()](vayr-vignette_files/figure-html/contents_1-1.png)
 
+### Position Blue Noise
+
+[`position_bluenoise()`](https://alexandercoppock.com/vayr/reference/position_bluenoise.md)
+fills the same elliptical field as
+[`position_jitter_ellipse()`](https://alexandercoppock.com/vayr/reference/position_jitter_ellipse.md),
+but places the points so that no two land much closer together than the
+rest. Sampling uniformly at random, which is what jittering does, leaves
+visible knots and voids: in a draw of 250 points the closest pair
+typically sits about a fifteenth of the median spacing apart, and a
+reader cannot tell those knots from real structure. The arrangement here
+has the even spacing of a sunflower while still looking unstructured, so
+nobody mistakes a spiral arm for a finding. It is the pattern the eye’s
+own photoreceptors are laid out in.
+
+``` r
+
+# position_bluenoise()
+bluenoise_plot <- ggplot(dat, aes(x = x, y = y)) +
+  geom_point(position = position_bluenoise(width = 0.5,
+                                           height = 0.5)) +
+  coord_equal(xlim = c(-1.1, 1.1),
+              ylim = c(-1.1, 1.1)) +
+  theme_bw() +
+  theme(axis.title = element_blank(),
+        plot.title = element_text(hjust = 0.5, face = "bold")) +
+  ggtitle("position_bluenoise()")
+
+# position_bluenoisedodge()
+bluenoisedodge_plot <- ggplot(dat, aes(x = x, y = y, color = group)) +
+  geom_point(position = position_bluenoisedodge(dodge.width = 2,
+                                                scatter.width = 0.5,
+                                                scatter.height = 0.5)) +
+  coord_equal(xlim = c(-1.1, 1.1),
+              ylim = c(-1.1, 1.1)) +
+  theme_bw() +
+  theme(legend.position = "none",
+        axis.title = element_blank(),
+        plot.title = element_text(hjust = 0.5, face = "bold")) +
+  ggtitle("position_bluenoisedodge()")
+
+bluenoise_plot + bluenoisedodge_plot
+```
+
+![position_bluenoise() and
+position_bluenoisedodge()](vayr-vignette_files/figure-html/contents_1B-1.png)
+
 ### Position Sunflower
 
 [`position_sunflower()`](https://alexandercoppock.com/vayr/reference/position_sunflower.md)
@@ -225,6 +277,58 @@ crosses the two, and the circular flowers appear where the values match,
 running from the top right to the bottom left.
 
 ![aspect_ratio](vayr-vignette_files/figure-html/contents_2C-1.png)
+
+### Position Honeycomb
+
+[`position_honeycomb()`](https://alexandercoppock.com/vayr/reference/position_honeycomb.md)
+arranges the same points on a hexagonal lattice, the densest packing of
+equal circles in the plane. It takes the same `density` and
+`aspect_ratio` as
+[`position_sunflower()`](https://alexandercoppock.com/vayr/reference/position_sunflower.md)
+and covers the same footprint at the same density, so the two are
+interchangeable and the choice between them is about looks: the lattice
+reads as countable and orderly, the spiral as organic and without a
+preferred direction.
+
+`position_beeswarm()` in the ‘ggbeeswarm’ package also offers a
+hexagonal method, and does a different job. A beeswarm spreads points
+along one axis to show the shape of a distribution, so perfectly
+over-plotted points come out as a line rather than a cluster, and its
+hexagonal and square methods move points off their true value on the
+data axis. Reach for a beeswarm to show a distribution, and for this to
+show a count.
+
+``` r
+
+# position_honeycomb()
+honeycomb_plot <- ggplot(dat, aes(x = x, y = y)) +
+  geom_point(position = position_honeycomb(density = 1,
+                                           aspect_ratio = 1)) +
+  coord_equal(xlim = c(-2.1, 2.1),
+              ylim = c(-2.1, 2.1)) +
+  theme_bw() +
+  theme(axis.title = element_blank(),
+        plot.title = element_text(hjust = 0.5, face = "bold")) +
+  ggtitle("position_honeycomb()")
+
+# position_honeycombdodge()
+honeycombdodge_plot <- ggplot(dat, aes(x = x, y = y, color = group)) +
+  geom_point(position = position_honeycombdodge(width = 4,
+                                                density = 1,
+                                                aspect_ratio = 1)) +
+  coord_equal(xlim = c(-2.1, 2.1),
+              ylim = c(-2.1, 2.1)) +
+  theme_bw() +
+  theme(legend.position = "none",
+        axis.title = element_blank(),
+        plot.title = element_text(hjust = 0.5, face = "bold")) +
+  ggtitle("position_honeycombdodge()")
+
+honeycomb_plot + honeycombdodge_plot
+```
+
+![position_honeycomb() and
+position_honeycombdodge()](vayr-vignette_files/figure-html/contents_2D-1.png)
 
 ### Position Circle Pack
 

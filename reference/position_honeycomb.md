@@ -1,26 +1,17 @@
-# Arrange over-plotted points in a sunflower pattern and dodge groups side-to-side
+# Arrange over-plotted points on a honeycomb lattice
 
-This function applies the sunflower position adjustment alongside the
-dodge position adjustment, arranging overlapping points per x, y, and
-group into a sunflower pattern. See the sunflower() documentation for
-more information.
+This function arranges perfectly over-plotted points on a hexagonal
+lattice, filling outward from the centre in the order of the data. The
+hexagonal lattice is the densest packing of equal circles in the plane,
+so the cluster is as compact as it can be for a given spacing.
 
 ## Usage
 
 ``` r
-position_sunflowerdodge(
-  width = 1,
-  density = 1,
-  aspect_ratio = 1,
-  orientation = "x"
-)
+position_honeycomb(density = 1, aspect_ratio = 1)
 ```
 
 ## Arguments
-
-- width:
-
-  The dodging width, which defaults to 1.
 
 - density:
 
@@ -38,16 +29,26 @@ position_sunflowerdodge(
   when no adjustment is required. Under coord_fixed(), set
   `aspect_ratio` to the same value as that function's `ratio` argument.
 
-- orientation:
-
-  The axis along which groups are separated, either `"x"` (the default,
-  side-to-side) or `"y"` (up and down). Matches the argument of the same
-  name in
-  [`ggplot2::position_dodge()`](https://ggplot2.tidyverse.org/reference/position_dodge.html).
-
 ## Value
 
-A `ggproto` object of class `PositionSunflowerDodge`.
+A `ggproto` object of class `PositionHoneycomb`.
+
+## Details
+
+It is the crystalline sibling of
+[`position_sunflower()`](https://alexandercoppock.com/vayr/reference/position_sunflower.md),
+which fills the same footprint at the same `density` with a spiral
+rather than a lattice. Choose between them on looks: the lattice reads
+as countable and orderly, the spiral as organic and without a preferred
+direction.
+
+`position_beeswarm()` in the 'ggbeeswarm' package also offers a
+hexagonal method, and does a different job. A beeswarm spreads points
+along one axis to show the shape of a distribution, so perfectly
+over-plotted points come out as a line rather than a cluster, and its
+hexagonal and square methods move points off their true value on the
+data axis. Reach for a beeswarm to show a distribution, and for this to
+show a count.
 
 ## See also
 
@@ -57,11 +58,11 @@ Other Functions:
 [`position_bluenoisedodge()`](https://alexandercoppock.com/vayr/reference/position_bluenoisedodge.md),
 [`position_circlepack()`](https://alexandercoppock.com/vayr/reference/position_circlepack.md),
 [`position_circlepackdodge()`](https://alexandercoppock.com/vayr/reference/position_circlepackdodge.md),
-[`position_honeycomb()`](https://alexandercoppock.com/vayr/reference/position_honeycomb.md),
 [`position_honeycombdodge()`](https://alexandercoppock.com/vayr/reference/position_honeycombdodge.md),
 [`position_jitter_ellipse()`](https://alexandercoppock.com/vayr/reference/position_jitter_ellipse.md),
 [`position_jitterdodge_ellipse()`](https://alexandercoppock.com/vayr/reference/position_jitterdodge_ellipse.md),
 [`position_sunflower()`](https://alexandercoppock.com/vayr/reference/position_sunflower.md),
+[`position_sunflowerdodge()`](https://alexandercoppock.com/vayr/reference/position_sunflowerdodge.md),
 [`sunflower()`](https://alexandercoppock.com/vayr/reference/sunflower.md)
 
 ## Examples
@@ -69,23 +70,13 @@ Other Functions:
 ``` r
   library(ggplot2)
 
-  # Use the sunflower dodge position function to arrange and dodge N points.
-  N <- 300
-
   dat <- data.frame(
-    x = sample(1:2, size = N, replace = TRUE),
-    y = sample(1:7, size = N, replace = TRUE),
-    type = factor(sample(LETTERS[1:2], N, replace = TRUE))
+    x = rep(1:3, times = 60),
+    y = rep(1:3, times = 60)
   )
 
-  # With coord_equal
-  ggplot(dat, aes(x, y, color = type, shape = type)) +
-    geom_point(position = position_sunflowerdodge(width = 0.5, density = 2, aspect_ratio = 1)) +
+  ggplot(dat, aes(x, y)) +
+    geom_point(size = 1, position = position_honeycomb(density = 4)) +
     coord_equal()
-
-
-  # Without coord_equal, might want to play with aspect ratio to get a pleasing plot
-  ggplot(dat, aes(x, y, color = type, shape = type)) +
-    geom_point(position = position_sunflowerdodge(width = 0.5, density = 10, aspect_ratio = 1/4))
 
 ```

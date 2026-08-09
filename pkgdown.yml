@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   design-based-graphs: design-based-graphs.html
   vayr-vignette: vayr-vignette.html
-last_built: 2026-08-09T03:44Z
+last_built: 2026-08-09T14:50Z
 urls:
   reference: https://alexandercoppock.com/vayr/reference
   article: https://alexandercoppock.com/vayr/articles

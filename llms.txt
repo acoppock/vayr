@@ -30,7 +30,7 @@ pak::pak("acoppock/vayr")
 
 ## Position adjustments
 
-`vayr` provides six position adjustments that apply to “point-like”
+`vayr` provides ten position adjustments that apply to “point-like”
 geoms such as
 [`geom_point()`](https://ggplot2.tidyverse.org/reference/geom_point.html)
 and
@@ -44,20 +44,32 @@ also dodges groups side-to-side:
   sample from an elliptical field rather than the rectangle that
   [`position_jitter()`](https://ggplot2.tidyverse.org/reference/position_jitter.html)
   uses, so the dispersion retains the impression of a single point.
+- [`position_bluenoise()`](https://alexandercoppock.com/vayr/reference/position_bluenoise.md)
+  and
+  [`position_bluenoisedodge()`](https://alexandercoppock.com/vayr/reference/position_bluenoisedodge.md)
+  fill the same elliptical field, but space the points evenly. Sampling
+  uniformly leaves knots and voids a reader can mistake for structure;
+  this leaves none while still looking unstructured.
 - [`position_sunflower()`](https://alexandercoppock.com/vayr/reference/position_sunflower.md)
   and
   [`position_sunflowerdodge()`](https://alexandercoppock.com/vayr/reference/position_sunflowerdodge.md)
   arrange over-plotted points in a sunflower pattern, working from the
   inside out in the order of the data. A point with nothing
   over-plotting it stays where it is.
+- [`position_honeycomb()`](https://alexandercoppock.com/vayr/reference/position_honeycomb.md)
+  and
+  [`position_honeycombdodge()`](https://alexandercoppock.com/vayr/reference/position_honeycombdodge.md)
+  do the same on a hexagonal lattice, covering the same footprint at the
+  same `density`.
 - [`position_circlepack()`](https://alexandercoppock.com/vayr/reference/position_circlepack.md)
   and
   [`position_circlepackdodge()`](https://alexandercoppock.com/vayr/reference/position_circlepackdodge.md)
   pack over-plotted points of varying sizes into an elliptical area,
   which is useful when point size carries a weight.
 
-Each takes a `density` argument controlling how tightly the points pack,
-and an `aspect_ratio` argument that compensates for a non-square
+The sunflower, honeycomb, and circle-pack adjustments take a `density`
+argument controlling how tightly the points pack; all of them take an
+`aspect_ratio` or a `width` and `height` to compensate for a non-square
 plotting region.
 
 ``` r
@@ -76,53 +88,54 @@ dat <- data.frame(
 )
 
 vayr_theme <- list(
+  coord_equal(xlim = c(-0.95, 0.95), ylim = c(-0.95, 0.95)),
   theme_bw(),
   theme(legend.position = "none",
         axis.title = element_blank(),
-        plot.title = element_text(hjust = 0.5, face = "bold", size = 11))
+        axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        plot.title = element_text(hjust = 0.5, face = "bold", size = 10))
 )
 
-jitter_ellipse <- ggplot(dat, aes(x, y)) +
-  geom_point(position = position_jitter_ellipse(width = 0.5, height = 0.5)) +
-  coord_equal(xlim = c(-1.1, 1.1), ylim = c(-1.1, 1.1)) +
-  vayr_theme + ggtitle("position_jitter_ellipse()")
+# A sunflower of n points has half-width sqrt(n / (100 * density)), so this is
+# the density that makes the lattice families match the 0.5 field of the others.
+d <- 200 / (100 * 0.5 ^ 2)
 
-jitterdodge_ellipse <- ggplot(dat, aes(x, y, color = group)) +
-  geom_point(position = position_jitterdodge_ellipse(dodge.width = 2,
-                                                     jitter.width = 0.5,
-                                                     jitter.height = 0.5)) +
-  coord_equal(xlim = c(-1.1, 1.1), ylim = c(-1.1, 1.1)) +
-  vayr_theme + ggtitle("position_jitterdodge_ellipse()")
+plain <- ggplot(dat, aes(x, y)) + vayr_theme
+grouped <- ggplot(dat, aes(x, y, color = group, shape = group)) + vayr_theme
+sized <- ggplot(dat, aes(x, y, size = size)) + vayr_theme
+sized_grouped <- ggplot(dat, aes(x, y, color = group, size = size)) + vayr_theme
 
-sunflower <- ggplot(dat, aes(x, y)) +
-  geom_point(position = position_sunflower(density = 1, aspect_ratio = 1)) +
-  coord_equal(xlim = c(-2.1, 2.1), ylim = c(-2.1, 2.1)) +
-  vayr_theme + ggtitle("position_sunflower()")
+top <-
+  (plain + geom_point(position = position_jitter_ellipse(0.5, 0.5), size = 0.6) +
+     ggtitle("position_jitter_ellipse()")) +
+  (plain + geom_point(position = position_bluenoise(0.5, 0.5), size = 0.6) +
+     ggtitle("position_bluenoise()")) +
+  (plain + geom_point(position = position_sunflower(density = d), size = 0.6) +
+     ggtitle("position_sunflower()")) +
+  (plain + geom_point(position = position_honeycomb(density = d), size = 0.6) +
+     ggtitle("position_honeycomb()")) +
+  (sized + geom_point(position = position_circlepack(density = 0.25), alpha = 0.3) +
+     ggtitle("position_circlepack()")) +
+  plot_layout(nrow = 1)
 
-sunflowerdodge <- ggplot(dat, aes(x, y, color = group)) +
-  geom_point(position = position_sunflowerdodge(width = 4, density = 1,
-                                                aspect_ratio = 1)) +
-  coord_equal(xlim = c(-2.1, 2.1), ylim = c(-2.1, 2.1)) +
-  vayr_theme + ggtitle("position_sunflowerdodge()")
+bottom <-
+  (grouped + geom_point(position = position_jitterdodge_ellipse(0.22, 0.5, 1), size = 0.6) +
+     ggtitle("position_jitterdodge_ellipse()")) +
+  (grouped + geom_point(position = position_bluenoisedodge(0.22, 0.5, 1), size = 0.6) +
+     ggtitle("position_bluenoisedodge()")) +
+  (grouped + geom_point(position = position_sunflowerdodge(1, density = 4 * d), size = 0.6) +
+     ggtitle("position_sunflowerdodge()")) +
+  (grouped + geom_point(position = position_honeycombdodge(1, density = 4 * d), size = 0.6) +
+     ggtitle("position_honeycombdodge()")) +
+  (sized_grouped + geom_point(position = position_circlepackdodge(1, density = 1), alpha = 0.3) +
+     ggtitle("position_circlepackdodge()")) +
+  plot_layout(nrow = 1)
 
-circlepack <- ggplot(dat, aes(x, y, size = size)) +
-  geom_point(alpha = 0.25,
-             position = position_circlepack(density = 0.25, aspect_ratio = 1)) +
-  coord_equal(xlim = c(-1.1, 1.1), ylim = c(-1.1, 1.1)) +
-  vayr_theme + ggtitle("position_circlepack()")
-
-circlepackdodge <- ggplot(dat, aes(x, y, color = group, size = size)) +
-  geom_point(alpha = 0.25,
-             position = position_circlepackdodge(width = 2, density = 0.25,
-                                                 aspect_ratio = 1)) +
-  coord_equal(xlim = c(-1.1, 1.1), ylim = c(-1.1, 1.1)) +
-  vayr_theme + ggtitle("position_circlepackdodge()")
-
-(jitter_ellipse + sunflower + circlepack) /
-  (jitterdodge_ellipse + sunflowerdodge + circlepackdodge)
+top / bottom
 ```
 
-![the six position adjustments applied to 200 points over-plotted at the
+![the ten position adjustments applied to 200 points over-plotted at the
 origin](reference/figures/README-overview-1.png)
 
 ## Learn more
@@ -188,11 +201,21 @@ P. Green, 320–336. New York: Cambridge University Press.
 
 - [`impute_extreme_values()`](https://alexandercoppock.com/vayr/reference/impute_extreme_values.md)
   : Impute the extreme value bounds for an outcome with attrition
+- [`position_bluenoise()`](https://alexandercoppock.com/vayr/reference/position_bluenoise.md)
+  : Scatter over-plotted points evenly at random
+- [`position_bluenoisedodge()`](https://alexandercoppock.com/vayr/reference/position_bluenoisedodge.md)
+  : Scatter over-plotted points evenly at random and dodge groups
+  side-to-side
 - [`position_circlepack()`](https://alexandercoppock.com/vayr/reference/position_circlepack.md)
   : Arrange over-plotted points with a circle-packing algorithm
 - [`position_circlepackdodge()`](https://alexandercoppock.com/vayr/reference/position_circlepackdodge.md)
   : Arrange over-plotted points with a circle-packing algorithm and
   dodge groups side-to-side
+- [`position_honeycomb()`](https://alexandercoppock.com/vayr/reference/position_honeycomb.md)
+  : Arrange over-plotted points on a honeycomb lattice
+- [`position_honeycombdodge()`](https://alexandercoppock.com/vayr/reference/position_honeycombdodge.md)
+  : Arrange over-plotted points on a honeycomb lattice and dodge groups
+  side-to-side
 - [`position_jitter_ellipse()`](https://alexandercoppock.com/vayr/reference/position_jitter_ellipse.md)
   : Jitter points on an ellipse to avoid over-plotting
 - [`position_jitterdodge_ellipse()`](https://alexandercoppock.com/vayr/reference/position_jitterdodge_ellipse.md)

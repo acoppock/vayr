@@ -104,8 +104,16 @@ as <code>geom_point</code> or <code>geom_text</code>:</p>
 <code><a href="../reference/position_jitterdodge_ellipse.html">position_jitterdodge_ellipse()</a></code>
 </li>
 <li>
+<code><a href="../reference/position_bluenoise.html">position_bluenoise()</a></code> and
+<code><a href="../reference/position_bluenoisedodge.html">position_bluenoisedodge()</a></code>
+</li>
+<li>
 <code><a href="../reference/position_sunflower.html">position_sunflower()</a></code> and
 <code><a href="../reference/position_sunflowerdodge.html">position_sunflowerdodge()</a></code>
+</li>
+<li>
+<code><a href="../reference/position_honeycomb.html">position_honeycomb()</a></code> and
+<code><a href="../reference/position_honeycombdodge.html">position_honeycombdodge()</a></code>
 </li>
 <li>
 <code><a href="../reference/position_circlepack.html">position_circlepack()</a></code> and
@@ -199,6 +207,47 @@ while their density varies depending on the amount of data.</p>
 <p><img src="vayr-vignette_files/figure-html/contents_1-1.png" class="r-plt" alt="position_jitter_ellipse() and position_jitterdodge_ellipse()" width="100%"></p>
 </div>
 <div class="section level3">
+<h3 id="position-blue-noise">Position Blue Noise<a class="anchor" aria-label="anchor" href="#position-blue-noise"></a>
+</h3>
+<p><code><a href="../reference/position_bluenoise.html">position_bluenoise()</a></code> fills the same elliptical field as
+<code><a href="../reference/position_jitter_ellipse.html">position_jitter_ellipse()</a></code>, but places the points so that no
+two land much closer together than the rest. Sampling uniformly at
+random, which is what jittering does, leaves visible knots and voids: in
+a draw of 250 points the closest pair typically sits about a fifteenth
+of the median spacing apart, and a reader cannot tell those knots from
+real structure. The arrangement here has the even spacing of a sunflower
+while still looking unstructured, so nobody mistakes a spiral arm for a
+finding. It is the pattern the eye’s own photoreceptors are laid out
+in.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># position_bluenoise()</span></span>
+<span><span class="va">bluenoise_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">dat</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="../reference/position_bluenoise.html">position_bluenoise</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>                                           height <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html" class="external-link">coord_equal</a></span><span class="op">(</span>xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.1</span>, <span class="fl">1.1</span><span class="op">)</span>,</span>
+<span>              ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.1</span>, <span class="fl">1.1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>        plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span>, face <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"position_bluenoise()"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># position_bluenoisedodge()</span></span>
+<span><span class="va">bluenoisedodge_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">dat</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span>, color <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="../reference/position_bluenoisedodge.html">position_bluenoisedodge</a></span><span class="op">(</span>dodge.width <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>                                                scatter.width <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>                                                scatter.height <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html" class="external-link">coord_equal</a></span><span class="op">(</span>xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.1</span>, <span class="fl">1.1</span><span class="op">)</span>,</span>
+<span>              ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.1</span>, <span class="fl">1.1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span>,</span>
+<span>        axis.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>        plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span>, face <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"position_bluenoisedodge()"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">bluenoise_plot</span> <span class="op">+</span> <span class="va">bluenoisedodge_plot</span></span></code></pre></div>
+<p><img src="vayr-vignette_files/figure-html/contents_1B-1.png" class="r-plt" alt="position_bluenoise() and position_bluenoisedodge()" width="100%"></p>
+</div>
+<div class="section level3">
 <h3 id="position-sunflower">Position Sunflower<a class="anchor" aria-label="anchor" href="#position-sunflower"></a>
 </h3>
 <p><code><a href="../reference/position_sunflower.html">position_sunflower()</a></code> arranges perfectly over-plotted
@@ -212,7 +261,7 @@ stays where it is. We generally recommend pairing the position
 adjustment with <code><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html" class="external-link">coord_equal()</a></code>, in which case the default
 aspect ratio of 1 yields perfectly circular flowers, but the aspect
 ratio of the flowers can be adjusted if need be.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># position_sunflower()</span></span>
 <span><span class="va">sunflower_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">dat</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="../reference/position_sunflower.html">position_sunflower</a></span><span class="op">(</span>density <span class="op">=</span> <span class="fl">1</span>, </span>
@@ -271,6 +320,51 @@ bottom left.</p>
 <p><img src="vayr-vignette_files/figure-html/contents_2C-1.png" class="r-plt" alt="aspect_ratio" width="100%"></p>
 </div>
 <div class="section level3">
+<h3 id="position-honeycomb">Position Honeycomb<a class="anchor" aria-label="anchor" href="#position-honeycomb"></a>
+</h3>
+<p><code><a href="../reference/position_honeycomb.html">position_honeycomb()</a></code> arranges the same points on a
+hexagonal lattice, the densest packing of equal circles in the plane. It
+takes the same <code>density</code> and <code>aspect_ratio</code> as
+<code><a href="../reference/position_sunflower.html">position_sunflower()</a></code> and covers the same footprint at the
+same density, so the two are interchangeable and the choice between them
+is about looks: the lattice reads as countable and orderly, the spiral
+as organic and without a preferred direction.</p>
+<p><code>position_beeswarm()</code> in the ‘ggbeeswarm’ package also
+offers a hexagonal method, and does a different job. A beeswarm spreads
+points along one axis to show the shape of a distribution, so perfectly
+over-plotted points come out as a line rather than a cluster, and its
+hexagonal and square methods move points off their true value on the
+data axis. Reach for a beeswarm to show a distribution, and for this to
+show a count.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># position_honeycomb()</span></span>
+<span><span class="va">honeycomb_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">dat</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="../reference/position_honeycomb.html">position_honeycomb</a></span><span class="op">(</span>density <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>                                           aspect_ratio <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html" class="external-link">coord_equal</a></span><span class="op">(</span>xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2.1</span>, <span class="fl">2.1</span><span class="op">)</span>,</span>
+<span>              ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2.1</span>, <span class="fl">2.1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>        plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span>, face <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"position_honeycomb()"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># position_honeycombdodge()</span></span>
+<span><span class="va">honeycombdodge_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">dat</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span>, color <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="../reference/position_honeycombdodge.html">position_honeycombdodge</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>                                                density <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>                                                aspect_ratio <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html" class="external-link">coord_equal</a></span><span class="op">(</span>xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2.1</span>, <span class="fl">2.1</span><span class="op">)</span>,</span>
+<span>              ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2.1</span>, <span class="fl">2.1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span>,</span>
+<span>        axis.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>        plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span>, face <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"position_honeycombdodge()"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">honeycomb_plot</span> <span class="op">+</span> <span class="va">honeycombdodge_plot</span></span></code></pre></div>
+<p><img src="vayr-vignette_files/figure-html/contents_2D-1.png" class="r-plt" alt="position_honeycomb() and position_honeycombdodge()" width="100%"></p>
+</div>
+<div class="section level3">
 <h3 id="position-circle-pack">Position Circle Pack<a class="anchor" aria-label="anchor" href="#position-circle-pack"></a>
 </h3>
 <p><code><a href="../reference/position_circlepack.html">position_circlepack()</a></code> uses a circle packing algorithm
@@ -279,7 +373,7 @@ of varying sizes into an elliptical area. It also takes
 <code>density</code> and <code>aspect_ratio</code> as parameters. Do not
 confuse it with <code>geom_circlepack()</code> from
 <code>ggcirclepack</code>, which can be found on <a href="https://github.com/EvaMaeRey/ggcirclepack" class="external-link">GitHub</a>.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># position_circlepack()</span></span>
 <span><span class="va">circlepack_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">dat</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span>, size <span class="op">=</span> <span class="va">size</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.25</span>,</span>
@@ -313,7 +407,7 @@ confuse it with <code>geom_circlepack()</code> from
 <code><a href="../reference/position_circlepack.html">position_circlepack()</a></code> works from the inside out in the
 order of the data. Arranging the data by size therefore organizes the
 points accordingly.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># random size, base plot</span></span>
 <span><span class="va">random</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">dat</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span>, size <span class="op">=</span> <span class="va">size</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.25</span>,</span>
@@ -377,7 +471,7 @@ for the Patriot Act</li>
 adjusts both <code>density</code> and <code>aspect_ratio</code>: a high
 <code>density</code> compensates for the small point size, and a tall
 <code>aspect_ratio</code> compensates for the wide plot.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># A df for statistical models</span></span>
 <span><span class="va">summary_df</span> <span class="op">&lt;-</span> <span class="va">patriot_act</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">T1_content</span>, <span class="va">pid_3</span>, <span class="va">sample_label</span><span class="op">)</span> <span class="op">|&gt;</span></span>

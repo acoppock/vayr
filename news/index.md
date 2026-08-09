@@ -4,14 +4,49 @@
 
 ### New features
 
+- [`position_bluenoise()`](https://alexandercoppock.com/vayr/reference/position_bluenoise.md)
+  and
+  [`position_bluenoisedodge()`](https://alexandercoppock.com/vayr/reference/position_bluenoisedodge.md)
+  scatter over-plotted points across an elliptical field while keeping
+  them evenly spaced, in the pattern the eye’s own photoreceptors are
+  laid out in. Jittering samples uniformly, which clumps: in a draw of
+  250 points the closest pair typically sits about a fifteenth of the
+  median spacing apart, and a reader cannot tell those knots from real
+  structure. Blue noise looks equally unstructured without the knots, so
+  unlike
+  [`position_sunflower()`](https://alexandercoppock.com/vayr/reference/position_sunflower.md)
+  there is no visible spiral for a reader to misread as a finding.
+
+- [`position_honeycomb()`](https://alexandercoppock.com/vayr/reference/position_honeycomb.md)
+  and
+  [`position_honeycombdodge()`](https://alexandercoppock.com/vayr/reference/position_honeycombdodge.md)
+  arrange over-plotted points on a hexagonal lattice, the densest
+  packing of equal circles in the plane. At a given `density` the
+  footprint matches
+  [`position_sunflower()`](https://alexandercoppock.com/vayr/reference/position_sunflower.md),
+  so the two are interchangeable and the choice between them is about
+  looks: crystalline and countable, or organic and without a preferred
+  direction.
+
+- All five dodged position adjustments gain an `orientation` argument,
+  matching
+  [`ggplot2::position_dodge()`](https://ggplot2.tidyverse.org/reference/position_dodge.html).
+  They were hard-wired to separate groups side-to-side;
+  `orientation = "y"` now separates them up and down instead. ggplot2
+  has no `height` argument for dodging, since `width` is the extent
+  along whichever axis `orientation` picks. The `height` spelling
+  belongs to the superseded ‘ggstance’ package, whose
+  `position_dodgev()` predates `orientation`.
+
 - [`impute_extreme_values()`](https://alexandercoppock.com/vayr/reference/impute_extreme_values.md)
   prepares the extreme value bounds figure for an experiment with
   attrition, imputing the logical best case and worst case for the
   missing outcomes and flagging which points are observed and which are
-  imputed. It estimates nothing; `attrition::estimator_ev()` provides
-  the bounds themselves. The outcome’s logical range is required at the
-  call site rather than guessed from the data, because guessing narrows
-  the bounds.
+  imputed. It estimates nothing; `estimator_ev()` in the ‘attrition’
+  package (<https://github.com/acoppock/attrition>) provides the bounds
+  themselves. The outcome’s logical range is required at the call site
+  rather than guessed from the data, because guessing narrows the
+  bounds.
 
 - Seven new datasets carry the worked examples from the chapter the
   package implements: `two_arm_trial`, `blocked_experiment`,
@@ -29,6 +64,11 @@
 
 All six position adjustments now have behavioural tests covering the
 geometry they promise, which is how these were found.
+
+Three of the fixes change where points are drawn, so a figure built with
+1.0.0 will not reproduce pixel for pixel under 1.1.0: the lone-point
+sunflower, the row order, and the `seed = NULL` ellipse. Estimates and
+models are unaffected.
 
 - The position adjustments no longer require `ggplot2` to be attached.
   They used
