@@ -46,7 +46,9 @@ pak::pak("acoppock/vayr")
 to "point-like" geoms such as `geom_point` or `geom_text`:
 
   + `position_jitter_ellipse()` and `position_jitterdodge_ellipse()`
+  + `position_bluenoise()` and `position_bluenoisedodge()`
   + `position_sunflower()` and `position_sunflowerdodge()`
+  + `position_honeycomb()` and `position_honeycombdodge()`
   + `position_circlepack()` and `position_circlepackdodge()`
   
 These functions avoid over-plotting, so they are especially useful when plotting
@@ -140,6 +142,47 @@ jitterdodge_ellipse_plot <- ggplot(dat, aes(x = x, y = y, color = group)) +
   
 jitter_ellipse_plot + jitterdodge_ellipse_plot
 ```
+
+### Position Blue Noise
+
+`position_bluenoise()` fills the same elliptical field as
+`position_jitter_ellipse()`, but places the points so that no two land much
+closer together than the rest. Sampling uniformly at random, which is what
+jittering does, leaves visible knots and voids: in a draw of 250 points the
+closest pair typically sits about a fifteenth of the median spacing apart, and a
+reader cannot tell those knots from real structure. The arrangement here has the
+even spacing of a sunflower while still looking unstructured, so nobody mistakes
+a spiral arm for a finding. It is the pattern the eye's own photoreceptors are
+laid out in.
+
+```{r contents_1B, dpi = 96, fig.width = 12, fig.height = 6, fig.alt = 'position_bluenoise() and position_bluenoisedodge()'}
+# position_bluenoise()
+bluenoise_plot <- ggplot(dat, aes(x = x, y = y)) +
+  geom_point(position = position_bluenoise(width = 0.5,
+                                           height = 0.5)) +
+  coord_equal(xlim = c(-1.1, 1.1),
+              ylim = c(-1.1, 1.1)) +
+  theme_bw() +
+  theme(axis.title = element_blank(),
+        plot.title = element_text(hjust = 0.5, face = "bold")) +
+  ggtitle("position_bluenoise()")
+
+# position_bluenoisedodge()
+bluenoisedodge_plot <- ggplot(dat, aes(x = x, y = y, color = group)) +
+  geom_point(position = position_bluenoisedodge(dodge.width = 2,
+                                                scatter.width = 0.5,
+                                                scatter.height = 0.5)) +
+  coord_equal(xlim = c(-1.1, 1.1),
+              ylim = c(-1.1, 1.1)) +
+  theme_bw() +
+  theme(legend.position = "none",
+        axis.title = element_blank(),
+        plot.title = element_text(hjust = 0.5, face = "bold")) +
+  ggtitle("position_bluenoisedodge()")
+
+bluenoise_plot + bluenoisedodge_plot
+```
+
 
 ### Position Sunflower
 
@@ -255,6 +298,51 @@ for (i in 1:9) {
 
 wrap_plots(aspect_ratio_plots, ncol = 3)
 ```
+
+### Position Honeycomb
+
+`position_honeycomb()` arranges the same points on a hexagonal lattice, the
+densest packing of equal circles in the plane. It takes the same `density` and
+`aspect_ratio` as `position_sunflower()` and covers the same footprint at the
+same density, so the two are interchangeable and the choice between them is
+about looks: the lattice reads as countable and orderly, the spiral as organic
+and without a preferred direction.
+
+`position_beeswarm()` in the 'ggbeeswarm' package also offers a hexagonal
+method, and does a different job. A beeswarm spreads points along one axis to
+show the shape of a distribution, so perfectly over-plotted points come out as a
+line rather than a cluster, and its hexagonal and square methods move points off
+their true value on the data axis. Reach for a beeswarm to show a distribution,
+and for this to show a count.
+
+```{r contents_2D, dpi = 96, fig.width = 12, fig.height = 6, fig.alt = 'position_honeycomb() and position_honeycombdodge()'}
+# position_honeycomb()
+honeycomb_plot <- ggplot(dat, aes(x = x, y = y)) +
+  geom_point(position = position_honeycomb(density = 1,
+                                           aspect_ratio = 1)) +
+  coord_equal(xlim = c(-2.1, 2.1),
+              ylim = c(-2.1, 2.1)) +
+  theme_bw() +
+  theme(axis.title = element_blank(),
+        plot.title = element_text(hjust = 0.5, face = "bold")) +
+  ggtitle("position_honeycomb()")
+
+# position_honeycombdodge()
+honeycombdodge_plot <- ggplot(dat, aes(x = x, y = y, color = group)) +
+  geom_point(position = position_honeycombdodge(width = 4,
+                                                density = 1,
+                                                aspect_ratio = 1)) +
+  coord_equal(xlim = c(-2.1, 2.1),
+              ylim = c(-2.1, 2.1)) +
+  theme_bw() +
+  theme(legend.position = "none",
+        axis.title = element_blank(),
+        plot.title = element_text(hjust = 0.5, face = "bold")) +
+  ggtitle("position_honeycombdodge()")
+
+honeycomb_plot + honeycombdodge_plot
+```
+
 
 ### Position Circle Pack
 

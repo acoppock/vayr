@@ -54,3 +54,6 @@ inst/doc
 docs
 /doc/
 /Meta/
+
+# stray device output
+Rplots.pdf

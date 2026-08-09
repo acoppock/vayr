@@ -2,6 +2,21 @@
 
 ## New features
 
+* `position_bluenoise()` and `position_bluenoisedodge()` scatter over-plotted
+  points across an elliptical field while keeping them evenly spaced, in the
+  pattern the eye's own photoreceptors are laid out in. Jittering samples
+  uniformly, which clumps: in a draw of 250 points the closest pair typically
+  sits about a fifteenth of the median spacing apart, and a reader cannot tell
+  those knots from real structure. Blue noise looks equally unstructured
+  without the knots, so unlike `position_sunflower()` there is no visible
+  spiral for a reader to misread as a finding.
+
+* `position_honeycomb()` and `position_honeycombdodge()` arrange over-plotted
+  points on a hexagonal lattice, the densest packing of equal circles in the
+  plane. At a given `density` the footprint matches `position_sunflower()`, so
+  the two are interchangeable and the choice between them is about looks:
+  crystalline and countable, or organic and without a preferred direction.
+
 * `impute_extreme_values()` prepares the extreme value bounds figure for an
   experiment with attrition, imputing the logical best case and worst case for
   the missing outcomes and flagging which points are observed and which are
