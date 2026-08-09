@@ -127,7 +127,7 @@ unweighted_df <-
 good <-
   ggplot(blocked_experiment, aes(condition, Y)) +
   geom_point(aes(size = 1 / Z_cond_prob),
-             position = position_circlepack(density = 0.1, aspect_ratio = 1 / 8),
+             position = position_circlepack(density = 0.03, aspect_ratio = 1),
              alpha = 0.2, stroke = 0) +
   geom_point(data = weighted_df, size = 4) +
   geom_errorbar(data = weighted_df, aes(ymin = conf.low, ymax = conf.high), width = 0) +
@@ -136,7 +136,7 @@ good <-
 
 bad <-
   ggplot(blocked_experiment, aes(condition, Y)) +
-  geom_point(position = position_sunflower(density = 40, aspect_ratio = 1 / 6),
+  geom_point(position = position_sunflower(density = 1.5, aspect_ratio = 1),
              alpha = 0.2, stroke = 0) +
   geom_point(data = unweighted_df, size = 4) +
   geom_errorbar(data = unweighted_df, aes(ymin = conf.low, ymax = conf.high), width = 0) +
@@ -175,19 +175,22 @@ by_block <-
 
 good <-
   ggplot(blocked_labelled, aes(condition, Y)) +
-  geom_point(position = position_sunflower(density = 40, aspect_ratio = 1 / 6),
+  geom_point(position = position_sunflower(density = 1.5, aspect_ratio = 1),
              alpha = 0.2, stroke = 0) +
   geom_point(data = by_block, size = 3) +
   geom_errorbar(data = by_block, aes(ymin = conf.low, ymax = conf.high), width = 0) +
   facet_wrap(~ neighborhood) +
   labs(title = "Compares across randomly formed groups", x = NULL, y = "Count outcome")
 
+# Two neighborhood labels side by side on one axis need to be short.
+short <- function(d) mutate(d, neighborhood = sub("Neighborhood ", "N", neighborhood))
+
 bad <-
-  ggplot(blocked_labelled, aes(neighborhood, Y)) +
-  geom_point(position = position_sunflower(density = 40, aspect_ratio = 1 / 6),
+  ggplot(short(blocked_labelled), aes(neighborhood, Y)) +
+  geom_point(position = position_sunflower(density = 1.5, aspect_ratio = 1),
              alpha = 0.2, stroke = 0) +
-  geom_point(data = by_block, size = 3) +
-  geom_errorbar(data = by_block, aes(ymin = conf.low, ymax = conf.high), width = 0) +
+  geom_point(data = short(by_block), size = 3) +
+  geom_errorbar(data = short(by_block), aes(ymin = conf.low, ymax = conf.high), width = 0) +
   facet_wrap(~ condition) +
   labs(title = "Compares across neighborhoods", x = NULL, y = "Count outcome")
 
@@ -202,8 +205,14 @@ errors that ignore the clustering are too small.
 
 The strong graph plots the cluster averages rather than the students, with point
 size proportional to class size, and clusters the standard errors. Point size
-carries the design feature the chapter's third guideline asks for, and
-`position_circlepack()` keeps the larger classes from hiding the smaller ones.
+carries the design feature the chapter's third guideline asks for.
+
+A class average is a continuous number, so no two classes share a position and
+the packing adjustments have nothing to pack: `position_circlepack()` and
+`position_sunflower()` both leave every point exactly where it is, by design.
+What is needed here is a per-point spread, which is what the jitter family does,
+and `height = 0` keeps each class at its true average while separating the
+classes horizontally.
 
 ```{r clustered, fig.alt = "a cluster-randomized experiment shown at the cluster level and at the student level"}
 class_level <-
@@ -226,8 +235,8 @@ naive_df <-
 good <-
   ggplot(class_level, aes(condition, Y)) +
   geom_point(aes(size = n_per_class),
-             position = position_circlepack(density = 0.02, aspect_ratio = 1 / 250),
-             alpha = 0.3, stroke = 0) +
+             position = position_jitter_ellipse(width = 0.2, height = 0, seed = 1),
+             alpha = 0.5, stroke = 0) +
   geom_point(data = clustered_df, size = 3) +
   geom_errorbar(data = clustered_df, aes(ymin = conf.low, ymax = conf.high), width = 0) +
   scale_size_continuous(range = c(1, 4)) +

@@ -46,6 +46,13 @@
 
 ## Bug fixes
 
+* `position_circlepack()` and `position_circlepackdodge()` displaced the cluster
+  from the point it stands for. `circleProgressiveLayout()` does not centre what
+  it returns: a lone circle lands at `(-radius, 0)`, and packs of three or five
+  sit off-centre by roughly a third of their radius. The layout is now centred,
+  so a point with nothing over-plotting it stays exactly where it is, matching
+  the other position adjustments.
+
 All six position adjustments now have behavioural tests covering the geometry
 they promise, which is how these were found.
 

@@ -23,6 +23,15 @@ jitter_ellipse <- function(data, width, height) {
   )
 }
 
+# circleProgressiveLayout does not centre what it returns. A single circle lands
+# at (-radius, 0), and packs of three or five sit off-centre by roughly a third
+# of their radius; by ten the drift is gone. Centring puts the cluster on the
+# data point it stands for, and leaves a lone point exactly where it was.
+pack_circles <- function(areas) {
+  layout <- packcircles::circleProgressiveLayout(areas)
+  cbind(layout$x - mean(layout$x), layout$y - mean(layout$y))
+}
+
 # Circle areas are rescaled to [0.1, 1] so that the smallest point still packs a
 # visible circle. A layer with no size aesthetic, or one constant size, packs
 # equal circles.

@@ -29,6 +29,29 @@ test_that("each over-plotted cell is packed around its own centre", {
   expect_equal(as.vector(centres), c(1, 5), tolerance = 0.05)
 })
 
+test_that("a cell holding a single point is left alone", {
+  # circleProgressiveLayout puts a lone circle at (-radius, 0), so this only
+  # holds because the layout is re-centred.
+  dat <- data.frame(x = c(1, 5), y = c(1, 5), size = c(1, 2))
+
+  ld <- ggplot2::layer_data(
+    ggplot2::ggplot(dat, ggplot2::aes(x, y, size = size)) +
+      ggplot2::geom_point(position = position_circlepack())
+  )
+
+  expect_identical(ld$x, dat$x)
+  expect_identical(ld$y, dat$y)
+})
+
+test_that("small packs are centred on the point they stand for", {
+  # The drift is worst at three and five, and gone by ten.
+  for (n in c(1, 2, 3, 5, 10, 25)) {
+    layout <- pack_circles(rep(1e-3, n))
+    expect_equal(mean(layout[, 1]), 0, tolerance = 1e-9)
+    expect_equal(mean(layout[, 2]), 0, tolerance = 1e-9)
+  }
+})
+
 test_that("a constant size aesthetic is handled", {
   dat <- data.frame(x = rep(1, 50), y = rep(1, 50), size = rep(2, 50))
 

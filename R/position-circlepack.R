@@ -81,10 +81,10 @@ PositionCirclePack <-
       pairs <- split(seq_len(nrow(data)), interaction(data$x, data$y, drop = TRUE))
 
       for (rows in pairs) {
-        circle_layout <- packcircles::circleProgressiveLayout(areas[rows])
+        circle_layout <- pack_circles(areas[rows])
 
-        data$x[rows] <- data$x[rows] + circle_layout$x
-        data$y[rows] <- data$y[rows] + circle_layout$y / self$aspect_ratio
+        data$x[rows] <- data$x[rows] + circle_layout[, 1]
+        data$y[rows] <- data$y[rows] + circle_layout[, 2] / self$aspect_ratio
       }
 
       data
@@ -146,10 +146,10 @@ PositionCirclePackDodge <-
       pairs <- split(seq_len(nrow(data)), interaction(data$x, data$y, data$group, drop = TRUE))
 
       for (rows in pairs) {
-        circle_layout <- packcircles::circleProgressiveLayout(areas[rows])
+        circle_layout <- pack_circles(areas[rows])
 
-        data$x[rows] <- data$x[rows] + circle_layout$x
-        data$y[rows] <- data$y[rows] + circle_layout$y / self$aspect_ratio
+        data$x[rows] <- data$x[rows] + circle_layout[, 1]
+        data$y[rows] <- data$y[rows] + circle_layout[, 2] / self$aspect_ratio
       }
 
       data
