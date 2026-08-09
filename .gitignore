@@ -17,6 +17,10 @@
 # Output files from R CMD check
 /*.Rcheck/
 
+# testthat failure artifacts
+tests/testthat/_problems/
+tests/testthat/testthat-problems.rds
+
 # RStudio files
 .Rproj.user/
 
