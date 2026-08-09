@@ -32,7 +32,7 @@ position_jitterdodge_ellipse(
 
 ## Value
 
-A `ggproto` object of class `PositionJitterdodgeEllipse`.
+A `ggproto` object of class `PositionJitterDodgeEllipse`.
 
 ## See also
 

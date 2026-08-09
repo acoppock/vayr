@@ -1,21 +1,22 @@
-# vayr
+# Visualize as you randomize
 
 The goal of `vayr` is to provide `ggplot2` extensions that foster
 “visualize as you randomize” principles. These principles are outlined
-in detail in “Visualize as You Randomize: Design-Based Statistical
-Graphs for Randomized Experiments.” That paper can be accessed as a
-[PDF](https://alexandercoppock.com/coppock_2020.pdf). The package
-includes position adjustments to avoid over-plotting, facilitating the
-the organization of “data-space” to better contextualize statistical
-models.
+in detail in “Visualize As You Randomize: Design-based Statistical
+Graphs for Randomized Experiments,” a chapter in *Advances in
+Experimental Political Science*
+([PDF](https://alexandercoppock.com/coppock_2020.pdf),
+[DOI](https://doi.org/10.1017/9781108777919.022)). The package includes
+position adjustments that avoid over-plotting, which helps organize
+“data-space” to better contextualize statistical models.
 
 ## Installation
 
 The release version of `vayr` can be installed from CRAN, and the
 development version can be installed from [GitHub](https://github.com/)
-using a package like `remotes`, `devtools`, or `pak`. It is important to
-note that `vayr` relies on `ggplot2`, `packcircles`, and `withr`, so
-these must be installed as well.
+using a package like `remotes`, `devtools`, or `pak`. `vayr` relies on
+`ggplot2`, `packcircles`, and `withr`, so these must be installed as
+well.
 
 ``` r
 
@@ -43,9 +44,8 @@ adjustments to “point-like” geoms such as `geom_point` or `geom_text`:
   [`position_circlepackdodge()`](https://alexandercoppock.com/vayr/reference/position_circlepackdodge.md)
 
 These functions avoid over-plotting, so they are especially useful when
-plotting discrete rather than continuous data. As a matter of
-demonstration, they are used below to visualize synthetic data,
-over-plotted at the origin.
+plotting discrete rather than continuous data. To demonstrate, we use
+them below to visualize synthetic data, over-plotted at the origin.
 
 ``` r
 
@@ -54,6 +54,8 @@ library(estimatr)
 library(ggplot2)
 library(patchwork)
 library(vayr)
+
+set.seed(1)
 
 dat <- data.frame(
   x = c(rep(0, 200)),
@@ -66,10 +68,9 @@ dat <- data.frame(
 If position is the product of discrete variables alone, then
 over-plotting is of particular concern.
 [`position_jitter()`](https://ggplot2.tidyverse.org/reference/position_jitter.html)
-can mitigate this concern. It introduces variation by randomly sampling
-points on a rectangle. This approach is effective but can be
-unattractive. The position adjustments in `vayr` are attempts to do
-better.
+can mitigate it. It introduces variation by randomly sampling points on
+a rectangle. This approach is effective but can be unattractive. The
+position adjustments in `vayr` aim to do better.
 
 ``` r
 
@@ -102,13 +103,13 @@ position_jitter()](vayr-vignette_files/figure-html/contents_0-1.png)
 
 ### Position Jitter Ellipse
 
-This position adjustment adds elliptical random noise to perfectly
-over-plotted points, offering a pleasing way to visualize many points
-that represent the same position. The benefit of sampling on an ellipse
-of a given `height` and `width` rather than on a rectangle is that the
-resulting dispersion retains the impression of a single point. The size
-of the ellipses stays constant, while their density varies depending on
-the amount of data.
+[`position_jitter_ellipse()`](https://alexandercoppock.com/vayr/reference/position_jitter_ellipse.md)
+adds elliptical random noise to perfectly over-plotted points, offering
+a pleasing way to visualize many points that represent the same
+position. The benefit of sampling on an ellipse of a given `height` and
+`width` rather than on a rectangle is that the resulting dispersion
+retains the impression of a single point. The size of the ellipses stays
+constant, while their density varies depending on the amount of data.
 
 ``` r
 
@@ -144,13 +145,15 @@ position_jitterdodge_ellipse()](vayr-vignette_files/figure-html/contents_1-1.png
 
 ### Position Sunflower
 
-This position adjustment arranges perfectly over-plotted points using a
-sunflower algorithm, which produces a pattern that resembles the seeds
-of a sunflower, working from the inside out in the order of the data.
-The parameters for this position adjustment are `density` and
-`aspect_ratio`. The size of the flowers varies depending on the amount
-over over-plotting, but the density of the pattern remains constant. It
-is generally recommended that the position adjustment be used along with
+[`position_sunflower()`](https://alexandercoppock.com/vayr/reference/position_sunflower.md)
+arranges perfectly over-plotted points using a sunflower algorithm,
+which produces a pattern that resembles the seeds of a sunflower,
+working from the inside out in the order of the data. The parameters for
+this position adjustment are `density` and `aspect_ratio`. The size of
+the flowers varies depending on the amount of over-plotting, but the
+density of the pattern remains constant. A point with nothing
+over-plotting it stays where it is. We generally recommend pairing the
+position adjustment with
 [`coord_equal()`](https://ggplot2.tidyverse.org/reference/coord_fixed.html),
 in which case the default aspect ratio of 1 yields perfectly circular
 flowers, but the aspect ratio of the flowers can be adjusted if need be.
@@ -193,34 +196,43 @@ points; and a density of 0.5, 50 points. Because density is normalized
 relative to Cartesian units, its visual effect depends on the ranges of
 the axes and the dimensions of the saved image. Smaller ranges or larger
 dimensions require a greater density to produce the same visual effect.
-The size of points should also be taken into account.
+Point size matters too.
 
 ![density](vayr-vignette_files/figure-html/contents_2B-1.png)
 
 The `aspect_ratio` parameter changes the aspect ratio of the flowers,
-which is their width divided by their height. This is useful when using
-the position adjustment without
+which is their width divided by their height. The parameter earns its
+keep when the position adjustment is used without
 [`coord_equal()`](https://ggplot2.tidyverse.org/reference/coord_fixed.html).
 The flowers can be made wider or taller to compensate for the aspect
-ratio of the axes or the image. The aspect ratio of the flowers should
-be set to the opposite of the aspect ratio for which it must compensate.
+ratio of the axes or the image. Set `aspect_ratio` to the reciprocal of
+the distortion you are correcting: flowers that render twice as wide as
+they are tall need an `aspect_ratio` of 0.5.
+
 For instance, consider a plot with an x axis that ranges from 0 to 1,
 and a y axis that ranges from 0 to 2. Saving this plot as a square image
-would squish the y axis, resulting in wider flowers. Setting the aspect
-ratio of the flowers to 0.5 would offset this distortion. Note that
-while the aspect ratio is parameterized as width to height, the `ratio`
-parameter for coord_fixed() is height to width. So in this case, setting
-`aspect_ratio` equal to `ratio` results in non-distorted distributions.
+would squish the y axis, resulting in flowers twice as wide as they are
+tall. An `aspect_ratio` of 0.5 offsets that distortion.
+
+Under
+[`coord_fixed()`](https://ggplot2.tidyverse.org/reference/coord_fixed.html)
+the arithmetic is simpler, because `ratio` already expresses the
+distortion you need to undo: set `aspect_ratio` to the same value as
+`ratio` and the flowers come out circular. The two parameters agree in
+value while being defined in opposite directions, since `aspect_ratio`
+is width to height and `ratio` is height to width. The grid below
+crosses the two, and the circular flowers appear where the values match,
+running from the top right to the bottom left.
 
 ![aspect_ratio](vayr-vignette_files/figure-html/contents_2C-1.png)
 
 ### Position Circle Pack
 
-This position adjustment uses circle packing algorithms from
-`packcircles` to arrange perfectly over-plotted points of varying sizes
-into an elliptical area. It also takes `density` and `aspect_ratio` as
-parameters. This position adjustment should not be confused with
-`geom_circlepack()` from `ggcirclepack` which can be found on
+[`position_circlepack()`](https://alexandercoppock.com/vayr/reference/position_circlepack.md)
+uses a circle packing algorithm from `packcircles` to arrange perfectly
+over-plotted points of varying sizes into an elliptical area. It also
+takes `density` and `aspect_ratio` as parameters. Do not confuse it with
+`geom_circlepack()` from `ggcirclepack`, which can be found on
 [GitHub](https://github.com/EvaMaeRey/ggcirclepack).
 
 ``` r
@@ -259,10 +271,10 @@ circlepack_plot + circlepackdodge_plot
 position_circlepackdodge()](vayr-vignette_files/figure-html/contents_3A-1.png)
 
 Like
-[`position_sunflower()`](https://alexandercoppock.com/vayr/reference/position_sunflower.md)
+[`position_sunflower()`](https://alexandercoppock.com/vayr/reference/position_sunflower.md),
 [`position_circlepack()`](https://alexandercoppock.com/vayr/reference/position_circlepack.md)
-works from the inside out in the order of the data. So arranging the
-data by size organizes the points accordingly.
+works from the inside out in the order of the data. Arranging the data
+by size therefore organizes the points accordingly.
 
 ``` r
 
@@ -305,14 +317,13 @@ descending](vayr-vignette_files/figure-html/contents_3B-1.png)
 `vayr` also includes data from the Patriot Act experiment described in
 [*Persuasion in
 Parallel*](https://alexandercoppock.com/coppock_2022.html). The Patriot
-Act was an anti-terrorism law, and the `patriot_act` dataset contains
-data relating to an experiment that measured support for this law after
-randomly exposing participants to statements that cast the legislation
-in either a negative or positive light. The experiment was conducted in
-2009 with a nationwide sample, and it was replicated in 2015 with a
-sample of MTurkers. In both instances, the treatments had a similar
-effect on Democrats and Republicans. There are four variables in the
-data:
+Act was an anti-terrorism law, and the `patriot_act` dataset comes from
+an experiment that measured support for this law after randomly exposing
+participants to statements that cast the legislation in either a
+negative or positive light. The experiment was conducted in 2009 with a
+nationwide sample, and it was replicated in 2015 with a sample of
+MTurkers. In both instances, the treatments had a similar effect on
+Democrats and Republicans. The data hold four variables:
 
 - `sample_label`, the study to which the participant belonged
 - `pid_3`, the partisanship of the participant
@@ -320,11 +331,11 @@ data:
 - `PA_support`, the participant’s post-treatment support for the Patriot
   Act
 
-The data is visualized below using
+The figure below visualizes the data using
 [`position_sunflowerdodge()`](https://alexandercoppock.com/vayr/reference/position_sunflowerdodge.md)
-from `vayr`. Note that both `density` and `aspect_ratio` are adjusted. A
-high `density` is needed because of a small point size, and a tall
-`aspect_ratio` accounts for a wide plot.
+from `vayr`. It adjusts both `density` and `aspect_ratio`: a high
+`density` compensates for the small point size, and a tall
+`aspect_ratio` compensates for the wide plot.
 
 ``` r
 
@@ -376,3 +387,25 @@ ggplot(patriot_act, aes(T1_content, PA_support, color = pid_3, group = pid_3)) +
 ```
 
 ![patriot_act](vayr-vignette_files/figure-html/patriot_act_visualization-1.png)
+
+The figure shows the design, the data, and the analysis at once. Each
+point is one respondent, arranged in flowers so that the number of
+subjects sitting on each of the seven scale points stays visible. The
+lines and vertical bars are group means with their 95 percent confidence
+intervals.
+
+Republicans support the Patriot Act more than Democrats do, by about a
+point on the seven-point scale, in both the original study and the
+replication. The treatments move the two groups by similar amounts and
+in the same direction. In the original study, pro-Patriot Act statements
+raise support by 0.69 points (robust standard error: 0.27) among
+Democrats and by 0.57 (0.30) among Republicans, while anti-Patriot Act
+statements lower it by 0.61 (0.26) and 0.84 (0.32). The replication
+reproduces the pattern at slightly smaller magnitudes. The lines run
+roughly parallel, separated by a level difference the treatments do not
+close.
+
+Plotting in data-space is what makes the parallelism legible. The
+flowers show how much of each group sits at each scale point, so a
+reader can see the spread that the group means summarize rather than
+taking the intervals on faith.

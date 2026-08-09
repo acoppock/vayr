@@ -2,4 +2,5 @@
 
 ### All vignettes
 
-- [vayr](https://alexandercoppock.com/vayr/articles/vayr-vignette.md):
+- [Visualize as you
+  randomize](https://alexandercoppock.com/vayr/articles/vayr-vignette.md):

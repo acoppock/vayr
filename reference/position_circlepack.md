@@ -1,8 +1,8 @@
 # Arrange over-plotted points with a circle-packing algorithm
 
 This function uses a circle packing algorithm from the 'packcircles'
-package to arrange perfectly over-plotted points of varying sizes into a
-elliptical area.
+package to arrange perfectly over-plotted points of varying sizes into
+an elliptical area.
 
 ## Usage
 
@@ -23,10 +23,11 @@ position_circlepack(density = 1, aspect_ratio = 1)
 
   An aspect ratio adjustment to compensate for distortion of the
   circular arrangement, which might occur when plotting if coord_equal()
-  is not used. A wide aspect ratio (eg. 2) would adjust for vertical
-  stretching, whereas a tall aspect ratio (eg. 0.5) would adjust for
+  is not used. A wide aspect ratio (e.g., 2) would adjust for vertical
+  stretching, whereas a tall aspect ratio (e.g., 0.5) would adjust for
   horizontal stretching. The default aspect ratio of 1 is appropriate
-  when no adjustment is required.
+  when no adjustment is required. Under coord_fixed(), set
+  `aspect_ratio` to the same value as that function's `ratio` argument.
 
 ## Value
 

@@ -1,6 +1,6 @@
 # Distribute points using a sunflower seed algorithm
 
-This function distributes points in a ellipse via a sunflower seed
+This function distributes points in an ellipse via a sunflower seed
 algorithm as a solution for over-plotting. To implement the algorithm,
 this function adapts the code from
 https://stackoverflow.com/questions/28567166/uniformly-distribute-x-points-inside-a-circle.
@@ -16,7 +16,9 @@ sunflower(x = NULL, y = NULL, density, aspect_ratio)
 - x, y:
 
   The identical coordinates of multiple over-plotted points, as vectors,
-  which will be arranged using a sunflower seed algorithm.
+  which will be arranged using a sunflower seed algorithm. A vector of
+  length one is returned unchanged, since a point with nothing
+  over-plotting it belongs at its own coordinates.
 
 - density:
 
@@ -26,8 +28,8 @@ sunflower(x = NULL, y = NULL, density, aspect_ratio)
 
   An aspect ratio adjustment to compensate for distortion of the
   circular arrangement, which might occur when plotting if coord_equal()
-  is not used. A wide aspect ratio (eg. 2) would adjust for vertical
-  stretching, whereas a tall aspect ratio (eg. 0.5) would adjust for
+  is not used. A wide aspect ratio (e.g., 2) would adjust for vertical
+  stretching, whereas a tall aspect ratio (e.g., 0.5) would adjust for
   horizontal stretching. An aspect ratio of 1 is appropriate when no
   adjustment is required.
 

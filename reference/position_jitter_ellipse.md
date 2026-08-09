@@ -2,7 +2,7 @@
 
 This function adds elliptical random noise to perfectly over-plotted
 points, offering a pleasing way to visualize many points that represent
-the same position. In contrast to the position_jitter() function which
+the same position. In contrast to the position_jitter() function, which
 samples from a rectangular field, the position_jitter_ellipse() function
 samples from an elliptical field. This function takes algorithmic
 inspiration from
