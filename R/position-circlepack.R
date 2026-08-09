@@ -101,6 +101,9 @@ PositionCirclePack <-
 #' @inheritParams position_circlepack
 #'
 #' @param width The dodging width, which defaults to 1.
+#' @param orientation The axis along which groups are separated, either
+#' `"x"` (the default, side-to-side) or `"y"` (up and down). Matches the
+#' argument of the same name in [ggplot2::position_dodge()].
 #'
 #' @returns A `ggproto` object of class `PositionCirclePackDodge`.
 #'
@@ -123,8 +126,9 @@ PositionCirclePack <-
 #'     scale_size_continuous(range = c(1, 3)) +
 #'     theme(legend.position = "none")
 #'
-position_circlepackdodge <- function(width = 1, density = 1, aspect_ratio = 1) {
-    ggplot2::ggproto(NULL, PositionCirclePackDodge, width = width, density = density, aspect_ratio = aspect_ratio)
+position_circlepackdodge <- function(width = 1, density = 1, aspect_ratio = 1, orientation = "x") {
+    ggplot2::ggproto(NULL, PositionCirclePackDodge, width = width, density = density,
+                     aspect_ratio = aspect_ratio, orientation = orientation)
   }
 
 PositionCirclePackDodge <-

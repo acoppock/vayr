@@ -8,7 +8,8 @@ position_jitterdodge_ellipse(
   jitter.width = NULL,
   jitter.height = NULL,
   dodge.width = 1,
-  seed = NA
+  seed = NA,
+  orientation = "x"
 )
 }
 \arguments{
@@ -18,6 +19,10 @@ from which over-plotted points are sampled.}
 \item{dodge.width}{The dodging width, which defaults to 1.}
 
 \item{seed}{A random seed for reproducibility.}
+
+\item{orientation}{The axis along which groups are separated, either
+\code{"x"} (the default, side-to-side) or \code{"y"} (up and down). Matches the
+argument of the same name in \code{\link[ggplot2:position_dodge]{ggplot2::position_dodge()}}.}
 }
 \value{
 A \code{ggproto} object of class \code{PositionJitterDodgeEllipse}.

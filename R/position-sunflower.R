@@ -159,6 +159,9 @@ PositionSunflower <-
 #' @inheritParams position_sunflower
 #'
 #' @param width The dodging width, which defaults to 1.
+#' @param orientation The axis along which groups are separated, either
+#' `"x"` (the default, side-to-side) or `"y"` (up and down). Matches the
+#' argument of the same name in [ggplot2::position_dodge()].
 #'
 #' @returns A `ggproto` object of class `PositionSunflowerDodge`.
 #'
@@ -185,8 +188,9 @@ PositionSunflower <-
 #'   ggplot(dat, aes(x, y, color = type, shape = type)) +
 #'     geom_point(position = position_sunflowerdodge(width = 0.5, density = 10, aspect_ratio = 1/4))
 #'
-position_sunflowerdodge <- function(width = 1, density = 1, aspect_ratio = 1) {
-  ggplot2::ggproto(NULL, PositionSunflowerDodge, width = width, density = density, aspect_ratio = aspect_ratio)
+position_sunflowerdodge <- function(width = 1, density = 1, aspect_ratio = 1, orientation = "x") {
+  ggplot2::ggproto(NULL, PositionSunflowerDodge, width = width, density = density,
+                   aspect_ratio = aspect_ratio, orientation = orientation)
 }
 
 PositionSunflowerDodge <-

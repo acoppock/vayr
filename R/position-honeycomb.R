@@ -70,6 +70,9 @@ PositionHoneycomb <-
 #' @inheritParams position_sunflower
 #'
 #' @param width The dodging width, which defaults to 1.
+#' @param orientation The axis along which groups are separated, either
+#' `"x"` (the default, side-to-side) or `"y"` (up and down). Matches the
+#' argument of the same name in [ggplot2::position_dodge()].
 #'
 #' @returns A `ggproto` object of class `PositionHoneycombDodge`.
 #'
@@ -88,9 +91,9 @@ PositionHoneycomb <-
 #'     geom_point(position = position_honeycombdodge(width = 1, density = 30)) +
 #'     coord_equal()
 #'
-position_honeycombdodge <- function(width = 1, density = 1, aspect_ratio = 1) {
-  ggplot2::ggproto(NULL, PositionHoneycombDodge,
-                   width = width, density = density, aspect_ratio = aspect_ratio)
+position_honeycombdodge <- function(width = 1, density = 1, aspect_ratio = 1, orientation = "x") {
+  ggplot2::ggproto(NULL, PositionHoneycombDodge, width = width, density = density,
+                   aspect_ratio = aspect_ratio, orientation = orientation)
 }
 
 PositionHoneycombDodge <-

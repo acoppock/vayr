@@ -66,6 +66,9 @@ PositionJitterEllipse <-
 #' @param jitter.width,jitter.height The dimensions of the elliptical field,
 #' from which over-plotted points are sampled.
 #' @param dodge.width The dodging width, which defaults to 1.
+#' @param orientation The axis along which groups are separated, either
+#' `"x"` (the default, side-to-side) or `"y"` (up and down). Matches the
+#' argument of the same name in [ggplot2::position_dodge()].
 #' @param seed A random seed for reproducibility.
 #'
 #' @returns A `ggproto` object of class `PositionJitterDodgeEllipse`.
@@ -84,11 +87,13 @@ PositionJitterEllipse <-
 #'                                                        dodge.width = 1)) +
 #'     coord_cartesian(xlim = c(0, 2), ylim = c(0, 2))
 #'
-position_jitterdodge_ellipse <- function(jitter.width = NULL, jitter.height = NULL, dodge.width = 1, seed = NA) {
+position_jitterdodge_ellipse <- function(jitter.width = NULL, jitter.height = NULL, dodge.width = 1, seed = NA,
+                                        orientation = "x") {
     if (!is.null(seed) && is.na(seed)) {
       seed <- sample.int(.Machine$integer.max, 1L)
     }
-    ggplot2::ggproto(NULL, PositionJitterDodgeEllipse, jitter.width = jitter.width, jitter.height = jitter.height, dodge.width = dodge.width, seed = seed)
+    ggplot2::ggproto(NULL, PositionJitterDodgeEllipse, jitter.width = jitter.width, jitter.height = jitter.height,
+                     dodge.width = dodge.width, seed = seed, orientation = orientation)
   }
 
 PositionJitterDodgeEllipse <-

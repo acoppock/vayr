@@ -17,6 +17,14 @@
   the two are interchangeable and the choice between them is about looks:
   crystalline and countable, or organic and without a preferred direction.
 
+* All five dodged position adjustments gain an `orientation` argument, matching
+  `ggplot2::position_dodge()`. They were hard-wired to separate groups
+  side-to-side; `orientation = "y"` now separates them up and down instead.
+  ggplot2 has no `height` argument for dodging, since `width` is the extent
+  along whichever axis `orientation` picks. The `height` spelling belongs to
+  the superseded 'ggstance' package, whose `position_dodgev()` predates
+  `orientation`.
+
 * `impute_extreme_values()` prepares the extreme value bounds figure for an
   experiment with attrition, imputing the logical best case and worst case for
   the missing outcomes and flagging which points are observed and which are

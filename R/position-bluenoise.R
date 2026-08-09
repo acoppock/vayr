@@ -98,6 +98,9 @@ scatter_bluenoise <- function(data, cells, width, height, candidates) {
 #' @param scatter.width,scatter.height The dimensions of the elliptical field the
 #' points are spread across.
 #' @param dodge.width The dodging width, which defaults to 1.
+#' @param orientation The axis along which groups are separated, either
+#' `"x"` (the default, side-to-side) or `"y"` (up and down). Matches the
+#' argument of the same name in [ggplot2::position_dodge()].
 #' @param candidates The number of random draws considered for each point.
 #' @param seed A random seed for reproducibility.
 #'
@@ -118,13 +121,15 @@ scatter_bluenoise <- function(data, cells, width, height, candidates) {
 #'     coord_cartesian(xlim = c(0, 2), ylim = c(0, 2))
 #'
 position_bluenoisedodge <- function(scatter.width = NULL, scatter.height = NULL,
-                                    dodge.width = 1, candidates = 10, seed = NA) {
+                                    dodge.width = 1, candidates = 10, seed = NA,
+                                    orientation = "x") {
   if (!is.null(seed) && is.na(seed)) {
     seed <- sample.int(.Machine$integer.max, 1L)
   }
   ggplot2::ggproto(NULL, PositionBlueNoiseDodge,
                    scatter.width = scatter.width, scatter.height = scatter.height,
-                   dodge.width = dodge.width, candidates = candidates, seed = seed)
+                   dodge.width = dodge.width, candidates = candidates, seed = seed,
+                   orientation = orientation)
 }
 
 PositionBlueNoiseDodge <-

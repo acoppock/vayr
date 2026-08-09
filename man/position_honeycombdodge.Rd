@@ -4,7 +4,12 @@
 \alias{position_honeycombdodge}
 \title{Arrange over-plotted points on a honeycomb lattice and dodge groups side-to-side}
 \usage{
-position_honeycombdodge(width = 1, density = 1, aspect_ratio = 1)
+position_honeycombdodge(
+  width = 1,
+  density = 1,
+  aspect_ratio = 1,
+  orientation = "x"
+)
 }
 \arguments{
 \item{width}{The dodging width, which defaults to 1.}
@@ -17,6 +22,10 @@ which might occur when plotting if coord_equal() is not used. A wide aspect rati
 would adjust for vertical stretching, whereas a tall aspect ratio (e.g., 0.5) would adjust for
 horizontal stretching. The default aspect ratio of 1 is appropriate when no adjustment is required.
 Under coord_fixed(), set \code{aspect_ratio} to the same value as that function's \code{ratio} argument.}
+
+\item{orientation}{The axis along which groups are separated, either
+\code{"x"} (the default, side-to-side) or \code{"y"} (up and down). Matches the
+argument of the same name in \code{\link[ggplot2:position_dodge]{ggplot2::position_dodge()}}.}
 }
 \value{
 A \code{ggproto} object of class \code{PositionHoneycombDodge}.

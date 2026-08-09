@@ -9,7 +9,8 @@ position_bluenoisedodge(
   scatter.height = NULL,
   dodge.width = 1,
   candidates = 10,
-  seed = NA
+  seed = NA,
+  orientation = "x"
 )
 }
 \arguments{
@@ -21,6 +22,10 @@ points are spread across.}
 \item{candidates}{The number of random draws considered for each point.}
 
 \item{seed}{A random seed for reproducibility.}
+
+\item{orientation}{The axis along which groups are separated, either
+\code{"x"} (the default, side-to-side) or \code{"y"} (up and down). Matches the
+argument of the same name in \code{\link[ggplot2:position_dodge]{ggplot2::position_dodge()}}.}
 }
 \value{
 A \code{ggproto} object of class \code{PositionBlueNoiseDodge}.
