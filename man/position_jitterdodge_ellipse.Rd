@@ -20,7 +20,7 @@ from which over-plotted points are sampled.}
 \item{seed}{A random seed for reproducibility.}
 }
 \value{
-A \code{ggproto} object of class \code{PositionJitterdodgeEllipse}.
+A \code{ggproto} object of class \code{PositionJitterDodgeEllipse}.
 }
 \description{
 This function dodges groups of points side-to-side and adds elliptical random noise

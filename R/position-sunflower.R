@@ -1,18 +1,20 @@
 #' Distribute points using a sunflower seed algorithm
 #'
-#' This function distributes points in a ellipse via a sunflower seed algorithm
+#' This function distributes points in an ellipse via a sunflower seed algorithm
 #' as a solution for over-plotting. To implement the algorithm, this function
 #' adapts the code from https://stackoverflow.com/questions/28567166/uniformly-distribute-x-points-inside-a-circle.
 #'
 #' @family Functions
 #'
 #' @param x,y The identical coordinates of multiple over-plotted points, as vectors,
-#' which will be arranged using a sunflower seed algorithm.
+#' which will be arranged using a sunflower seed algorithm. A vector of length one
+#' is returned unchanged, since a point with nothing over-plotting it belongs at
+#' its own coordinates.
 #' @param density The pattern density.
 #' @param aspect_ratio An aspect ratio adjustment to compensate for distortion of
 #' the circular arrangement, which might occur when plotting if coord_equal()
-#' is not used. A wide aspect ratio (eg. 2) would adjust for vertical stretching,
-#' whereas a tall aspect ratio (eg. 0.5) would adjust for horizontal stretching.
+#' is not used. A wide aspect ratio (e.g., 2) would adjust for vertical stretching,
+#' whereas a tall aspect ratio (e.g., 0.5) would adjust for horizontal stretching.
 #' An aspect ratio of 1 is appropriate when no adjustment is required.
 #'
 #' @returns A numeric vector of adjusted `x` or `y` positions, computed using a sunflower seed algorithm.
@@ -90,10 +92,10 @@ sunflower <- function(x = NULL, y = NULL, density, aspect_ratio) {
 #' @param density The pattern density, which defaults to 1 but will have to be adjusted in most cases.
 #' The desirable density will depend on both the ranges of the axes and the dimensions of the image.
 #' @param aspect_ratio An aspect ratio adjustment to compensate for distortion of the circular arrangement,
-#' which might occur when plotting if coord_equal() is not used. A wide aspect ratio (eg. 2)
-#' would adjust for vertical stretching, whereas a tall aspect ratio (eg. 0.5) would adjust for
+#' which might occur when plotting if coord_equal() is not used. A wide aspect ratio (e.g., 2)
+#' would adjust for vertical stretching, whereas a tall aspect ratio (e.g., 0.5) would adjust for
 #' horizontal stretching. The default aspect ratio of 1 is appropriate when no adjustment is required.
-#'
+#' Under coord_fixed(), set `aspect_ratio` to the same value as that function's `ratio` argument.
 #'
 #' @returns A `ggproto` object of class `PositionSunflower`.
 #'
@@ -154,13 +156,9 @@ PositionSunflower <-
 #'
 #' @family Functions
 #'
+#' @inheritParams position_sunflower
+#'
 #' @param width The dodging width, which defaults to 1.
-#' @param density The pattern density, which defaults to 1 but will have to be adjusted in most cases.
-#' The desirable density will depend on both the ranges of the axes and the dimensions of the image.
-#' @param aspect_ratio An aspect ratio adjustment to compensate for distortion of the circular arrangement,
-#' which might occur when plotting if coord_equal() is not used. A wide aspect ratio (eg. 2)
-#' would adjust for vertical stretching, whereas a tall aspect ratio (eg. 0.5) would adjust for
-#' horizontal stretching. The default aspect ratio of 1 is appropriate when no adjustment is required.
 #'
 #' @returns A `ggproto` object of class `PositionSunflowerDodge`.
 #'

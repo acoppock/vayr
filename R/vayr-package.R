@@ -11,8 +11,8 @@
 #' @details
 #' The 'vayr' package provides 'ggplot2' extensions that foster "visualize as you randomize" principles.
 #' These principles should guide the visualization of experimental data.
-#' Thus far, the package includes position adjustments to avoid over-plotting, facilitating plotting in "data-space."
-#' The 'vayr' paper is here: https://alexandercoppock.com/coppock_2020.pdf.
+#' Thus far, the package includes position adjustments that avoid over-plotting, which helps organize "data-space."
+#' The principles are set out in Coppock (2021) \doi{10.1017/9781108777919.022}.
 #'
 "_PACKAGE"
 

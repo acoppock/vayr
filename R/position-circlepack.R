@@ -1,18 +1,16 @@
 #' Arrange over-plotted points with a circle-packing algorithm
 #'
 #' This function uses a circle packing algorithm from the 'packcircles' package
-#' to arrange perfectly over-plotted points of varying sizes into a elliptical area.
+#' to arrange perfectly over-plotted points of varying sizes into an elliptical area.
 #'
 #' @family Functions
+#'
+#' @inheritParams position_sunflower
 #'
 #' @param density The density of the circle pack, which defaults to 1 but will
 #' have to be adjusted in most cases. The desirable density will depend on both
 #' the ranges of the axes and the dimensions of the image. It will also depend
 #' on the size scale.
-#' @param aspect_ratio An aspect ratio adjustment to compensate for distortion of the circular arrangement,
-#' which might occur when plotting if coord_equal() is not used. A wide aspect ratio (eg. 2)
-#' would adjust for vertical stretching, whereas a tall aspect ratio (eg. 0.5) would adjust for
-#' horizontal stretching. The default aspect ratio of 1 is appropriate when no adjustment is required.
 #'
 #' @returns A `ggproto` object of class `PositionCirclePack`.
 #'
@@ -96,19 +94,13 @@ PositionCirclePack <-
 #' Arrange over-plotted points with a circle-packing algorithm and dodge groups side-to-side
 #'
 #' This function dodges groups and uses a circle packing algorithm from the 'packcircles' package
-#' to arrange perfectly over-plotted points of varying sizes into a elliptical area.
+#' to arrange perfectly over-plotted points of varying sizes into an elliptical area.
 #'
 #' @family Functions
 #'
+#' @inheritParams position_circlepack
+#'
 #' @param width The dodging width, which defaults to 1.
-#' @param density The density of the circle pack, which defaults to 1 but will
-#' have to be adjusted in most cases. The desirable density will depend on both
-#' the ranges of the axes and the dimensions of the image. It will also depend
-#' on the size scale.
-#' @param aspect_ratio An aspect ratio adjustment to compensate for distortion of the circular arrangement,
-#' which might occur when plotting if coord_equal() is not used. A wide aspect ratio (eg. 2)
-#' would adjust for vertical stretching, whereas a tall aspect ratio (eg. 0.5) would adjust for
-#' horizontal stretching. The default aspect ratio of 1 is appropriate when no adjustment is required.
 #'
 #' @returns A `ggproto` object of class `PositionCirclePackDodge`.
 #'
