@@ -18,7 +18,7 @@ The goal of `vayr` is to provide `ggplot2` extensions that foster
 in detail in “Visualize As You Randomize: Design-based Statistical
 Graphs for Randomized Experiments,” a chapter in *Advances in
 Experimental Political Science*
-([PDF](https://alexandercoppock.com/coppock_2020.pdf),
+([PDF](https://alexandercoppock.com/coppock_2021.pdf),
 [DOI](https://doi.org/10.1017/9781108777919.022)). The package includes
 position adjustments that avoid over-plotting, which helps organize
 “data-space” to better contextualize statistical models.
