@@ -167,11 +167,12 @@ across groups nobody randomized.
 
 blocked_labelled <-
   blocked_experiment |>
-  mutate(neighborhood = paste("Neighborhood", neighborhood))
+  mutate(neighborhood_long = paste("Neighborhood", neighborhood),
+         neighborhood_short = paste0("N", neighborhood))
 
 by_block <-
   blocked_labelled |>
-  group_by(condition, neighborhood) |>
+  group_by(condition, neighborhood_long, neighborhood_short) |>
   reframe(tidy(lm_robust(Y ~ 1))) |>
   mutate(Y = estimate)
 
@@ -181,18 +182,15 @@ good <-
              alpha = 0.2, stroke = 0) +
   geom_point(data = by_block, size = 3) +
   geom_errorbar(data = by_block, aes(ymin = conf.low, ymax = conf.high), width = 0) +
-  facet_wrap(~ neighborhood) +
+  facet_wrap(~ neighborhood_long) +
   labs(title = "Compares across randomly formed groups", x = NULL, y = "Count outcome")
 
-# Two neighborhood labels side by side on one axis need to be short.
-short <- function(d) mutate(d, neighborhood = sub("Neighborhood ", "N", neighborhood))
-
 bad <-
-  ggplot(short(blocked_labelled), aes(neighborhood, Y)) +
+  ggplot(blocked_labelled, aes(neighborhood_short, Y)) +
   geom_point(position = position_sunflower(density = 1.5, aspect_ratio = 1),
              alpha = 0.2, stroke = 0) +
-  geom_point(data = short(by_block), size = 3) +
-  geom_errorbar(data = short(by_block), aes(ymin = conf.low, ymax = conf.high), width = 0) +
+  geom_point(data = by_block, size = 3) +
+  geom_errorbar(data = by_block, aes(ymin = conf.low, ymax = conf.high), width = 0) +
   facet_wrap(~ condition) +
   labs(title = "Compares across neighborhoods", x = NULL, y = "Count outcome")
 
@@ -382,20 +380,18 @@ good <-
   labs(title = "Shows the model in data-space",
        x = "Pretreatment covariate", y = "Outcome")
 
-# The conditional effect at x is b_treatment + b_interaction * x, with a
-# standard error from the delta method.
-grid <- seq(-2, 2, by = 0.25)
-b <- coef(fit)
-V <- vcov(fit)
-main <- "conditionTreatment"
-inter <- "conditionTreatment:X"
+# The conditional effect at x is the gap between the two fitted lines. The model
+# is saturated in condition, so it is two separate regressions and the arms'
+# predictions are independent, which is why their variances add here.
+grid <- data.frame(X = seq(-2, 2, by = 0.25))
+treated <- predict(fit, newdata = mutate(grid, condition = "Treatment"), se.fit = TRUE)
+control <- predict(fit, newdata = mutate(grid, condition = "Control"), se.fit = TRUE)
 
-cate_df <- data.frame(
-  X = grid,
-  estimate = b[[main]] + b[[inter]] * grid,
-  std.error = sqrt(V[main, main] + grid^2 * V[inter, inter] + 2 * grid * V[main, inter])
-) |>
-  mutate(conf.low = estimate - 1.96 * std.error,
+cate_df <-
+  grid |>
+  mutate(estimate = unname(treated$fit - control$fit),
+         std.error = unname(sqrt(treated$se.fit^2 + control$se.fit^2)),
+         conf.low = estimate - 1.96 * std.error,
          conf.high = estimate + 1.96 * std.error)
 
 bad <-
@@ -518,7 +514,7 @@ bound_means <-
 
 ggplot(bounded, aes(condition, Y)) +
   geom_point(aes(colour = imputed, shape = imputed),
-             position = position_sunflower(density = 45, aspect_ratio = 0.45),
+             position = position_sunflower(density = 45, aspect_ratio = 0.34),
              alpha = 0.5, stroke = 0) +
   geom_point(data = bound_means, size = 3) +
   geom_errorbar(data = bound_means, aes(ymin = conf.low, ymax = conf.high), width = 0) +
