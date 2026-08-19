@@ -351,17 +351,21 @@ good <-
 
 # The conditional effect at x is the gap between the two fitted lines. The model
 # is saturated in condition, so it is two separate regressions and the arms'
-# predictions are independent, which is why their variances add here.
+# predictions are independent, which is why their variances add here. The
+# interval takes the model's own critical value, the one predict() applies to
+# each arm; differencing the two arms' intervals instead would overstate the
+# uncertainty in the gap by about a fifth.
 grid <- data.frame(X = seq(-2, 2, by = 0.25))
 treated <- predict(fit, newdata = mutate(grid, condition = "Treatment"), se.fit = TRUE)
 control <- predict(fit, newdata = mutate(grid, condition = "Control"), se.fit = TRUE)
+crit <- qt(0.975, df.residual(fit))
 
 cate_df <-
   grid |>
   mutate(estimate = unname(treated$fit - control$fit),
          std.error = unname(sqrt(treated$se.fit^2 + control$se.fit^2)),
-         conf.low = estimate - 1.96 * std.error,
-         conf.high = estimate + 1.96 * std.error)
+         conf.low = estimate - crit * std.error,
+         conf.high = estimate + crit * std.error)
 
 bad <-
   ggplot(cate_df, aes(X, estimate)) +
