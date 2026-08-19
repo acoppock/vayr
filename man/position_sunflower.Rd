@@ -20,8 +20,8 @@ Under coord_fixed(), set \code{aspect_ratio} to the same value as that function'
 A \code{ggproto} object of class \code{PositionSunflower}.
 }
 \description{
-This function applies the sunflower algorithm, executed by the sunflower() function, as a position adjustment,
-arranging overlapping points at any given x and y into a sunflower pattern. See the sunflower() documentation for
+This function applies the sunflower algorithm, executed by \code{\link[=sunflower]{sunflower()}}, as a position adjustment,
+arranging overlapping points at any given x and y into a sunflower pattern. See the \code{\link[=sunflower]{sunflower()}} documentation for
 more information.
 }
 \examples{
