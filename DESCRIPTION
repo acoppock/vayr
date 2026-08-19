@@ -24,6 +24,7 @@ Suggests:
     dplyr,
     estimatr,
     knitr,
+    marginaleffects,
     patchwork,
     randomizr,
     rmarkdown,
