@@ -38,6 +38,19 @@ sunflower(x = NULL, y = NULL, density, aspect_ratio)
 A numeric vector of adjusted `x` or `y` positions, computed using a
 sunflower seed algorithm.
 
+## Details
+
+This is the engine
+[`position_sunflower()`](https://alexandercoppock.com/vayr/reference/position_sunflower.md)
+runs on, exported so that the arrangement can be computed as data rather
+than at draw time. Reach for it when another layer needs the arranged
+coordinates, or when writing a `Position` class of your own: call it
+once for `x` and once for `y`, as `PositionSunflower` does. The two
+calls agree because the arrangement is determined by the number of
+over-plotted points, so the same point is placed at the same angle in
+both. The package's other algorithms do not decompose that way and have
+no equivalent function.
+
 ## See also
 
 Other Functions:
@@ -59,23 +72,28 @@ Other Functions:
   library(ggplot2)
   library(dplyr)
 
-  # Manually adjust position of N points,
-  # arranging them per the sunflower algorithm and then dodging groups
+  # Arrange the points as data, keeping the position each one came from, so
+  # that a second layer can draw from the cell centre out to each point. A
+  # position adjustment cannot do this, because it arranges at draw time and
+  # the arranged coordinates never reach the data.
   N <- 300
 
   dat <- data.frame(
     x = sample(1:2, size = N, replace = TRUE),
-    y = sample(1:7, size = N, replace = TRUE),
-    type = factor(sample(LETTERS[1:2], N, replace = TRUE))
+    y = sample(1:7, size = N, replace = TRUE)
   ) |>
-    group_by(x, y, type) |>
+    group_by(x, y) |>
     mutate(
-      x = sunflower(x = x, density = 1, aspect_ratio = 1),
-      y = sunflower(y = y, density = 1, aspect_ratio = 1),
-      x = if_else(type == "A", x - (1 / 8), x + (1 / 8))
+      x_flower = sunflower(x = x, density = 1, aspect_ratio = 1),
+      y_flower = sunflower(y = y, density = 1, aspect_ratio = 1)
     )
 
-  ggplot(dat, aes(x, y, color = type, shape = type)) +
-    geom_point() + coord_equal()
+  ggplot(dat, aes(x_flower, y_flower)) +
+    geom_segment(aes(xend = x, yend = y), colour = "grey80") +
+    geom_point() +
+    coord_equal()
 
+
+  # To dodge groups as well, use position_sunflowerdodge(), which handles the
+  # dodging and the arrangement together and accepts an orientation.
 ```

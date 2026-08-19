@@ -1,9 +1,11 @@
 # Arrange over-plotted points in a sunflower pattern
 
-This function applies the sunflower algorithm, executed by the
-sunflower() function, as a position adjustment, arranging overlapping
-points at any given x and y into a sunflower pattern. See the
-sunflower() documentation for more information.
+This function applies the sunflower algorithm, executed by
+[`sunflower()`](https://alexandercoppock.com/vayr/reference/sunflower.md),
+as a position adjustment, arranging overlapping points at any given x
+and y into a sunflower pattern. See the
+[`sunflower()`](https://alexandercoppock.com/vayr/reference/sunflower.md)
+documentation for more information.
 
 ## Usage
 
