@@ -48,7 +48,7 @@ the Description cites. It is spelled correctly.
 ## Test environments
 
 * local aarch64-apple-darwin23, R 4.6.0
-* win-builder, R Under development (2026-08-08 r90381 ucrt)
+* win-builder, R Under development (2026-08-17 r90424 ucrt)
 * GitHub Actions, macos-latest, R release
 * GitHub Actions, windows-latest, R release
 * GitHub Actions, ubuntu-latest, R devel
