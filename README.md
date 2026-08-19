@@ -137,20 +137,19 @@ top / bottom
 
 ## Learn more
 
-There are two vignettes. The first walks through every position
-adjustment, explains how `density` and `aspect_ratio` interact with the
-plotting region, and closes with a worked example that plots an
-experiment’s data and its statistical model together. The second
-reproduces the seven worked examples from the chapter, one per
-experimental design, using the chapter’s own simulated data, which ships
-with the package.
+- [Visualize as you
+  randomize](https://alexandercoppock.com/vayr/articles/vayr-vignette.html)
+  walks through every position adjustment, explains how `density` and
+  `aspect_ratio` interact with the plotting region, and closes with a
+  worked example that plots an experiment’s data and its statistical
+  model together.
+- [Design-based graphs for seven
+  experiments](https://alexandercoppock.com/vayr/articles/design-based-graphs.html)
+  reproduces the seven worked examples from the chapter, one per
+  experimental design, using the chapter’s own simulated data, which
+  ships with the package.
 
-``` r
-vignette("vayr-vignette", package = "vayr")
-vignette("design-based-graphs", package = "vayr")
-```
-
-Both are on the package site, along with the reference documentation:
+The reference documentation for every function is on the package site:
 <https://alexandercoppock.com/vayr/>.
 
 `vayr` also provides `impute_extreme_values()`, which prepares the
