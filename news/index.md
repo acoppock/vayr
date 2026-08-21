@@ -2,6 +2,8 @@
 
 ## vayr 1.1.0
 
+CRAN release: 2026-08-21
+
 ### New features
 
 - [`position_bluenoise()`](https://alexandercoppock.com/vayr/reference/position_bluenoise.md)

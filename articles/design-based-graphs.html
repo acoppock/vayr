@@ -93,6 +93,7 @@ one of those two reasons. The other two need none, and say so.</p>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://declaredesign.org/r/estimatr/" class="external-link">estimatr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://marginaleffects.com/" class="external-link">marginaleffects</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com" class="external-link">patchwork</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://alexandercoppock.com/vayr/">vayr</a></span><span class="op">)</span></span>
@@ -396,23 +397,17 @@ needed.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Shows the model in data-space"</span>,</span>
 <span>       x <span class="op">=</span> <span class="st">"Pretreatment covariate"</span>, y <span class="op">=</span> <span class="st">"Outcome"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># The conditional effect at x is the gap between the two fitted lines. The model</span></span>
-<span><span class="co"># is saturated in condition, so it is two separate regressions and the arms'</span></span>
-<span><span class="co"># predictions are independent, which is why their variances add here. The</span></span>
-<span><span class="co"># interval takes the model's own critical value, the one predict() applies to</span></span>
-<span><span class="co"># each arm; differencing the two arms' intervals instead would overstate the</span></span>
-<span><span class="co"># uncertainty in the gap by about a fifth.</span></span>
-<span><span class="va">grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>, <span class="fl">2</span>, by <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">treated</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">fit</span>, newdata <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="va">grid</span>, condition <span class="op">=</span> <span class="st">"Treatment"</span><span class="op">)</span>, se.fit <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="va">control</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">fit</span>, newdata <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="va">grid</span>, condition <span class="op">=</span> <span class="st">"Control"</span><span class="op">)</span>, se.fit <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="va">crit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/TDist.html" class="external-link">qt</a></span><span class="op">(</span><span class="fl">0.975</span>, <span class="fu"><a href="https://rdrr.io/r/stats/df.residual.html" class="external-link">df.residual</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">cate_df</span> <span class="op">&lt;-</span></span>
-<span>  <span class="va">grid</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>estimate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="va">treated</span><span class="op">$</span><span class="va">fit</span> <span class="op">-</span> <span class="va">control</span><span class="op">$</span><span class="va">fit</span><span class="op">)</span>,</span>
-<span>         std.error <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">treated</span><span class="op">$</span><span class="va">se.fit</span><span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="va">control</span><span class="op">$</span><span class="va">se.fit</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>         conf.low <span class="op">=</span> <span class="va">estimate</span> <span class="op">-</span> <span class="va">crit</span> <span class="op">*</span> <span class="va">std.error</span>,</span>
-<span>         conf.high <span class="op">=</span> <span class="va">estimate</span> <span class="op">+</span> <span class="va">crit</span> <span class="op">*</span> <span class="va">std.error</span><span class="op">)</span></span>
+<span><span class="co"># The conditional effect at x is the gap between the two fitted lines, which is</span></span>
+<span><span class="co"># a contrast rather than a fitted value, so it is marginaleffects' job. The df</span></span>
+<span><span class="co"># argument makes the intervals t-based, matching what tidy(lm_robust()) reports</span></span>
+<span><span class="co"># everywhere else in this vignette; marginaleffects defaults to a normal</span></span>
+<span><span class="co"># approximation.</span></span>
+<span><span class="va">cate_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/marginaleffects/man/comparisons.html" class="external-link">comparisons</a></span><span class="op">(</span></span>
+<span>  <span class="va">fit</span>,</span>
+<span>  variables <span class="op">=</span> <span class="st">"condition"</span>,</span>
+<span>  newdata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/marginaleffects/man/datagrid.html" class="external-link">datagrid</a></span><span class="op">(</span>X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>, <span class="fl">2</span>, by <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  df <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/df.residual.html" class="external-link">df.residual</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">bad</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">cate_df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">X</span>, <span class="va">estimate</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -547,50 +542,6 @@ between:</p>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Lower bound 5.06<span style="color: #949494;">e</span><span style="color: #BB0000;">-16</span>     0.193   -<span style="color: #BB0000;">0.381</span>     0.381</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Upper bound 1.14<span style="color: #949494;">e</span>+ 0     0.177    0.792     1.49</span></span></code></pre></div>
-<p>Requiring the range at the call site matters here. No subject in this
-sample answered 1, so a function that guessed the range from the
-observed data would have used 2 to 7 and reported bounds narrower than
-the data support:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">observed_range</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">attrition_experiment</span><span class="op">$</span><span class="va">Y</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>logical <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">7</span><span class="op">)</span>, guessed <span class="op">=</span> <span class="va">observed_range</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">r</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="fu"><a href="../reference/impute_extreme_values.html">impute_extreme_values</a></span><span class="op">(</span><span class="va">attrition_experiment</span>, <span class="st">"Y"</span>, <span class="st">"Z"</span>, range <span class="op">=</span> <span class="va">r</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">scenario</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reframe.html" class="external-link">reframe</a></span><span class="op">(</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="fu"><a href="https://declaredesign.org/r/estimatr/reference/lm_robust.html" class="external-link">lm_robust</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">term</span> <span class="op">==</span> <span class="st">"Z"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>lower <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">estimate</span><span class="op">)</span>, upper <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">estimate</span><span class="op">)</span>, width <span class="op">=</span> <span class="va">upper</span> <span class="op">-</span> <span class="va">lower</span><span class="op">)</span></span>
-<span><span class="op">}</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span>.id <span class="op">=</span> <span class="st">"range_used"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 4</span></span></span>
-<span><span class="co">#&gt;   range_used    lower upper width</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> logical    5.06<span style="color: #949494;">e</span><span style="color: #BB0000;">-16</span>  1.14  1.14</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> guessed    9.00<span style="color: #949494;">e</span><span style="color: #BB0000;">- 2</span>  1.04  0.95</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="where-this-leaves-the-guidelines">Where this leaves the guidelines<a class="anchor" aria-label="anchor" href="#where-this-leaves-the-guidelines"></a>
-</h2>
-<p>Five of the seven examples use a position adjustment, for two
-different reasons. The two-arm trial, noncompliance, and attrition have
-discrete outcomes, so hundreds of subjects land on a handful of values
-and the model would otherwise sit on top of a solid bar of ink. The
-clustered experiment has a continuous outcome and uses one anyway,
-because its points stand for classes of different sizes and the big ones
-would bury the small ones. The blocked experiment has both problems at
-once, a count outcome and points that carry inverse probability
-weights.</p>
-<p>The two remaining examples put a continuous covariate on the
-horizontal axis and need no adjustment. A position adjustment applied
-where nothing collides moves points away from where the data are and
-buys nothing.</p>
-<p>The chapter is careful that its guidelines are not rules. It gives
-its own counterexample: in work on political persuasion, treatment and
-control subgroup averages are connected with parallel lines precisely to
-invite a comparison across partisanship, a pretreatment covariate, in
-clear violation of the first guideline. That comparison is the finding.
-The <code>patriot_act</code> example in
-<code><a href="../articles/vayr-vignette.html">vignette("vayr-vignette")</a></code> is that figure.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

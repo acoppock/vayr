@@ -30,6 +30,7 @@ reasons. The other two need none, and say so.
 library(dplyr)
 library(estimatr)
 library(ggplot2)
+library(marginaleffects)
 library(patchwork)
 library(tidyr)
 library(vayr)
@@ -380,23 +381,17 @@ good <-
   labs(title = "Shows the model in data-space",
        x = "Pretreatment covariate", y = "Outcome")
 
-# The conditional effect at x is the gap between the two fitted lines. The model
-# is saturated in condition, so it is two separate regressions and the arms'
-# predictions are independent, which is why their variances add here. The
-# interval takes the model's own critical value, the one predict() applies to
-# each arm; differencing the two arms' intervals instead would overstate the
-# uncertainty in the gap by about a fifth.
-grid <- data.frame(X = seq(-2, 2, by = 0.25))
-treated <- predict(fit, newdata = mutate(grid, condition = "Treatment"), se.fit = TRUE)
-control <- predict(fit, newdata = mutate(grid, condition = "Control"), se.fit = TRUE)
-crit <- qt(0.975, df.residual(fit))
-
-cate_df <-
-  grid |>
-  mutate(estimate = unname(treated$fit - control$fit),
-         std.error = unname(sqrt(treated$se.fit^2 + control$se.fit^2)),
-         conf.low = estimate - crit * std.error,
-         conf.high = estimate + crit * std.error)
+# The conditional effect at x is the gap between the two fitted lines, which is
+# a contrast rather than a fitted value, so it is marginaleffects' job. The df
+# argument makes the intervals t-based, matching what tidy(lm_robust()) reports
+# everywhere else in this vignette; marginaleffects defaults to a normal
+# approximation.
+cate_df <- comparisons(
+  fit,
+  variables = "condition",
+  newdata = datagrid(X = seq(-2, 2, by = 0.25)),
+  df = df.residual(fit)
+)
 
 bad <-
   ggplot(cate_df, aes(X, estimate)) +
@@ -549,51 +544,3 @@ bounded |>
 #> 1 Lower bound 5.06e-16     0.193   -0.381     0.381
 #> 2 Upper bound 1.14e+ 0     0.177    0.792     1.49
 ```
-
-Requiring the range at the call site matters here. No subject in this
-sample answered 1, so a function that guessed the range from the
-observed data would have used 2 to 7 and reported bounds narrower than
-the data support:
-
-``` r
-
-observed_range <- range(attrition_experiment$Y, na.rm = TRUE)
-
-lapply(list(logical = c(1, 7), guessed = observed_range), function(r) {
-  impute_extreme_values(attrition_experiment, "Y", "Z", range = r) |>
-    group_by(scenario) |>
-    reframe(tidy(lm_robust(Y ~ Z))) |>
-    filter(term == "Z") |>
-    summarise(lower = min(estimate), upper = max(estimate), width = upper - lower)
-}) |>
-  bind_rows(.id = "range_used")
-#> # A tibble: 2 × 4
-#>   range_used    lower upper width
-#>   <chr>         <dbl> <dbl> <dbl>
-#> 1 logical    5.06e-16  1.14  1.14
-#> 2 guessed    9.00e- 2  1.04  0.95
-```
-
-## Where this leaves the guidelines
-
-Five of the seven examples use a position adjustment, for two different
-reasons. The two-arm trial, noncompliance, and attrition have discrete
-outcomes, so hundreds of subjects land on a handful of values and the
-model would otherwise sit on top of a solid bar of ink. The clustered
-experiment has a continuous outcome and uses one anyway, because its
-points stand for classes of different sizes and the big ones would bury
-the small ones. The blocked experiment has both problems at once, a
-count outcome and points that carry inverse probability weights.
-
-The two remaining examples put a continuous covariate on the horizontal
-axis and need no adjustment. A position adjustment applied where nothing
-collides moves points away from where the data are and buys nothing.
-
-The chapter is careful that its guidelines are not rules. It gives its
-own counterexample: in work on political persuasion, treatment and
-control subgroup averages are connected with parallel lines precisely to
-invite a comparison across partisanship, a pretreatment covariate, in
-clear violation of the first guideline. That comparison is the finding.
-The `patriot_act` example in
-[`vignette("vayr-vignette")`](https://alexandercoppock.com/vayr/articles/vayr-vignette.md)
-is that figure.
