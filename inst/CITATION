@@ -1,3 +1,5 @@
+if (!exists("meta") || is.null(meta)) meta <- packageDescription("vayr")
+
 bibentry(
   bibtype = "InCollection",
   header = "To cite the principles that 'vayr' implements:",
@@ -13,11 +15,12 @@ bibentry(
 )
 
 bibentry(
+  key = "vayr",
   bibtype = "Manual",
   header = "To cite the package itself:",
-  title = "vayr: Extensions for 'ggplot2' to Visualize as You Randomize",
-  author = c(person("Alexander", "Coppock"), person("Elias", "Hyde")),
-  year = "2025",
-  note = "R package version 1.1.0",
-  url = "https://CRAN.R-project.org/package=vayr"
+  title = paste0("vayr: ", meta$Title),
+  author = person("Alexander", "Coppock"),
+  year = "2026",
+  note = paste("R package version", meta$Version),
+  url = "https://alexandercoppock.com/vayr/"
 )
