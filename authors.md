@@ -27,14 +27,14 @@ University Press, New York.
       doi = {10.1017/9781108777919.022},
     }
 
-Coppock A, Hyde E (2025). *vayr: Extensions for 'ggplot2' to Visualize
-as You Randomize*. R package version 1.1.0,
-<https://CRAN.R-project.org/package=vayr>.
+Coppock A (2026). *vayr: Extensions for 'ggplot2' to Visualize as You
+Randomize*. R package version 1.1.0,
+<https://alexandercoppock.com/vayr/>.
 
-    @Manual{,
+    @Manual{vayr,
       title = {vayr: Extensions for 'ggplot2' to Visualize as You Randomize},
-      author = {Alexander Coppock and Elias Hyde},
-      year = {2025},
+      author = {Alexander Coppock},
+      year = {2026},
       note = {R package version 1.1.0},
-      url = {https://CRAN.R-project.org/package=vayr},
+      url = {https://alexandercoppock.com/vayr/},
     }
