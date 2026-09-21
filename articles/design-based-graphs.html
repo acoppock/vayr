@@ -199,9 +199,11 @@ the weights:</p>
 <span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">term</span> <span class="op">==</span> <span class="st">"Z"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">estimator</span>, <span class="va">estimate</span>, <span class="va">std.error</span>, <span class="va">conf.low</span>, <span class="va">conf.high</span><span class="op">)</span></span>
-<span><span class="co">#&gt;    estimator  estimate std.error  conf.low  conf.high</span></span>
-<span><span class="co">#&gt; 1   weighted -1.284444 0.5065836 -2.285516 -0.2833732</span></span>
-<span><span class="co">#&gt; 2 unweighted -0.700000 0.4953982 -1.678967  0.2789674</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 5</span></span></span>
+<span><span class="co">#&gt;   estimator  estimate std.error conf.low conf.high</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> weighted     -<span style="color: #BB0000;">1.28</span>      0.507    -<span style="color: #BB0000;">2.29</span>    -<span style="color: #BB0000;">0.283</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> unweighted   -<span style="color: #BB0000;">0.700</span>     0.495    -<span style="color: #BB0000;">1.68</span>     0.279</span></span></code></pre></div>
 <p>Blocking can also be shown by faceting. Comparing treatment to
 control <em>within</em> each neighborhood follows the first guideline,
 because assignment was random within a neighborhood. Faceting the other
@@ -306,9 +308,11 @@ separating the classes horizontally.</p>
 <span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">term</span> <span class="op">==</span> <span class="st">"conditionTreatment"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">estimator</span>, <span class="va">estimate</span>, <span class="va">std.error</span>, <span class="va">conf.low</span>, <span class="va">conf.high</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   estimator estimate std.error  conf.low conf.high</span></span>
-<span><span class="co">#&gt; 1 clustered 159.8842  47.39621  62.57697  257.1914</span></span>
-<span><span class="co">#&gt; 2     naive 159.8842  19.66548 121.23397  198.5344</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 5</span></span></span>
+<span><span class="co">#&gt;   estimator estimate std.error conf.low conf.high</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> clustered     160.      47.4     62.6      257.</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> naive         160.      19.7    121.       199.</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="covariate-adjustment">Covariate adjustment<a class="anchor" aria-label="anchor" href="#covariate-adjustment"></a>
@@ -361,10 +365,12 @@ claim the figure is making:</p>
 <span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">term</span> <span class="op">==</span> <span class="st">"Z"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">estimator</span>, <span class="va">estimate</span>, <span class="va">std.error</span><span class="op">)</span></span>
-<span><span class="co">#&gt;      estimator estimate  std.error</span></span>
-<span><span class="co">#&gt; 1          lin 1.979602 0.09485816</span></span>
-<span><span class="co">#&gt; 2 residualized 1.979602 0.09397970</span></span>
-<span><span class="co">#&gt; 3   unadjusted 1.983855 0.25155697</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
+<span><span class="co">#&gt;   estimator    estimate std.error</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> lin              1.98    0.094<span style="text-decoration: underline;">9</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> residualized     1.98    0.094<span style="text-decoration: underline;">0</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> unadjusted       1.98    0.252</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="an-effect-that-varies-with-a-covariate">An effect that varies with a covariate<a class="anchor" aria-label="anchor" href="#an-effect-that-varies-with-a-covariate"></a>
@@ -540,7 +546,7 @@ between:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 5</span></span></span>
 <span><span class="co">#&gt;   scenario    estimate std.error conf.low conf.high</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Lower bound 5.06<span style="color: #949494;">e</span><span style="color: #BB0000;">-16</span>     0.193   -<span style="color: #BB0000;">0.381</span>     0.381</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Lower bound 5.14<span style="color: #949494;">e</span><span style="color: #BB0000;">-16</span>     0.193   -<span style="color: #BB0000;">0.381</span>     0.381</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Upper bound 1.14<span style="color: #949494;">e</span>+ 0     0.177    0.792     1.49</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

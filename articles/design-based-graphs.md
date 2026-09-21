@@ -153,9 +153,11 @@ bind_rows(
 ) |>
   filter(term == "Z") |>
   select(estimator, estimate, std.error, conf.low, conf.high)
-#>    estimator  estimate std.error  conf.low  conf.high
-#> 1   weighted -1.284444 0.5065836 -2.285516 -0.2833732
-#> 2 unweighted -0.700000 0.4953982 -1.678967  0.2789674
+#> # A tibble: 2 × 5
+#>   estimator  estimate std.error conf.low conf.high
+#>   <chr>         <dbl>     <dbl>    <dbl>     <dbl>
+#> 1 weighted     -1.28      0.507    -2.29    -0.283
+#> 2 unweighted   -0.700     0.495    -1.68     0.279
 ```
 
 Blocking can also be shown by faceting. Comparing treatment to control
@@ -278,9 +280,11 @@ bind_rows(
 ) |>
   filter(term == "conditionTreatment") |>
   select(estimator, estimate, std.error, conf.low, conf.high)
-#>   estimator estimate std.error  conf.low conf.high
-#> 1 clustered 159.8842  47.39621  62.57697  257.1914
-#> 2     naive 159.8842  19.66548 121.23397  198.5344
+#> # A tibble: 2 × 5
+#>   estimator estimate std.error conf.low conf.high
+#>   <chr>        <dbl>     <dbl>    <dbl>     <dbl>
+#> 1 clustered     160.      47.4     62.6      257.
+#> 2 naive         160.      19.7    121.       199.
 ```
 
 ## Covariate adjustment
@@ -342,10 +346,12 @@ bind_rows(
 ) |>
   filter(term == "Z") |>
   select(estimator, estimate, std.error)
-#>      estimator estimate  std.error
-#> 1          lin 1.979602 0.09485816
-#> 2 residualized 1.979602 0.09397970
-#> 3   unadjusted 1.983855 0.25155697
+#> # A tibble: 3 × 3
+#>   estimator    estimate std.error
+#>   <chr>           <dbl>     <dbl>
+#> 1 lin              1.98    0.0949
+#> 2 residualized     1.98    0.0940
+#> 3 unadjusted       1.98    0.252
 ```
 
 ## An effect that varies with a covariate
@@ -541,6 +547,6 @@ bounded |>
 #> # A tibble: 2 × 5
 #>   scenario    estimate std.error conf.low conf.high
 #>   <fct>          <dbl>     <dbl>    <dbl>     <dbl>
-#> 1 Lower bound 5.06e-16     0.193   -0.381     0.381
+#> 1 Lower bound 5.14e-16     0.193   -0.381     0.381
 #> 2 Upper bound 1.14e+ 0     0.177    0.792     1.49
 ```
