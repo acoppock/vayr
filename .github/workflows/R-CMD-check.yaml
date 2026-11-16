@@ -4,7 +4,7 @@ on:
   schedule:
     - cron: "23 10 * * 6"
   push:
-    branches: [main, master]
+    branches: [main]
   pull_request:
   release:
     types: [published]
